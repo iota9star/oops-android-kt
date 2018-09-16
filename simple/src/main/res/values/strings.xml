@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Oops</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="text_color_primary">TextColorPrimary</string>
+    <string name="text_color_secondary">TextColorSecondary</string>
+    <string name="check_box">CheckBox</string>
+    <string name="radio_button">RadioButton</string>
+    <string name="switch_compat"><![CDATA[Switch&SwitchCompat]]></string>
+    <string name="seek_bar">SeekBar</string>
+    <string name="progress_bar">ProgressBar</string>
+    <string name="edit_text">EditText</string>
+    <string name="text_input"><![CDATA[TextInputLayout&TextInputEditText]]></string>
+    <string name="card_view">CardView</string>
+    <string name="text_icon">TEST ICON</string>
+    <string name="test_text">TEST TEXT</string>
+    <string name="more_action">More Action</string>
+    <string name="button_show_dialog"><![CDATA[BUTTON&SHOW DIALOG]]></string>
+    <string name="nested_scroll_view">NestedScrollView</string>
+    <string name="list_view">ListView</string>
+    <string name="scroll_view">ScrollView</string>
+    <string name="recycler_view">RecyclerView</string>
+    <string name="button_disable">DISABLE BUTTON</string>
+    <string name="borderless_button">Borderless button</string>
+    <string name="change_image">change image</string>
+    <string name="next">Next</string>
+</resources>

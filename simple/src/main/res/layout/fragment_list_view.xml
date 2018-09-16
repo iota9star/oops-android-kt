@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/list_view"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/recycler_view"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="12dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/scroll_view"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/nested_scroll_view"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/nested_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+
+                <include layout="@layout/item_color" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+</LinearLayout>
