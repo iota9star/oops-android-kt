@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
@@ -37,8 +36,7 @@ fun Context.activity(): AppCompatActivity {
     throw IllegalStateException("no context ...")
 }
 
-@IdRes
-fun Context.resId(@AttrRes attr: Int, fallback: Int): Int {
+fun Context.resId(@AttrRes attr: Int, fallback: Int = 0): Int {
     val a = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         return a.getResourceId(0, fallback)
@@ -47,15 +45,14 @@ fun Context.resId(@AttrRes attr: Int, fallback: Int): Int {
     }
 }
 
-@IdRes
 fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
-    if (attrs == null) {
-        return 0
-    }
+    if (attrs == null) return 0
     val ta = obtainStyledAttributes(attrs, intArrayOf(attrId))
-    val result = ta.getResourceId(0, 0)
-    ta.recycle()
-    return result
+    try {
+        return ta.getResourceId(0, 0)
+    } finally {
+        ta.recycle()
+    }
 }
 
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {

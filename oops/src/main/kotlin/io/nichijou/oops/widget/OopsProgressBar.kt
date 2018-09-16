@@ -4,44 +4,63 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ProgressBar
 import androidx.annotation.Nullable
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
-import io.nichijou.oops.ext.ctx
+import androidx.lifecycle.ViewModelProviders
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.ext.tint
 
-class OopsProgressBar : ProgressBar, OopsLiveProvider {
+open class OopsProgressBar : ProgressBar, OopsLifeAndLive {
 
     private val attrs: AttributeSet?
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
-    private var live: LiveData<Int>? = null
-
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
+    override fun bindingLive() {
+        val ctx = this.activity()
         val backgroundResId = ctx.resId(attrs, android.R.attr.background)
-        live = Oops.liveColor(ctx, backgroundResId, Oops.live(ctx, Oops.oops::colorAccent))
-        live!!.observe(ctx, Observer(this::tint))
+        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
+            this.tint(it.color, it.isDark)
+        })
     }
 
-    override fun unregisterOopsLive() {
-        live?.removeObservers(this.ctx())
-        live = null
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
+    }
+
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
+    }
+
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
     }
 
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

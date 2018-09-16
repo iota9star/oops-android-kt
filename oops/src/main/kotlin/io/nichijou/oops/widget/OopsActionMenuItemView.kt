@@ -7,49 +7,34 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
-import io.nichijou.oops.ext.ctx
-import io.nichijou.oops.ext.liveMediator
+import androidx.lifecycle.ViewModelProviders
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
 import io.nichijou.oops.ext.tintIcon
 import io.nichijou.oops.temp.ActiveColor
 
 @SuppressLint("RestrictedApi")
-class OopsActionMenuItemView : ActionMenuItemView, OopsLiveProvider {
+open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
 
     private val attrs: AttributeSet?
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
     private var colorStateList: ColorStateList? = null
-    private var activeColor: MediatorLiveData<ActiveColor>? = null
-
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
-        activeColor = Oops.liveMediator(
-                Oops.live(ctx, Oops.oops::iconTitleActiveColor),
-                Oops.live(ctx, Oops.oops::iconTitleInactiveColor),
-                ActiveColor.live())
-        activeColor!!.observe(ctx, Observer(this::updateColor))
-    }
-
-    override fun unregisterOopsLive() {
-        activeColor?.removeObservers(this.ctx())
-        activeColor = null
-    }
 
     private fun updateColor(lastActive: ActiveColor) {
+        if (skip) return
         this.setTextColor(lastActive.active)
         val sl = lastActive.toEnabledSl()
         this.tintIcon(sl)
@@ -64,8 +49,42 @@ class OopsActionMenuItemView : ActionMenuItemView, OopsLiveProvider {
         }
     }
 
+    private var skip = false
+    fun skipLive(skip: Boolean = true) {
+        this.skip = skip
+    }
+
+    override fun bindingLive() {
+        ovm.activeColor.observe(this, Observer(this::updateColor))
+    }
+
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
+    }
+
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
+    }
+
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
+    }
+
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

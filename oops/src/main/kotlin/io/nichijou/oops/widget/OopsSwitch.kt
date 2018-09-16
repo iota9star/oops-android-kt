@@ -4,59 +4,65 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.SwitchCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
-import io.nichijou.oops.ext.ctx
-import io.nichijou.oops.ext.liveMediator
+import androidx.lifecycle.ViewModelProviders
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.ext.tint
-import io.nichijou.oops.temp.IsDarkColor
 
-class OopsSwitch : SwitchCompat, OopsLiveProvider {
+open class OopsSwitch : SwitchCompat, OopsLifeAndLive {
 
     private val attrs: AttributeSet?
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.attrs = attrs
-        registerOopsLive()
     }
 
-    private var liveMediator: MediatorLiveData<IsDarkColor>? = null
-    private var live: LiveData<Int>? = null
-
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
+    override fun bindingLive() {
+        val ctx = this.activity()
         val backgroundResId = ctx.resId(attrs, android.R.attr.background)
-        liveMediator = Oops.liveMediator(
-                Oops.liveColor(ctx, backgroundResId, Oops.live(ctx, Oops.oops::colorAccent))!!,
-                Oops.live(ctx, Oops.oops::isDark),
-                IsDarkColor.live())
-        liveMediator!!.observe(ctx, Observer {
+        val textColorResId = ctx.resId(attrs, android.R.attr.textColor)
+        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
             this.tint(it.color, it.isDark)
         })
-        val textColorResId = ctx.resId(attrs, android.R.attr.textColor)
-        live = Oops.liveColor(ctx, textColorResId, null)
-        live?.observe(ctx, Observer(this::setTextColor))
+        ovm.live(textColorResId)?.observe(this, Observer(this::setTextColor))
     }
 
-    override fun unregisterOopsLive() {
-        val ctx = this.ctx()
-        live?.removeObservers(ctx)
-        liveMediator?.removeObservers(ctx)
-        live = null
-        liveMediator = null
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
+    }
+
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
+    }
+
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
     }
 
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

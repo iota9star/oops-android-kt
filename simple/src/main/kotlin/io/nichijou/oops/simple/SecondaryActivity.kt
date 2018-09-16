@@ -86,10 +86,11 @@ class SecondaryActivity : OopsActivity() {
     private fun changeTheme(view: View) {
         val primary = randomColor()
         Oops.oops {
-            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
+            //            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
+            navBarColor = primary
             iconTitleActiveColor = randomColor()
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]

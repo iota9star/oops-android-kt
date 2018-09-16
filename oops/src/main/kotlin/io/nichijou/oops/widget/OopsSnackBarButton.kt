@@ -4,41 +4,53 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
-import io.nichijou.oops.ext.ctx
+import androidx.lifecycle.ViewModelProviders
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.ext.activity
 
-class OopsSnackBarButton : AppCompatButton, OopsLiveProvider {
+class OopsSnackBarButton : AppCompatButton, OopsLifeAndLive {
 
-    constructor(context: Context) : super(context) {
-        registerOopsLive()
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    override fun bindingLive() {
+        ovm.snackBarActionColor.observe(this, Observer(this::setTextColor))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        registerOopsLive()
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        registerOopsLive()
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
     }
 
-    private var live: LiveData<Int>? = null
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
 
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
-        live = Oops.live(ctx, Oops.oops::snackBarActionColor)
-        live!!.observe(ctx, Observer(this::setTextColor))
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
 
-    override fun unregisterOopsLive() {
-        live?.removeObservers(this.ctx())
-        live = null
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
     }
 
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

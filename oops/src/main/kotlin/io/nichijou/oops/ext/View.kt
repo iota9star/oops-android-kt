@@ -29,7 +29,7 @@ import io.nichijou.oops.temp.ActiveColor
 import io.nichijou.oops.utils.TintUtils
 
 
-fun View.ctx(): AppCompatActivity {
+fun View.activity(): AppCompatActivity {
     var context = this.context
     while (context is ContextWrapper) {
         if (context is AppCompatActivity) {
@@ -117,7 +117,7 @@ fun ActionMenuItemView.tintIcon(colorStateList: ColorStateList) {
 }
 
 fun CheckBox.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.ctx()
+    val ctx = this.activity()
     val sl = ColorStateList(arrayOf(
             intArrayOf(-android.R.attr.state_enabled),
             intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
@@ -137,7 +137,7 @@ fun ImageView.tint(@ColorInt color: Int) {
 
 
 fun Switch.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.ctx()
+    val ctx = this.activity()
     if (this.trackDrawable != null) {
         this.trackDrawable = TintUtils.tintSwitchDrawable(ctx, this.trackDrawable, color, false, false, isDark)
     }
@@ -148,7 +148,7 @@ fun Switch.tint(@ColorInt color: Int, isDark: Boolean) {
 
 
 fun SwitchCompat.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.ctx()
+    val ctx = this.activity()
     if (this.trackDrawable != null) {
         this.trackDrawable = TintUtils.tintSwitchDrawable(ctx, this.trackDrawable, color, false, true, isDark)
     }
@@ -158,7 +158,7 @@ fun SwitchCompat.tint(@ColorInt color: Int, isDark: Boolean) {
 }
 
 fun RadioButton.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.ctx()
+    val ctx = this.activity()
     val sl = ColorStateList(
             arrayOf(
                     intArrayOf(-android.R.attr.state_enabled),
@@ -181,7 +181,7 @@ fun RadioButton.tint(@ColorInt color: Int, isDark: Boolean) {
 }
 
 fun SeekBar.tint(@ColorInt color: Int, isDark: Boolean) {
-    val s1 = TintUtils.getDisabledColorStateList(color, this.ctx().colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light))
+    val s1 = TintUtils.getDisabledColorStateList(color, this.activity().colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light))
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.thumbTintList = s1
         this.progressTintList = s1
@@ -217,7 +217,7 @@ fun ProgressBar.tint(@ColorInt color: Int, skipIndeterminate: Boolean) {
 }
 
 fun EditText.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.ctx()
+    val ctx = this.activity()
     val editTextColorStateList = ColorStateList(
             arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_focused), intArrayOf()),
             intArrayOf(ctx.colorRes(if (isDark) R.color.md_text_disabled_dark else R.color.md_text_disabled_light), ctx.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color)
@@ -243,9 +243,9 @@ fun EditText.tintCursor(@ColorInt color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables = arrayOfNulls<Drawable>(2)
-        drawables[0] = ContextCompat.getDrawable(this.ctx(), mCursorDrawableRes)
+        drawables[0] = ContextCompat.getDrawable(this.activity(), mCursorDrawableRes)
         drawables[0] = drawables[0]?.tint(color)
-        drawables[1] = ContextCompat.getDrawable(this.ctx(), mCursorDrawableRes)
+        drawables[1] = ContextCompat.getDrawable(this.activity(), mCursorDrawableRes)
         drawables[1] = drawables[1]?.tint(color)
         fCursorDrawable.set(editor, drawables)
         fCursorDrawable.isAccessible = false
@@ -302,7 +302,7 @@ fun View.tintAuto(@ColorInt color: Int, background: Boolean, isDark: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !thisBg && this.background is RippleDrawable) {
             // Ripples for the above views (e.g. when you tap and hold a switch or checkbox)
             val rd = this.background as RippleDrawable
-            val unchecked = this.ctx().colorRes(if (isDark) R.color.ripple_material_dark else R.color.ripple_material_light)
+            val unchecked = this.activity().colorRes(if (isDark) R.color.ripple_material_dark else R.color.ripple_material_light)
             val checked = color.adjustAlpha(0.4f)
             val sl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_activated, -android.R.attr.state_checked), intArrayOf(android.R.attr.state_activated), intArrayOf(android.R.attr.state_checked)), intArrayOf(unchecked, checked, checked))
             rd.setColor(sl)
@@ -328,7 +328,7 @@ fun View.tintAuto(@ColorInt color: Int, background: Boolean, isDark: Boolean) {
 
 fun View.tintSelector(@ColorInt color: Int, darker: Boolean, isDark: Boolean) {
     val isColorLight = color.isColorLight()
-    val ctx = this.ctx()
+    val ctx = this.activity()
     val disabled = ctx.colorRes(if (isDark) R.color.md_button_disabled_dark else R.color.md_button_disabled_light)
     val pressed = color.shiftColor(if (darker) 0.9f else 1.1f)
     val activated = color.shiftColor(if (darker) 1.1f else 0.9f)

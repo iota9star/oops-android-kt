@@ -3,10 +3,9 @@ package io.nichijou.oops.ext
 import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import io.nichijou.oops.Oops
 
 
-fun <A, B, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, r: Live2<A, B, R>): MediatorLiveData<R> {
+fun <A, B, R> liveMediator(a: LiveData<A>, b: LiveData<B>, r: Live2<A, B, R>): MediatorLiveData<R> {
     return MediatorLiveData<R>().apply {
         var lastA: A? = null
         var lastB: B? = null
@@ -31,7 +30,7 @@ fun <A, B, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, r: Liv
     }
 }
 
-fun <A, B, C, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, r: Live3<A, B, C, R>): MediatorLiveData<R> {
+fun <A, B, C, R> liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, r: Live3<A, B, C, R>): MediatorLiveData<R> {
     return MediatorLiveData<R>().apply {
         var lastA: A? = null
         var lastB: B? = null
@@ -66,7 +65,7 @@ fun <A, B, C, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, c: 
     }
 }
 
-fun <A, B, C, D, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, r: Live4<A, B, C, D, R>): MediatorLiveData<R> {
+fun <A, B, C, D, R> liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, r: Live4<A, B, C, D, R>): MediatorLiveData<R> {
     return MediatorLiveData<R>().apply {
         var lastA: A? = null
         var lastB: B? = null
@@ -111,7 +110,7 @@ fun <A, B, C, D, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, 
     }
 }
 
-fun <A, B, C, D, E, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, e: LiveData<E>, r: Live5<A, B, C, D, E, R>): MediatorLiveData<R> {
+fun <A, B, C, D, E, R> liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, e: LiveData<E>, r: Live5<A, B, C, D, E, R>): MediatorLiveData<R> {
     return MediatorLiveData<R>().apply {
         var lastA: A? = null
         var lastB: B? = null
@@ -166,7 +165,7 @@ fun <A, B, C, D, E, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B
     }
 }
 
-fun <A, B, C, D, E, F, R> Oops.Companion.liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, e: LiveData<E>, f: LiveData<F>, r: Live6<A, B, C, D, E, F, R>): MediatorLiveData<R> {
+fun <A, B, C, D, E, F, R> liveMediator(a: LiveData<A>, b: LiveData<B>, c: LiveData<C>, d: LiveData<D>, e: LiveData<E>, f: LiveData<F>, r: Live6<A, B, C, D, E, F, R>): MediatorLiveData<R> {
     return MediatorLiveData<R>().apply {
         var lastA: A? = null
         var lastB: B? = null

@@ -3,32 +3,23 @@ package io.nichijou.oops
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.SystemClock
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.colorAttr
+import io.nichijou.oops.ext.loge
 import io.nichijou.oops.pref.*
-import io.nichijou.oops.temp.StatusBarStateColor
 import io.nichijou.oops.widget.*
-import kotlin.collections.set
 import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty0
 
 
 @SuppressLint("CommitPrefEdits")
 class Oops private constructor(val context: Context) {
+
     var theme by intPref(0, OopsPrefsKey.KEY_THEME)
     var isDark by booleanPref(false, OopsPrefsKey.KEY_IS_DARK)
     var isFirstTime by booleanPref(false, OopsPrefsKey.KEY_IS_FIRST_TIME)
@@ -63,7 +54,7 @@ class Oops private constructor(val context: Context) {
     @IntRange(from = 300, to = 1600)
     var rippleAnimDuration: Long = 560
 
-    private var rippleAnimation: RippleAnimation? = null
+    internal var rippleAnimation: RippleAnimation? = null
 
     private fun showRippleAnimation() {
         if (rippleView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -110,13 +101,6 @@ class Oops private constructor(val context: Context) {
 
         lateinit var oops: Oops
 
-        private var liveStatusBar: MediatorLiveData<StatusBarStateColor>? = null
-        private var liveNavBar: LiveData<Int>? = null
-        private var liveWindowBackground: LiveData<Int>? = null
-        private var livePrimary: LiveData<Int>? = null
-        private var liveTheme: LiveData<Int>? = null
-        private val lastTheme by lazy { HashMap<Int, Int>() }
-
         internal fun init(context: Context) {
             oops = Oops(context)
         }
@@ -127,81 +111,6 @@ class Oops private constructor(val context: Context) {
             if (theme != 0) {
                 activity.setTheme(theme)
             }
-            lastTheme[activity.hashCode()] = theme
-            addObservers(activity)
-        }
-
-        fun resume(activity: AppCompatActivity) {
-            val theme = oops.theme
-            if (lastTheme[activity.hashCode()] != theme) {
-                lastTheme[activity.hashCode()] = theme
-                activity.recreate()
-            }
-        }
-
-        fun pause(activity: AppCompatActivity) {
-            if (activity.isFinishing) {
-                lastTheme.remove(activity.hashCode())
-                removeObservers(activity)
-            }
-        }
-
-        fun destroy(activity: AppCompatActivity) {
-            lastTheme.remove(activity.hashCode())
-            removeObservers(activity)
-        }
-
-        private fun removeObservers(owner: LifecycleOwner) {
-            liveStatusBar?.removeObservers(owner)
-            liveNavBar?.removeObservers(owner)
-            liveWindowBackground?.removeObservers(owner)
-            livePrimary?.removeObservers(owner)
-            liveTheme?.removeObservers(owner)
-            liveStatusBar = null
-            liveNavBar = null
-            liveWindowBackground = null
-            livePrimary = null
-        }
-
-        private fun addObservers(activity: AppCompatActivity) {
-            liveStatusBar = Oops.liveMediator(
-                    Oops.live(activity, oops::statusBarColor),
-                    Oops.live(activity, oops::statusBarMode),
-                    StatusBarStateColor.live())
-            liveNavBar = Oops.live(activity, oops::navBarColor)
-            liveWindowBackground = Oops.live(activity, oops::windowBackground)
-            livePrimary = Oops.live(activity, oops::colorPrimary)
-            liveTheme = Oops.live(activity, oops::theme)
-            liveStatusBar!!.observe(activity, Observer {
-                when (it.statusBarMode) {
-                    StatusBarMode.AUTO -> {
-                        val statusBarColor = it.statusBarColor
-                        val rootView = activity.getRootView()
-                        if (rootView is DrawerLayout) {
-                            activity.setStatusBarColorCompat(Color.TRANSPARENT)
-                            rootView.setStatusBarBackgroundColor(statusBarColor)
-                        } else {
-                            activity.setStatusBarColorCompat(statusBarColor)
-                        }
-                        activity.setLightStatusBarCompat(statusBarColor.isColorLight())
-                    }
-                    StatusBarMode.DARK -> activity.setLightStatusBarCompat(false)
-                    StatusBarMode.LIGHT -> activity.setLightStatusBarCompat(true)
-                }
-            })
-            liveNavBar!!.observe(activity, Observer(activity::setNavBarColorCompat))
-            liveWindowBackground!!.observe(activity, Observer {
-                activity.window.setBackgroundDrawable(ColorDrawable(it))
-            })
-            livePrimary!!.observe(activity, Observer(activity::setTaskDescriptionColor))
-            liveTheme!!.observe(activity, Observer {
-                val hashCode = activity.hashCode()
-                if (it != lastTheme[hashCode]) {
-                    oops.rippleAnimation?.cancel()
-                    oops.rippleAnimation = null
-                    activity.recreate()
-                }
-            })
         }
 
         fun oops(block: Oops.() -> Unit) {
@@ -213,28 +122,8 @@ class Oops private constructor(val context: Context) {
                 loge(e) { "oops config not be save..." }
                 throw e
             }
-            oops.apply()
             oops.showRippleAnimation()
-        }
-
-        fun <T> live(owner: LifecycleOwner, property: KProperty0<T>): LiveData<T> {
-            return OopsLive(owner, this.oops.prefs, property)
-        }
-
-        fun liveColor(ctx: AppCompatActivity, @IdRes resId: Int, fallback: LiveData<Int>?): LiveData<Int>? {
-            return when (resId) {
-                0 -> fallback
-                ctx.resId(R.attr.colorAccent, 0) -> live(ctx, this.oops::colorAccent)
-                ctx.resId(R.attr.colorPrimary, 0) -> live(ctx, this.oops::colorPrimary)
-                ctx.resId(R.attr.colorPrimaryDark, 0) -> live(ctx, this.oops::colorPrimaryDark)
-                ctx.resId(android.R.attr.statusBarColor, 0) -> live(ctx, this.oops::statusBarColor)
-                ctx.resId(android.R.attr.windowBackground, 0) -> live(ctx, this.oops::windowBackground)
-                ctx.resId(android.R.attr.textColorPrimary, 0) -> live(ctx, this.oops::textColorPrimary)
-                ctx.resId(android.R.attr.textColorPrimaryInverse, 0) -> live(ctx, this.oops::textColorPrimaryInverse)
-                ctx.resId(android.R.attr.textColorSecondary, 0) -> live(ctx, this.oops::textColorSecondary)
-                ctx.resId(android.R.attr.textColorSecondaryInverse, 0) -> live(ctx, this.oops::textColorSecondaryInverse)
-                else -> fallback
-            }
+            oops.apply()
         }
     }
 }

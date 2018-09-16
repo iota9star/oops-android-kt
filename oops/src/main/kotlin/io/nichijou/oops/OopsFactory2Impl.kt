@@ -183,11 +183,11 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 verifyNotNull(view, name, false)
             }
 //            "android.support.design.widget.TextInputEditText", "com.google.android.material.textfield.TextInputEditText" -> {
-//                view = DuangTextInputEditText(ctx, attrs)
+//                view = DuangTextInputEditText(activity, attrs)
 //                verifyNotNull(view, name)
 //            }
 //            "android.support.design.widget.TextInputLayout", "com.google.android.material.textfield.TextInputLayout" -> {
-//                view = DuangTextInputLayout(ctx, attrs)
+//                view = DuangTextInputLayout(activity, attrs)
 //                verifyNotNull(view, name)
 //            }
             "SeekBar", "androidx.appcompat.widget.AppCompatSeekBar" -> {

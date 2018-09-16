@@ -5,31 +5,21 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.annotation.Nullable
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.SnackbarContentLayout
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
-import io.nichijou.oops.ext.ctx
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.ext.activity
 
 @SuppressLint("RestrictedApi")
-class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLiveProvider {
+class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
 
-    constructor(context: Context) : super(context) {
-        registerOopsLive()
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        registerOopsLive()
-    }
-
-    private var live: LiveData<Int>? = null
-
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
-        live = Oops.live(ctx, Oops.oops::snackBarBackgroundColor)
-        live!!.observe(ctx, Observer(this::updateColor))
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
 
     private fun updateColor(color: Int) {
         setBackgroundColor(color)
@@ -41,13 +31,37 @@ class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLiveProvider {
         }, 42)// SnackbarLayout init after this view
     }
 
-    override fun unregisterOopsLive() {
-        live?.removeObservers(this.ctx())
-        live = null
+    override fun bindingLive() {
+        ovm.snackBarBackgroundColor.observe(this, Observer(this::updateColor))
+    }
+
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
+    }
+
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
+    }
+
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
     }
 
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

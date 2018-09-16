@@ -5,48 +5,45 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.annotation.Nullable
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsLiveProvider
+import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.R
-import io.nichijou.oops.ext.*
-import io.nichijou.oops.temp.BottomNavStateColor
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.colorRes
+import io.nichijou.oops.ext.isColorLight
 
 
-class OopsBottomNavigationView : BottomNavigationView, OopsLiveProvider {
+open class OopsBottomNavigationView : BottomNavigationView, OopsLifeAndLive {
 
-    constructor(context: Context) : super(context) {
-        registerOopsLive()
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    private fun updateIconText(selectedColor: Int, bgColor: Int) {
+        val baseColor = this.activity().colorRes(if (bgColor.isColorLight()) R.color.md_icon_light else R.color.md_icon_dark)
+        val unselectedIconTextColor = baseColor.adjustAlpha(.87f)
+        val iconColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconTextColor, selectedColor))
+        val textColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconTextColor, selectedColor))
+        itemIconTintList = iconColor
+        itemTextColor = textColor
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        registerOopsLive()
-    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        registerOopsLive()
-    }
-
-    private var live: MediatorLiveData<BottomNavStateColor>? = null
-
-    override fun registerOopsLive() {
-        val ctx = this.ctx()
-        live = Oops.liveMediator(
-                Oops.live(ctx, Oops.oops::colorAccent),
-                Oops.live(ctx, Oops.oops::colorPrimary),
-                Oops.live(ctx, Oops.oops::colorPrimaryDark),
-                Oops.live(ctx, Oops.oops::isDark),
-                Oops.live(ctx, Oops.oops::bottomNavigationViewIconTextMode),
-                Oops.live(ctx, Oops.oops::bottomNavigationViewBackgroundMode),
-                BottomNavStateColor.live())
-        live!!.observe(ctx, Observer {
+    override fun bindingLive() {
+        ovm.bottomNavStateColor.observe(this, Observer {
             val bgColor = when (it.backgroundMode) {
                 BottomNavigationViewBackgroundMode.ACCENT -> it.accent
                 BottomNavigationViewBackgroundMode.PRIMARY -> it.primary
                 BottomNavigationViewBackgroundMode.PRIMARY_DARK -> it.primaryDark
-                BottomNavigationViewBackgroundMode.AUTO -> this.ctx().colorRes(if (it.isDark) R.color.md_bottom_nav_default_dark_bg else R.color.md_bottom_nav_default_light_bg)
+                BottomNavigationViewBackgroundMode.AUTO -> this.activity().colorRes(if (it.isDark) R.color.md_bottom_nav_default_dark_bg else R.color.md_bottom_nav_default_light_bg)
             }
             this.setBackgroundColor(bgColor)
             var iconTextColor = when (it.iconTextMode) {
@@ -61,22 +58,33 @@ class OopsBottomNavigationView : BottomNavigationView, OopsLiveProvider {
         })
     }
 
-    override fun unregisterOopsLive() {
-        live?.removeObservers(this.ctx())
-        live = null
+    private val ovm by lazy {
+        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private fun updateIconText(selectedColor: Int, bgColor: Int) {
-        val baseColor = this.ctx().colorRes(if (bgColor.isColorLight()) R.color.md_icon_light else R.color.md_icon_dark)
-        val unselectedIconTextColor = baseColor.adjustAlpha(.87f)
-        val iconColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconTextColor, selectedColor))
-        val textColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconTextColor, selectedColor))
-        itemIconTintList = iconColor
-        itemTextColor = textColor
+    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+        LifecycleRegistry(this)
+    }
+
+    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bindingLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } else {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
     }
 
     override fun onDetachedFromWindow() {
-        unregisterOopsLive()
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         super.onDetachedFromWindow()
     }
 }

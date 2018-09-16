@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsActivity
+import io.nichijou.oops.ext.logi
 import io.nichijou.oops.widget.NavigationViewTintMode
 import kotlinx.android.synthetic.main.activity_primary.*
 import kotlinx.android.synthetic.main.activity_primary_content.*
@@ -22,7 +23,6 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(R.layout.activity_primary)
         initToolbar()
         initTabLayout()
-
         fab.setOnClickListener { view ->
             val accent = randomColor()
             val primary = randomColor()
@@ -54,7 +54,9 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
                 rippleAnimDuration = 560
             }
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                    .setAction("Action") {
+                        logi { "do something..." }
+                    }.show()
         }
 
         val toggle = ActionBarDrawerToggle(
