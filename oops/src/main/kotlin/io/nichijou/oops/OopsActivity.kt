@@ -16,8 +16,14 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
 
     private val currentTheme = Oops.oops.theme
 
+    override fun onResume() {
+        super.onResume()
+        logi { "run resume...." }
+    }
+
     override fun bindingLive() {
         ovm.statusBarStateColor.observe(this, Observer {
+            logi { "run statusBarStateColor..." }
             when (it.statusBarMode) {
                 StatusBarMode.AUTO -> {
                     val statusBarColor = it.statusBarColor
@@ -38,8 +44,10 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
         ovm.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
         ovm.windowBackground.observe(this, Observer {
             this.window.setBackgroundDrawable(ColorDrawable(it))
+            logi { "run windowBackground" }
         })
         ovm.theme.observe(this, Observer {
+            logi { "run theme" }
             if (currentTheme != it) {
                 Oops.oops.rippleAnimation?.cancel()
                 recreate()
@@ -48,7 +56,7 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Oops.attach(this)
+        Oops.binding(this)
         super.onCreate(savedInstanceState)
         bindingLive()
     }

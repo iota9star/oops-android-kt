@@ -70,8 +70,8 @@ fun Toolbar.tintMenu(menu: Menu, activeColor: ActiveColor) {
         if (item.icon != null) {
             item.icon = item.icon.tint(activeColor.toEnabledSl())
         }
-        if (item.actionView is SearchView) {
-            (item.actionView as? SearchView?)?.tint(activeColor)
+        if (item.actionView is androidx.appcompat.widget.SearchView) {
+            (item.actionView as? androidx.appcompat.widget.SearchView?)?.tint(activeColor)
         }
     }
 }
@@ -255,7 +255,113 @@ fun EditText.tintCursor(@ColorInt color: Int) {
 }
 
 
-fun SearchView.tint(activeColor: ActiveColor) {
+fun TextInputLayout.setHintColor(@ColorInt hintColor: Int) {
+    try {
+        val defaultHintColorField = TextInputLayout::class.java.findField(
+                "defaultHintTextColor", "mDefaultTextColor"
+        )
+        defaultHintColorField.isAccessible = true
+        defaultHintColorField.set(this, ColorStateList.valueOf(hintColor))
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout hint (collapsed) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun TextInputLayout.setAccentColor(@ColorInt accentColor: Int) {
+    try {
+        val focusedTextColor = TextInputLayout::class.java.findField(
+                "focusedTextColor", "mFocusedTextColor"
+        )
+        focusedTextColor.isAccessible = true
+        focusedTextColor.set(this, ColorStateList.valueOf(accentColor))
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun TextInputLayout.setStrokeColor(@ColorInt accentColor: Int) {
+    try {
+        val disabledTextColor = TextInputLayout::class.java.findField("defaultStrokeColor")
+        disabledTextColor.isAccessible = true
+        disabledTextColor.set(this, accentColor)
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun TextInputLayout.setStrokeColorHover(@ColorInt accentColor: Int) {
+    try {
+        val disabledTextColor = TextInputLayout::class.java.findField("hoveredStrokeColor")
+        disabledTextColor.isAccessible = true
+        disabledTextColor.set(this, accentColor)
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun TextInputLayout.setStrokeColorFocused(@ColorInt accentColor: Int) {
+    try {
+        val disabledTextColor = TextInputLayout::class.java.findField("focusedStrokeColor")
+        disabledTextColor.isAccessible = true
+        disabledTextColor.set(this, accentColor)
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun TextInputLayout.setDisabledColor(@ColorInt accentColor: Int) {
+    try {
+        val disabledTextColor = TextInputLayout::class.java.findField("disabledColor")
+        disabledTextColor.isAccessible = true
+        disabledTextColor.set(this, accentColor)
+        val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
+                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+        )
+        updateLabelStateMethod.isAccessible = true
+        updateLabelStateMethod.invoke(this, false, true)
+    } catch (t: Throwable) {
+        throw IllegalStateException(
+                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+        )
+    }
+}
+
+fun androidx.appcompat.widget.SearchView.tint(activeColor: ActiveColor) {
     val cls = this::class.java
     try {
         val mSearchSrcTextViewField = cls.getDeclaredField("mSearchSrcTextView")

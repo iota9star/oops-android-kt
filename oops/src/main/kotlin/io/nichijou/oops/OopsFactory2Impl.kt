@@ -16,6 +16,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.*
 import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
+import com.afollestad.aesthetic.views.OopsTextInputLayout
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.widget.*
@@ -182,14 +183,14 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 view = OopsCollapsingToolbarLayout(context, attrs)
                 verifyNotNull(view, name, false)
             }
-//            "android.support.design.widget.TextInputEditText", "com.google.android.material.textfield.TextInputEditText" -> {
-//                view = DuangTextInputEditText(activity, attrs)
-//                verifyNotNull(view, name)
-//            }
-//            "android.support.design.widget.TextInputLayout", "com.google.android.material.textfield.TextInputLayout" -> {
-//                view = DuangTextInputLayout(activity, attrs)
-//                verifyNotNull(view, name)
-//            }
+            "com.google.android.material.textfield.TextInputEditText" -> {
+                view = OopsTextInputEditText(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "com.google.android.material.textfield.TextInputLayout" -> {
+                view = OopsTextInputLayout(context, attrs)
+                verifyNotNull(view, name, false)
+            }
             "SeekBar", "androidx.appcompat.widget.AppCompatSeekBar" -> {
                 view = OopsSeekBar(context, attrs)
                 verifyNotNull(view, name, false)
@@ -233,7 +234,7 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
             return false
         }
         val backgroundRes = context.resId(attrs, android.R.attr.background)
-        if (backgroundRes == 0) {
+        if (backgroundRes == -1) {
             return false
         }
         val resName = context.resources.getResourceEntryName(backgroundRes)
@@ -401,11 +402,9 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 try {
                     if (!thisCtx.isRestricted) {
                         val method = thisCtx.javaClass.getMethod(mMethodName, View::class.java)
-                        if (method != null) {
-                            mResolvedMethod = method
-                            mResolvedContext = thisCtx
-                            return
-                        }
+                        mResolvedMethod = method
+                        mResolvedContext = thisCtx
+                        return
                     }
                 } catch (e: NoSuchMethodException) {
                 }
@@ -418,10 +417,7 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
             }
 
             val id = mHostView.id
-            val idText = if (id == View.NO_ID)
-                ""
-            else
-                " with id '" + mHostView.context.resources.getResourceEntryName(id) + "'"
+            val idText = if (id == View.NO_ID) "" else " with id '" + mHostView.context.resources.getResourceEntryName(id) + "'"
             throw IllegalStateException(("Could not find method " + mMethodName
                     + "(View) in a parent or ancestor Context for android:onClick "
                     + "attribute defined on view " + mHostView.javaClass + idText))

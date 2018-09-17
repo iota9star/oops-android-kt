@@ -119,19 +119,19 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
     fun live(@IdRes resId: Int, fallback: LiveData<Int>? = null): LiveData<Int>? {
         val ctx = getApplication<Application>()
         return when (resId) {
-            0 -> fallback
-            ctx.resId(R.attr.colorAccent, 0),
-            ctx.resId(android.R.attr.colorAccent, 0) -> colorAccent
-            ctx.resId(R.attr.colorPrimary, 0),
-            ctx.resId(android.R.attr.colorPrimary, 0) -> colorPrimary
-            ctx.resId(R.attr.colorPrimaryDark, 0),
-            ctx.resId(android.R.attr.colorPrimaryDark, 0) -> colorPrimaryDark
-            ctx.resId(android.R.attr.statusBarColor, 0) -> statusBarColor
-            ctx.resId(android.R.attr.windowBackground, 0) -> windowBackground
-            ctx.resId(android.R.attr.textColorPrimary, 0) -> textColorPrimary
-            ctx.resId(android.R.attr.textColorPrimaryInverse, 0) -> textColorPrimaryInverse
-            ctx.resId(android.R.attr.textColorSecondary, 0) -> textColorSecondary
-            ctx.resId(android.R.attr.textColorSecondaryInverse, 0) -> textColorSecondary
+            -1, 0 -> fallback
+            ctx.resId(R.attr.colorAccent, -1),
+            ctx.resId(android.R.attr.colorAccent, -1) -> colorAccent
+            ctx.resId(R.attr.colorPrimary, -1),
+            ctx.resId(android.R.attr.colorPrimary, -1) -> colorPrimary
+            ctx.resId(R.attr.colorPrimaryDark, -1),
+            ctx.resId(android.R.attr.colorPrimaryDark, -1) -> colorPrimaryDark
+            ctx.resId(android.R.attr.statusBarColor, -1) -> statusBarColor
+            ctx.resId(android.R.attr.windowBackground, -1) -> windowBackground
+            ctx.resId(android.R.attr.textColorPrimary, -1) -> textColorPrimary
+            ctx.resId(android.R.attr.textColorPrimaryInverse, -1) -> textColorPrimaryInverse
+            ctx.resId(android.R.attr.textColorSecondary, -1) -> textColorSecondary
+            ctx.resId(android.R.attr.textColorSecondaryInverse, -1) -> textColorSecondary
             else -> fallback
         }
     }

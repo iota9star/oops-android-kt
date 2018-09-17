@@ -46,10 +46,10 @@ fun Context.resId(@AttrRes attr: Int, fallback: Int = 0): Int {
 }
 
 fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
-    if (attrs == null) return 0
+    if (attrs == null) return -1
     val ta = obtainStyledAttributes(attrs, intArrayOf(attrId))
     try {
-        return ta.getResourceId(0, 0)
+        return ta.getResourceId(0, -1)
     } finally {
         ta.recycle()
     }
@@ -67,6 +67,6 @@ fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {
     }
 }
 
-fun Context.colorAttr(@AttrRes attr: Int): Int = this.colorAttr(attr, 0)
+fun Context.colorAttr(@AttrRes attr: Int): Int = this.colorAttr(attr, -1)
 
 fun Context.colorRes(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)

@@ -1,7 +1,6 @@
 package io.nichijou.oops.simple
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -30,7 +29,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             val textSecondary = randomColor()
             val active = randomColor()
             val inactive = randomColor()
-            val windowColor = Color.WHITE
+            val windowColor = randomColor()
             val snackbarText = randomColor()
             val snackbarAction = randomColor()
             val cardColor = randomColor()
@@ -51,7 +50,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
                 isDark = false
                 navigationViewMode = NavigationViewTintMode.PRIMARY
                 rippleView = view
-                rippleAnimDuration = 560
+                rippleAnimDuration = 300
             }
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action") {
@@ -93,12 +92,12 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_test_icon -> {
+        return when (item.itemId) {
+            R.id.action_go_next -> {
                 startActivity(Intent(this, SecondaryActivity::class.java))
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

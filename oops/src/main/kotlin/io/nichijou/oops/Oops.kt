@@ -19,10 +19,15 @@ import kotlin.properties.ReadWriteProperty
 
 @SuppressLint("CommitPrefEdits")
 class Oops private constructor(val context: Context) {
+    val isFirstTime: Boolean
+        get() {
+            val isFirst = prefs.getBoolean(OopsPrefsKey.KEY_IS_FIRST_TIME, true)
+            prefsEditor.putBoolean(OopsPrefsKey.KEY_IS_FIRST_TIME, false).apply()
+            return isFirst
+        }
 
     var theme by intPref(0, OopsPrefsKey.KEY_THEME)
     var isDark by booleanPref(false, OopsPrefsKey.KEY_IS_DARK)
-    var isFirstTime by booleanPref(false, OopsPrefsKey.KEY_IS_FIRST_TIME)
     var colorAccent by intPref(context.colorAttr(R.attr.colorAccent), OopsPrefsKey.KEY_COLOR_ACCENT)
     var colorPrimary by intPref(context.colorAttr(R.attr.colorPrimary), OopsPrefsKey.KEY_COLOR_PRIMARY)
     var colorPrimaryDark by intPref(context.colorAttr(R.attr.colorPrimaryDark), OopsPrefsKey.KEY_COLOR_PRIMARY_DARK)
@@ -52,7 +57,7 @@ class Oops private constructor(val context: Context) {
     var rippleView: View? = null
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @IntRange(from = 300, to = 1600)
-    var rippleAnimDuration: Long = 560
+    var rippleAnimDuration: Long = 520
 
     internal var rippleAnimation: RippleAnimation? = null
 
@@ -105,7 +110,7 @@ class Oops private constructor(val context: Context) {
             oops = Oops(context)
         }
 
-        fun attach(activity: AppCompatActivity) {
+        fun binding(activity: AppCompatActivity) {
             LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl())
             val theme = oops.theme
             if (theme != 0) {

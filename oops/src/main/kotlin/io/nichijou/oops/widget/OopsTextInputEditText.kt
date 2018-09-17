@@ -3,18 +3,21 @@ package io.nichijou.oops.widget
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.textfield.TextInputEditText
 import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
+import io.nichijou.oops.ext.tintAuto
+import io.nichijou.oops.ext.tintCursor
+import io.nichijou.oops.temp.IsDarkColor
 
-open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
+
+open class OopsTextInputEditText : TextInputEditText, OopsLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -26,12 +29,27 @@ open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
         this.attrs = attrs
     }
 
+    private var lastState: IsDarkColor? = null
+
+    private fun updateColor(isDarkColor: IsDarkColor) {
+        this.lastState = isDarkColor
+        this.tintAuto(isDarkColor.color, true, isDarkColor.isDark)
+        this.tintCursor(isDarkColor.color)
+    }
+
+    override fun refreshDrawableState() {
+        super.refreshDrawableState()
+        lastState?.let {
+            post {
+                updateColor(lastState!!)
+            }
+        }
+    }
+
     override fun bindingLive() {
-        val resId = this.activity().resId(attrs, android.R.attr.textColor)
-        logi { "id: $id, resId: $resId" }
-        ovm.live(resId,
-                if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary
-        )?.observe(this, Observer(this::setTextColor))
+        ovm.isDarkColor(this.activity().resId(attrs, android.R.attr.background), ovm.colorAccent).observe(this, Observer(this::updateColor))
+        ovm.textColorPrimary.observe(this, Observer(this::setTextColor))
+        ovm.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }
 
     private val ovm by lazy {

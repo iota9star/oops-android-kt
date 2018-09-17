@@ -1,20 +1,20 @@
-package io.nichijou.oops.widget
+package com.afollestad.aesthetic.views
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+
+import com.google.android.material.textfield.TextInputLayout
 import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.logi
-import io.nichijou.oops.ext.resId
+import io.nichijou.oops.ext.*
 
-open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
+
+open class OopsTextInputLayout : TextInputLayout, OopsLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -27,11 +27,10 @@ open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
     }
 
     override fun bindingLive() {
-        val resId = this.activity().resId(attrs, android.R.attr.textColor)
-        logi { "id: $id, resId: $resId" }
-        ovm.live(resId,
-                if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary
-        )?.observe(this, Observer(this::setTextColor))
+        ovm.live(this.activity().resId(attrs, android.R.attr.background), ovm.colorAccent)?.observe(this, Observer(this::setAccentColor))
+        ovm.textColorSecondary.observe(this, Observer {
+            this.setHintColor(it.adjustAlpha(0.7f))
+        })
     }
 
     private val ovm by lazy {
