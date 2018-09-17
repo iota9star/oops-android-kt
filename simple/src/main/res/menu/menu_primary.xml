@@ -6,15 +6,10 @@
         android:icon="@drawable/ic_menu_search"
         android:title="@string/menu_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="always|collapseActionView" />
     <item
         android:id="@+id/action_go_next"
         android:orderInCategory="100"
         android:title="@string/go_next"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_more"
-        android:orderInCategory="100"
-        android:title="@string/more_action"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

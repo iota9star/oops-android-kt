@@ -111,7 +111,7 @@ class Oops private constructor(val context: Context) {
         }
 
         fun binding(activity: AppCompatActivity) {
-            LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl())
+            LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl(activity))
             val theme = oops.theme
             if (theme != 0) {
                 activity.setTheme(theme)
@@ -127,8 +127,8 @@ class Oops private constructor(val context: Context) {
                 loge(e) { "oops config not be save..." }
                 throw e
             }
-            oops.showRippleAnimation()
             oops.apply()
+            oops.showRippleAnimation()
         }
     }
 }

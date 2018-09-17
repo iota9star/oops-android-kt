@@ -54,11 +54,11 @@ object TintUtils {
     }
 
     @Throws(Exception::class)
-    fun tintImageViewDrawable(target: Any, field: Field, activeColor: ActiveColor) {
+    fun tintImageViewDrawable(target: Any, field: Field, color: ActiveColor) {
         field.isAccessible = true
         val imageView = field.get(target) as ImageView
         if (imageView.drawable != null) {
-            imageView.setImageDrawable(imageView.drawable.tint(activeColor.toEnabledSl()))
+            imageView.setImageDrawable(imageView.drawable.tint(color.toEnabledSl()))
         }
     }
 

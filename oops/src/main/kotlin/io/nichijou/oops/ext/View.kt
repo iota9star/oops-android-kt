@@ -9,12 +9,12 @@ import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -48,15 +48,6 @@ fun View.setBackgroundCompat(@Nullable drawable: Drawable) {
     }
 }
 
-fun ViewGroup.hasChildren(): Boolean {
-    val count = this.childCount
-    if (count == 0) return false
-    for (i in 0 until count) {
-        println("clazz: " + this.getChildAt(i)::class)
-    }
-    return false
-}
-
 fun Toolbar.tintOverflowIcon(@ColorInt color: Int) {
     val overflowDrawable = overflowIcon
     if (overflowDrawable != null) {
@@ -64,14 +55,14 @@ fun Toolbar.tintOverflowIcon(@ColorInt color: Int) {
     }
 }
 
-fun Toolbar.tintMenu(menu: Menu, activeColor: ActiveColor) {
+fun Toolbar.tintMenuItem(menu: Menu, activeColor: ActiveColor) {
     for (i in 0 until menu.size()) {
         val item = menu.getItem(i)
         if (item.icon != null) {
             item.icon = item.icon.tint(activeColor.toEnabledSl())
         }
-        if (item.actionView is androidx.appcompat.widget.SearchView) {
-            (item.actionView as? androidx.appcompat.widget.SearchView?)?.tint(activeColor)
+        if (item.actionView is SearchView) {
+            (item.actionView as? SearchView?)?.tint(activeColor)
         }
     }
 }
@@ -361,30 +352,27 @@ fun TextInputLayout.setDisabledColor(@ColorInt accentColor: Int) {
     }
 }
 
-fun androidx.appcompat.widget.SearchView.tint(activeColor: ActiveColor) {
-    val cls = this::class.java
+
+fun SearchView.tint(color: ActiveColor) {
+    val cls = javaClass
     try {
-        val mSearchSrcTextViewField = cls.getDeclaredField("mSearchSrcTextView")
-        mSearchSrcTextViewField.isAccessible = true
-        val mSearchSrcTextView = mSearchSrcTextViewField.get(this) as EditText
-        mSearchSrcTextView.setTextColor(activeColor.active)
-        mSearchSrcTextView.setHintTextColor(activeColor.inactive)
-        mSearchSrcTextView.tintCursor(activeColor.active)
         var field = cls.getDeclaredField("mSearchButton")
-        TintUtils.tintImageViewDrawable(this, field, activeColor)
+        TintUtils.tintImageViewDrawable(this, field, color)
         field = cls.getDeclaredField("mGoButton")
-        TintUtils.tintImageViewDrawable(this, field, activeColor)
+        TintUtils.tintImageViewDrawable(this, field, color)
         field = cls.getDeclaredField("mCloseButton")
-        TintUtils.tintImageViewDrawable(this, field, activeColor)
+        TintUtils.tintImageViewDrawable(this, field, color)
         field = cls.getDeclaredField("mVoiceButton")
-        TintUtils.tintImageViewDrawable(this, field, activeColor)
+        TintUtils.tintImageViewDrawable(this, field, color)
+
         field = cls.getDeclaredField("mSearchPlate")
         field.isAccessible = true
-        (field.get(this) as? View?)?.tintAuto(activeColor.active, true, !activeColor.active.isColorLight())
+        (field.get(this) as View).tintAuto(color.active, true, !color.active.isColorLight())
+
         field = cls.getDeclaredField("mSearchHintIcon")
         field.isAccessible = true
-        field.set(this, (field.get(this) as? Drawable?)?.tint(activeColor.toEnabledSl()))
-        field.isAccessible = false
+        field.set(this, (field.get(this) as Drawable).tint(color.toEnabledSl())
+        )
     } catch (e: Exception) {
         e.printStackTrace()
     }

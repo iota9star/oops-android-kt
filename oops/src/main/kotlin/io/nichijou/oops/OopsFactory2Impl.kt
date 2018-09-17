@@ -16,7 +16,6 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.*
 import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
-import com.afollestad.aesthetic.views.OopsTextInputLayout
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.widget.*
@@ -27,7 +26,7 @@ import java.lang.reflect.Method
 import io.nichijou.oops.R as MR
 
 @SuppressLint("RestrictedApi")
-open class OopsFactory2Impl : LayoutInflater.Factory2 {
+class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater.Factory2 {
 
     private fun shouldInheritContext(context: Context, parent: ViewParent?): Boolean {
         var thisParent: ViewParent? = parent ?: return false
@@ -57,6 +56,12 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
             else
                 shouldInheritContext(context, parent as ViewParent)
         }
+        if (parent != null) {
+            logi { "==============================================" }
+            logi { "parent: ${parent::class.java.canonicalName}" }
+            logi { "name: $name" }
+            logi { "==============================================" }
+        }
         return createView(parent, name, context, attrs, inheritContext, isPreLollipop, true, VectorEnabledTintResources.shouldBeUsed())
     }
 
@@ -82,6 +87,23 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
         if (view != null && view.tag != null && view.tag == context.getString(MR.string.ignore_view)) {
             view = createDefaultView(name, context, attrs)
         }
+        if (view == null) {
+            try {
+                view = activity.onCreateView(parent, name, context, attrs)
+                if (view == null) {
+                    view = activity.onCreateView(name, context, attrs)
+                }
+            } catch (e: Throwable) {
+                throw IllegalStateException("Unable to delegate inflation of $name to your Activity.", e)
+            }
+        }
+        if (view == null) {
+            try {
+                view = activity.delegate.createView(parent, name, context, attrs)
+            } catch (e: Throwable) {
+                throw IllegalStateException("Unable to delegate inflation of $name to AppCompat.", e)
+            }
+        }
         if (view == null && originalContext !== ctx) {
             view = createViewFromTag(ctx, name, attrs)
         }
@@ -95,6 +117,12 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
         var view: View?
         val viewId = context.resId(attrs, android.R.attr.id)
         when (name) {
+            "androidx.appcompat.widget.SearchView${'$'}SearchAutoComplete" -> {
+                view = OopsSearchAutoComplete(context, attrs)
+            }
+            "SearchView", "androidx.appcompat.widget.SearchView" -> {
+                view = OopsSearchView(context, attrs)
+            }
             "com.google.android.material.snackbar.SnackbarContentLayout" -> {
                 view = OopsSnackBarContentLayout(context, attrs)
             }
@@ -224,7 +252,7 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 verifyNotNull(view, name, false)
             }
             else ->
-                view = createView(context, name, attrs)
+                view = null
         }
         return view
     }
@@ -297,7 +325,7 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 verifyNotNull(view, name, true)
             }
             else ->
-                view = createView(context, name, attrs)
+                view = null
         }
         return view
     }
@@ -313,10 +341,6 @@ open class OopsFactory2Impl : LayoutInflater.Factory2 {
                 logi { "inflate view : $name to ${view::class.java.simpleName}" }
             }
         }
-    }
-
-    private fun createView(context: Context, name: String, attrs: AttributeSet): View? {
-        return null
     }
 
     private fun createViewFromTag(context: Context, name: String, attrs: AttributeSet): View? {

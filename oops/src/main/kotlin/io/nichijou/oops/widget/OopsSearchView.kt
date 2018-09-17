@@ -1,36 +1,28 @@
 package io.nichijou.oops.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.SnackbarContentLayout
 import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.tint
 
-@SuppressLint("RestrictedApi")
-class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
+open class OopsSearchView : SearchView, OopsLifeAndLive {
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
 
-    private fun updateColor(color: Int) {
-        setBackgroundColor(color)
-        val parent = this.parent
-        if (parent != null && parent is Snackbar.SnackbarLayout) {
-            parent.setBackgroundColor(color)
-        }
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun bindingLive() {
-        ovm.snackBarBackgroundColor.observe(this, Observer(this::updateColor))
+        ovm.activeColor.observe(this, Observer(this::tint))
     }
 
     private val ovm by lazy {

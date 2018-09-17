@@ -1,4 +1,4 @@
-package com.afollestad.aesthetic.views
+package io.nichijou.oops.widget
 
 import android.content.Context
 import android.util.AttributeSet

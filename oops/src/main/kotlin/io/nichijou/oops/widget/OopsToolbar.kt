@@ -52,11 +52,11 @@ open class OopsToolbar : Toolbar, OopsLifeAndLive {
         ovm.activeColor.observe(this, Observer {
             this.setTitleTextColor(it.active)
             this.tintOverflowIcon(it.active)
-            this.tintMenu(menu, it)
             val sl = it.toEnabledSl()
             colorStateList = sl
             this.tintCollapseIcon(sl)
             this.tintNavIcon(sl)
+            this.tintMenuItem(menu, it)
         })
     }
 
@@ -73,7 +73,7 @@ open class OopsToolbar : Toolbar, OopsLifeAndLive {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)// action view is late init, need hasWindowFocus = true
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {

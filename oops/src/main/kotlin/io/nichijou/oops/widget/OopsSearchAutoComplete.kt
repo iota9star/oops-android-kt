@@ -4,33 +4,35 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.SnackbarContentLayout
 import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.tintCursor
 
 @SuppressLint("RestrictedApi")
-class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
+class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsLifeAndLive {
+    private val attrs: AttributeSet?
 
-    constructor(context: Context) : super(context)
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+        this.attrs = attrs
+    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
-
-    private fun updateColor(color: Int) {
-        setBackgroundColor(color)
-        val parent = this.parent
-        if (parent != null && parent is Snackbar.SnackbarLayout) {
-            parent.setBackgroundColor(color)
-        }
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        this.attrs = attrs
     }
 
     override fun bindingLive() {
-        ovm.snackBarBackgroundColor.observe(this, Observer(this::updateColor))
+        ovm.iconTitleActiveColor.observe(this, Observer {
+            this.tintCursor(it)
+            this.setTextColor(it)
+            this.setHintTextColor(it.adjustAlpha(0.7f))
+        })
     }
 
     private val ovm by lazy {

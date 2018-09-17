@@ -101,7 +101,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
                 }
             }
         }
-        toolbar.tintMenu(toolbar.menu ?: toolbar.menu, color)
+        toolbar.tintMenuItem(toolbar.menu ?: return, color)
     }
 
     override fun bindingLive() {
@@ -137,6 +137,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
             if (toolbar != null) {
                 toolbar!!.skipLive()
                 toolbar!!.setBackgroundColor(Color.TRANSPARENT)
+                tintMenu(toolbar!!, ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(0.4f)))
                 appBarLayout!!.addOnOffsetChangedListener(onOffsetChangedListener)
             }
         }
