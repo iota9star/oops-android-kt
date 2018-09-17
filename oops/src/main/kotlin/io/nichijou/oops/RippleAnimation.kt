@@ -15,6 +15,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.getAbsoluteX
+import io.nichijou.oops.ext.getAbsoluteY
 
 /**
  * Created by wuyr on 3/15/18 5:23 PM.
@@ -197,36 +199,13 @@ class RippleAnimation private constructor(
             val newWidth = onClickView.width / 2
             val newHeight = onClickView.height / 2
             //计算起点位置
-            val startX = getAbsoluteX(onClickView) + newWidth
-            val startY = getAbsoluteY(onClickView) + newHeight
+            val startX = onClickView.getAbsoluteX() + newWidth
+            val startY = onClickView.getAbsoluteY() + newHeight
             //起始半径
             //因为我们要避免遮挡按钮
             val radius = Math.max(newWidth, newHeight)
             return RippleAnimation(context, startX, startY, radius)
         }
 
-        /**
-         * 获取view在屏幕中的绝对x坐标
-         */
-        private fun getAbsoluteX(view: View): Float {
-            var x = view.x
-            val parent = view.parent
-            if (parent != null && parent is View) {
-                x += getAbsoluteX(parent as View)
-            }
-            return x
-        }
-
-        /**
-         * 获取view在屏幕中的绝对y坐标
-         */
-        private fun getAbsoluteY(view: View): Float {
-            var y = view.y
-            val parent = view.parent
-            if (parent != null && parent is View) {
-                y += getAbsoluteY(parent as View)
-            }
-            return y
-        }
     }
 }

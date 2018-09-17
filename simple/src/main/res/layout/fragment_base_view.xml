@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/text_color_primary"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/text_color_secondary"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -48,7 +48,7 @@
             android:checked="true"
             android:gravity="center_vertical"
             android:text="@string/switch_compat"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="?android:textColorPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/seek_bar"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/check_box"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/radio_button"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

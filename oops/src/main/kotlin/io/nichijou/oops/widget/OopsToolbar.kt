@@ -14,6 +14,7 @@ import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.R
 import io.nichijou.oops.ext.*
+import io.nichijou.oops.temp.ActiveColor
 
 
 open class OopsToolbar : Toolbar, OopsLifeAndLive {
@@ -38,27 +39,21 @@ open class OopsToolbar : Toolbar, OopsLifeAndLive {
         }
     }
 
-    private var skip = false
-    fun skipLive(skip: Boolean = true) {
-        this.skip = skip
+    override fun bindingLive() {
+        ovm.live(this.activity().resId(attrs, R.attr.colorPrimary), ovm.colorPrimary)?.observe(this, Observer(this::setBackgroundColor))
+        ovm.activeColor.observe(this, Observer(this::updateColor))
     }
 
-    override fun bindingLive() {
-        ovm.live(this.activity().resId(attrs, R.attr.colorPrimary), ovm.colorPrimary)?.observe(this, Observer {
-            if (!skip) {
-                setBackgroundColor(it)
-            }
-        })
-        ovm.activeColor.observe(this, Observer {
-            this.setTitleTextColor(it.active)
-            this.tintOverflowIcon(it.active)
-            val sl = it.toEnabledSl()
-            colorStateList = sl
-            this.tintCollapseIcon(sl)
-            this.tintNavIcon(sl)
-            this.tintMenuItem(menu, it)
-        })
+    fun updateColor(color: ActiveColor) {
+        this.setTitleTextColor(color.active)
+        this.tintOverflowIcon(color.active)
+        val sl = color.toEnabledSl()
+        colorStateList = sl
+        this.tintCollapseIcon(sl)
+        this.tintNavIcon(sl)
+        this.tintMenuItem(menu, color)
     }
+
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)

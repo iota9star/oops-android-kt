@@ -23,7 +23,7 @@ import io.nichijou.oops.temp.ActiveColor
 import io.nichijou.oops.temp.CollapsingToolbarStateColor
 
 
-open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLive {
+open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
     private val attrs: AttributeSet?
 
@@ -39,13 +39,12 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
     private var toolbar: OopsToolbar? = null
     private var lastOffset = 0
     private var stateColor: CollapsingToolbarStateColor? = null
-    private val onOffsetChangedListener by lazy {
-        AppBarLayout.OnOffsetChangedListener { _, offset ->
-            if (lastOffset != Math.abs(offset)) {
-                updateColor()
-            }
-            lastOffset = Math.abs(offset)
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, offset: Int) {
+        if (lastOffset != Math.abs(offset)) {
+            updateColor()
         }
+        lastOffset = Math.abs(offset)
     }
 
     private fun updateColor() {
@@ -60,7 +59,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
             val blendedTitleColor = expandedTitleColor.blendWith(activeColor, ratio)
             setCollapsedTitleTextColor(activeColor)
             setExpandedTitleColor(expandedTitleColor)
-            tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(0.7f)))
+            tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(.7f)))
         }
     }
 
@@ -70,8 +69,6 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
             if (child is OopsToolbar) {
                 toolbar = child
                 return
-            } else if (child is ViewGroup) {
-                eachChildren(child)
             }
         }
     }
@@ -86,17 +83,17 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
             val v = toolbar.getChildAt(i)
             if (v is ActionMenuView) {
                 for (j in 0 until v.childCount) {
-                    val innerView = v.getChildAt(j)
-                    if (innerView is OopsActionMenuItemView) {
-                        innerView.skipLive()
-                        innerView.setTextColor(color.active)
-                        val drawablesCount = innerView.compoundDrawables.size
+                    val itemView = v.getChildAt(j)
+                    if (itemView is OopsActionMenuItemView) {
+                        itemView.unbindingLive()
+                        itemView.setTextColor(color.active)
+                        val drawablesCount = itemView.compoundDrawables.size
                         for (k in 0 until drawablesCount) {
-                            if (innerView.compoundDrawables[k] != null) {
-                                innerView.compoundDrawables[k].colorFilter = colorFilter
+                            if (itemView.compoundDrawables[k] != null) {
+                                itemView.compoundDrawables[k].colorFilter = colorFilter
                             }
                         }
-                        innerView.tintIcon(sl)
+                        itemView.tintIcon(sl)
                     }
                 }
             }
@@ -134,11 +131,10 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
         }
         if (appBarLayout != null) {
             eachChildren(this)
-            if (toolbar != null) {
-                toolbar!!.skipLive()
-                toolbar!!.setBackgroundColor(Color.TRANSPARENT)
-                tintMenu(toolbar!!, ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(0.4f)))
-                appBarLayout!!.addOnOffsetChangedListener(onOffsetChangedListener)
+            toolbar?.apply {
+                unbindingLive()
+                setBackgroundColor(Color.TRANSPARENT)
+                updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
             }
         }
         bindingLive()
@@ -148,8 +144,10 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
+            appBarLayout?.addOnOffsetChangedListener(this)
             mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
         } else {
+            appBarLayout?.removeOnOffsetChangedListener(this)
             mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         }
     }
@@ -157,7 +155,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
     override fun onDetachedFromWindow() {
         mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         if (appBarLayout != null && toolbar != null) {
-            appBarLayout!!.removeOnOffsetChangedListener(onOffsetChangedListener)
+            appBarLayout!!.removeOnOffsetChangedListener(this)
             appBarLayout = null
             toolbar = null
         }

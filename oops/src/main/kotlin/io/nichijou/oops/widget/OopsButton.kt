@@ -43,7 +43,6 @@ open class OopsButton : AppCompatButton, OopsLifeAndLive {
                             if (isLight) Color.WHITE else Color.BLACK))
             this.setTextColor(stateList)
             this.tintAuto(it, true, !isLight)
-
         })
     }
 

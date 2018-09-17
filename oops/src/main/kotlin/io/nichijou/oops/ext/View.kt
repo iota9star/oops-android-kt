@@ -29,6 +29,25 @@ import io.nichijou.oops.temp.ActiveColor
 import io.nichijou.oops.utils.TintUtils
 
 
+fun View.getAbsoluteX(): Float {
+    var x = this.x
+    val p = this.parent
+    if (p != null && p is View) {
+        x += p.getAbsoluteX()
+    }
+    return x
+}
+
+
+fun View.getAbsoluteY(): Float {
+    var y = this.y
+    val p = this.parent
+    if (p != null && p is View) {
+        y += p.getAbsoluteY()
+    }
+    return y
+}
+
 fun View.activity(): AppCompatActivity {
     var context = this.context
     while (context is ContextWrapper) {
@@ -371,8 +390,7 @@ fun SearchView.tint(color: ActiveColor) {
 
         field = cls.getDeclaredField("mSearchHintIcon")
         field.isAccessible = true
-        field.set(this, (field.get(this) as Drawable).tint(color.toEnabledSl())
-        )
+        field.set(this, (field.get(this) as? Drawable?)?.tint(color.toEnabledSl()))
     } catch (e: Exception) {
         e.printStackTrace()
     }

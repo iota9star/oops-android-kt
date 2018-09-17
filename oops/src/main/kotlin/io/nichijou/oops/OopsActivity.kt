@@ -49,7 +49,7 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Oops.binding(this)
-        super.onCreate(savedInstanceState)
         bindingLive()
+        super.onCreate(savedInstanceState)
     }
 }

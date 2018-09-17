@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 
 open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
@@ -28,10 +27,8 @@ open class OopsTextView : AppCompatTextView, OopsLifeAndLive {
 
     override fun bindingLive() {
         val resId = this.activity().resId(attrs, android.R.attr.textColor)
-        logi { "id: $id, resId: $resId" }
-        ovm.live(resId,
-                if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary
-        )?.observe(this, Observer(this::setTextColor))
+        ovm.live(resId, if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary)
+                ?.observe(this, Observer(this::setTextColor))
     }
 
     private val ovm by lazy {

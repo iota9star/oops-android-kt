@@ -34,7 +34,6 @@ open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
     private var colorStateList: ColorStateList? = null
 
     private fun updateColor(lastActive: ActiveColor) {
-        if (skip) return
         this.setTextColor(lastActive.active)
         val sl = lastActive.toEnabledSl()
         this.tintIcon(sl)
@@ -47,11 +46,6 @@ open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
         } else {
             super.setIcon(icon.tint(colorStateList))
         }
-    }
-
-    private var skip = false
-    fun skipLive(skip: Boolean = true) {
-        this.skip = skip
     }
 
     override fun bindingLive() {
