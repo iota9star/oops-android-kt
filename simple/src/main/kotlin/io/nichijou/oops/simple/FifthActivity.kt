@@ -202,6 +202,7 @@ class FifthActivity : OopsActivity() {
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
+            navBarColor = primary
             iconTitleActiveColor = randomColor()
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
