@@ -198,7 +198,7 @@ class FifthActivity : OopsActivity() {
     private fun changeTheme(view: View) {
         val primary = randomColor()
         Oops.oops {
-            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
+            //            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
