@@ -14,7 +14,7 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
 
     private val ovm by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
 
-    private val currentTheme = Oops.oops.theme
+    private var currentTheme = Oops.oops.theme
 
     override fun bindingLive() {
         ovm.statusBarStateColor.observe(this, Observer {
@@ -41,6 +41,7 @@ open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
         })
         ovm.theme.observe(this, Observer {
             if (currentTheme != it) {
+                currentTheme = it
                 Oops.oops.rippleAnimation?.cancel()
                 recreate()
             }
