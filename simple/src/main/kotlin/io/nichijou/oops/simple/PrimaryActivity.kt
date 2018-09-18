@@ -50,7 +50,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
                 isDark = false
                 navigationViewMode = NavigationViewTintMode.PRIMARY
                 rippleView = view
-                rippleAnimDuration = 300
+                rippleAnimDuration = 480
             }
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action") {
