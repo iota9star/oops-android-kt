@@ -1,6 +1,5 @@
 package io.nichijou.oops.simple
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
@@ -181,12 +180,12 @@ class SecondaryActivity : OopsActivity() {
             loadImage()
             true
         }
-        val classes = arrayOf(SecondaryActivity::class.java, ThirdActivity::class.java, FourthActivity::class.java, FifthActivity::class.java)
-        toolbar.menu.findItem(R.id.action_next).setOnMenuItemClickListener {
-            val intent = Intent(this@SecondaryActivity, classes[Random().nextInt(classes.size)])
-            startActivity(intent)
-            true
-        }
+//        val classes = arrayOf(SecondaryActivity::class.java, ThirdActivity::class.java, FourthActivity::class.java, FifthActivity::class.java)
+//        toolbar.menu.findItem(R.id.action_next).setOnMenuItemClickListener {
+//            val intent = Intent(this@SecondaryActivity, classes[Random().nextInt(classes.size)])
+//            startActivity(intent)
+//            true
+//        }
         toolbar.setNavigationOnClickListener { onBackPressed() }
         fab.setOnClickListener {
             changeTheme(it)

@@ -56,12 +56,6 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             else
                 shouldInheritContext(context, parent as ViewParent)
         }
-        if (parent != null) {
-            logi { "==============================================" }
-            logi { "parent: ${parent::class.java.canonicalName}" }
-            logi { "name: $name" }
-            logi { "==============================================" }
-        }
         return createView(parent, name, context, attrs, inheritContext, isPreLollipop, true, VectorEnabledTintResources.shouldBeUsed())
     }
 
