@@ -5,21 +5,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.ext.*
 import io.nichijou.oops.widget.StatusBarMode
 
-open class OopsActivity : AppCompatActivity(), OopsLifeAndLive, GenericLifecycleObserver {
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        logi { "source: ${source.lifecycle.currentState.name}, event: ${event.name}" }
-    }
-
-    override fun onResume() {
-        logi { "before: resume" }
-        super.onResume()
-        logi { "after: resume" }
-    }
+open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
 
     private val ovm by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
 
