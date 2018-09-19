@@ -8,13 +8,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.utils.EdgeGlowUtil
 
 
-open class OopsListView : ListView, OopsLifeAndLive {
+open class OopsListView : ListView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -27,6 +27,8 @@ open class OopsListView : ListView, OopsLifeAndLive {
             EdgeGlowUtil.setEdgeGlowColor(this, it)
         })
     }
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
@@ -47,9 +49,9 @@ open class OopsListView : ListView, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

@@ -10,12 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 
 @SuppressLint("RestrictedApi")
-class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
+class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -32,6 +32,8 @@ class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
     override fun bindingLive() {
         ovm.snackBarBackgroundColor.observe(this, Observer(this::updateColor))
     }
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
@@ -52,9 +54,9 @@ class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

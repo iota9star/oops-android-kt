@@ -14,8 +14,11 @@ import androidx.appcompat.R
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.*
+import androidx.cardview.widget.CardView
 import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Observer
+import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.widget.*
@@ -245,8 +248,34 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = OopsSwipeRefreshLayout(context, attrs)
                 verifyNotNull(view, name, false)
             }
+            "LinearLayout" -> {
+                view = OopsLinearLayout(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "RelativeLayout" -> {
+                view = OopsRelativeLayout(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "FrameLayout" -> {
+                view = OopsFrameLayout(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "androidx.constraintlayout.widget.ConstraintLayout" -> {
+                view = OopsConstraintLayout(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "androidx.appcompat.widget.LinearLayoutCompat" -> {
+                view = OopsLinearLayoutCompat(context, attrs)
+                verifyNotNull(view, name, false)
+            }
             else ->
                 view = null
+        }
+        if (view is OopsViewLifeAndLive) {
+            val bgResId = context.resId(attrs, android.R.attr.background)
+            view.getOopsViewModel().live(bgResId)?.observe(context.activity(), Observer {
+                if (view !is CardView) view.setBackgroundColor(it)
+            })
         }
         return view
     }

@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.isColorLight
@@ -18,7 +18,7 @@ import io.nichijou.oops.ext.resId
 import io.nichijou.oops.ext.tintAuto
 
 
-open class OopsButton : AppCompatButton, OopsLifeAndLive {
+open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -50,6 +50,8 @@ open class OopsButton : AppCompatButton, OopsLifeAndLive {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
@@ -65,9 +67,9 @@ open class OopsButton : AppCompatButton, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

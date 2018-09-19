@@ -15,7 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.R
 import io.nichijou.oops.ext.*
@@ -23,7 +23,7 @@ import io.nichijou.oops.temp.ActiveColor
 import io.nichijou.oops.temp.CollapsingToolbarStateColor
 
 
-open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLive, AppBarLayout.OnOffsetChangedListener {
+open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
     private val attrs: AttributeSet?
 
@@ -113,6 +113,8 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
         })
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
@@ -145,10 +147,10 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifeAndLiv
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
             appBarLayout?.addOnOffsetChangedListener(this)
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
             appBarLayout?.removeOnOffsetChangedListener(this)
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

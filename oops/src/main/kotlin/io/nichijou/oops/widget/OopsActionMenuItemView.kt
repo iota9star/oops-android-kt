@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
@@ -19,7 +19,7 @@ import io.nichijou.oops.ext.tintIcon
 import io.nichijou.oops.temp.ActiveColor
 
 @SuppressLint("RestrictedApi")
-open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
+open class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -52,6 +52,8 @@ open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
         ovm.activeColor.observe(this, Observer(this::updateColor))
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
@@ -71,9 +73,9 @@ open class OopsActionMenuItemView : ActionMenuItemView, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

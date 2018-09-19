@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.ext.*
 import io.nichijou.oops.widget.StatusBarMode
 
-open class OopsActivity : AppCompatActivity(), OopsLifeAndLive {
+open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
 

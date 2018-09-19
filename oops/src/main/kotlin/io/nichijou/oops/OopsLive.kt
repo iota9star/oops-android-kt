@@ -17,7 +17,7 @@ class OopsLive<T>(private val prefs: SharedPreferences, private val property: KP
         key = (property.getDelegate() as PrefKey).key
         property.isAccessible = false
         lastValue = property.get()
-        this.value = lastValue
+        postValue(lastValue)
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, changed: String) {

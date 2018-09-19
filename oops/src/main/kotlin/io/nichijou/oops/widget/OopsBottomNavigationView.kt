@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.R
 import io.nichijou.oops.ext.activity
@@ -19,7 +19,7 @@ import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.isColorLight
 
 
-open class OopsBottomNavigationView : BottomNavigationView, OopsLifeAndLive {
+open class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -62,6 +62,8 @@ open class OopsBottomNavigationView : BottomNavigationView, OopsLifeAndLive {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
@@ -77,9 +79,9 @@ open class OopsBottomNavigationView : BottomNavigationView, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

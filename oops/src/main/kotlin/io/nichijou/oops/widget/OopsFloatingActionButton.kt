@@ -9,11 +9,11 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.*
 
-open class OopsFloatingActionButton : FloatingActionButton, OopsLifeAndLive {
+open class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -32,6 +32,8 @@ open class OopsFloatingActionButton : FloatingActionButton, OopsLifeAndLive {
             this.tintAuto(it.color, true, it.isDark)
         })
     }
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
@@ -52,9 +54,9 @@ open class OopsFloatingActionButton : FloatingActionButton, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

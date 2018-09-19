@@ -13,7 +13,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.R
 import io.nichijou.oops.ext.activity
@@ -21,7 +21,7 @@ import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.colorRes
 
 @SuppressLint("RestrictedApi")
-open class OopsNavigationView : NavigationView, OopsLifeAndLive {
+open class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -53,6 +53,8 @@ open class OopsNavigationView : NavigationView, OopsLifeAndLive {
         })
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
@@ -72,9 +74,9 @@ open class OopsNavigationView : NavigationView, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

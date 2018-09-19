@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.resId
@@ -17,7 +17,7 @@ import io.nichijou.oops.ext.tintCursor
 import io.nichijou.oops.temp.IsDarkColor
 
 
-open class OopsTextInputEditText : TextInputEditText, OopsLifeAndLive {
+open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
 
     private val attrs: AttributeSet?
 
@@ -52,6 +52,8 @@ open class OopsTextInputEditText : TextInputEditText, OopsLifeAndLive {
         ovm.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }
 
+    override fun getOopsViewModel(): OopsViewModel = ovm
+
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
@@ -71,9 +73,9 @@ open class OopsTextInputEditText : TextInputEditText, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

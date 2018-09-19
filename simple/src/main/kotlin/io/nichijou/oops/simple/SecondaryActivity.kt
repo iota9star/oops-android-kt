@@ -203,7 +203,6 @@ class SecondaryActivity : OopsActivity() {
             colorPrimary = primary
             statusBarColor = primary
             navBarColor = primary
-            windowBackground = randomColor()
             iconTitleActiveColor = randomColor()
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]

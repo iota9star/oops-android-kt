@@ -9,14 +9,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.tintCursor
 
 @SuppressLint("RestrictedApi")
-class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsLifeAndLive {
+class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsViewLifeAndLive {
     private val attrs: AttributeSet?
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
@@ -34,6 +34,8 @@ class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsLifeAndLive {
             this.setHintTextColor(it.adjustAlpha(0.7f))
         })
     }
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
@@ -54,9 +56,9 @@ class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

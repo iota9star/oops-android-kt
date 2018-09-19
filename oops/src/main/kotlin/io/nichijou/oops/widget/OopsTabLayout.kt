@@ -9,14 +9,14 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
-import io.nichijou.oops.OopsLifeAndLive
+import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.tint
 
 
-open class OopsTabLayout : TabLayout, OopsLifeAndLive {
+open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -28,9 +28,8 @@ open class OopsTabLayout : TabLayout, OopsLifeAndLive {
         val sl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)),
                 intArrayOf(color.adjustAlpha(0.5f), color))
         for (i in 0 until tabCount) {
-            val tab = getTabAt(i)
-            if (tab != null && tab.icon != null) {
-                tab.icon = tab.icon?.tint(sl)
+            getTabAt(i)?.apply {
+                icon = icon?.tint(sl)
             }
         }
     }
@@ -38,7 +37,7 @@ open class OopsTabLayout : TabLayout, OopsLifeAndLive {
     override fun bindingLive() {
         ovm.activeColor.observe(this, Observer {
             this.tintIcon(it.active)
-            this.setTabTextColors(it.active, it.inactive)
+            this.setTabTextColors(it.inactive.adjustAlpha(0.5f), it.active)
         })
         ovm.tabStateColor.observe(this, Observer {
             when (it.indicatorMode) {
@@ -52,6 +51,8 @@ open class OopsTabLayout : TabLayout, OopsLifeAndLive {
             }
         })
     }
+
+    override fun getOopsViewModel(): OopsViewModel = ovm
 
     private val ovm by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
@@ -72,9 +73,9 @@ open class OopsTabLayout : TabLayout, OopsLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }
 

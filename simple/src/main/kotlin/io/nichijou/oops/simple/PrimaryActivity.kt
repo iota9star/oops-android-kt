@@ -1,6 +1,7 @@
 package io.nichijou.oops.simple
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -29,7 +30,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             val textSecondary = randomColor()
             val active = randomColor()
             val inactive = randomColor()
-            val windowColor = randomColor()
+            val windowColor = Color.WHITE
             val snackbarText = randomColor()
             val snackbarAction = randomColor()
             val cardColor = randomColor()
@@ -68,6 +69,8 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     private fun initTabLayout() {
         tab_layout.setupWithViewPager(view_pager)
         view_pager.adapter = ViewPagerAdapter(supportFragmentManager, arrayOf("BaseView", "ListView"), arrayOf(FragmentBaseView.newInstance(), FragmentListView.newInstance()))
+        tab_layout.getTabAt(0)?.setIcon(R.drawable.ic_menu_send)
+        tab_layout.getTabAt(1)?.setIcon(R.drawable.ic_menu_manage)
     }
 
     private fun initToolbar() {
