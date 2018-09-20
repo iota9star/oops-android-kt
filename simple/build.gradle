@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    lintOptions {
+        check 'Interoperability'
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
