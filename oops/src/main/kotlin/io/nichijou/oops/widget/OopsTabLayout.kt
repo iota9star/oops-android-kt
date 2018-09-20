@@ -1,7 +1,6 @@
 package io.nichijou.oops.widget
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
@@ -13,7 +12,6 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
-import io.nichijou.oops.ext.tint
 
 
 open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
@@ -24,20 +22,9 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    private fun tintIcon(color: Int) {
-        val sl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)),
-                intArrayOf(color.adjustAlpha(0.5f), color))
-        for (i in 0 until tabCount) {
-            getTabAt(i)?.apply {
-                icon = icon?.tint(sl)
-            }
-        }
-    }
-
     override fun bindingLive() {
-        ovm.activeColor.observe(this, Observer {
-            this.tintIcon(it.active)
-            this.setTabTextColors(it.inactive.adjustAlpha(0.5f), it.active)
+        ovm.iconTitleActiveColor.observe(this, Observer {
+            this.setTabTextColors(it.adjustAlpha(0.7f), it)
         })
         ovm.tabStateColor.observe(this, Observer {
             when (it.indicatorMode) {
@@ -67,7 +54,7 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {

@@ -124,6 +124,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = OopsSnackBarContentLayout(context, attrs)
             }
             "TextView", "androidx.appcompat.widget.AppCompatTextView" -> {
+                if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") {
+                    logi { "this text view is the child of tab view, we ignore it." }
+                    return null
+                }
                 view = if (viewId == com.google.android.material.R.id.snackbar_text) {
                     OopsSnackBarTextView(context, attrs)
                 } else {
@@ -144,7 +148,11 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 verifyNotNull(view, name, false)
             }
             "ImageView", "androidx.appcompat.widget.AppCompatImageView" -> {
-                view = OopsImageView(context, attrs)
+                view = if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") {
+                    OopsTabImageView(context, attrs)
+                } else {
+                    OopsImageView(context, attrs)
+                }
                 verifyNotNull(view, name, false)
             }
             "ImageButton", "androidx.appcompat.widget.AppCompatImageButton" -> {
@@ -272,9 +280,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = null
         }
         if (view is OopsViewLifeAndLive) {
-            val bgResId = context.resId(attrs, android.R.attr.background)
-            view.getOopsViewModel().live(bgResId)?.observe(context.activity(), Observer {
-                if (view !is CardView) view.setBackgroundColor(it)
+            val backgroudRes = context.resId(attrs, android.R.attr.background)
+            view.getOopsViewModel().live(backgroudRes)?.observe(context.activity(), Observer {
+                if (view !is CardView
+                        || view !is Toolbar) {
+                    view.setBackgroundColor(it)
+                }
             })
         }
         return view

@@ -6,12 +6,10 @@ import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.resId
 
 open class OopsImageButton : AppCompatImageButton, OopsViewLifeAndLive {
 
@@ -23,10 +21,6 @@ open class OopsImageButton : AppCompatImageButton, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.attrs = attrs
-    }
-
-    override fun bindingLive() {
-        ovm.live(this.activity().resId(attrs, android.R.attr.background))?.observe(this, Observer(this::setBackgroundColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm

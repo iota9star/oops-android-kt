@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/text_color_primary"
-                android:textColor="?android:textColorPrimary"
+                android:textColor="?colorAccent"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
