@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.getAbsoluteX
 import io.nichijou.oops.ext.getAbsoluteY
+import io.nichijou.oops.ext.loge
 
 /**
  * Created by wuyr on 3/15/18 5:23 PM.
@@ -160,11 +161,16 @@ class RippleAnimation private constructor(
         }
         mRootView!!.isDrawingCacheEnabled = true
         mBackground = mRootView!!.drawingCache
-        mBackground = Bitmap.createBitmap(mBackground!!)
+        if (mBackground != null) {
+            mBackground = Bitmap.createBitmap(mBackground!!)
+        } else {
+            loge(IllegalStateException()) { "ripple background is null..." }
+        }
         mRootView!!.isDrawingCacheEnabled = false
     }
 
     override fun onDraw(canvas: Canvas) {
+        if (mBackground == null) return
         //在新的图层上面绘制
         val layer: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)

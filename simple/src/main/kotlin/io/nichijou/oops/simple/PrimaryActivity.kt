@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -23,47 +24,53 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(R.layout.activity_primary)
         initToolbar()
         initTabLayout()
-        fab.setOnClickListener { view ->
-            val accent = randomColor()
-            val primary = randomColor()
-            val textPrimary = randomColor()
-            val textSecondary = randomColor()
-            val active = randomColor()
-            val inactive = randomColor()
-            val windowColor = Color.WHITE
-            val snackbarText = randomColor()
-            val snackbarAction = randomColor()
-            val cardColor = randomColor()
-            Oops.oops {
-                colorAccent = accent
-                colorPrimary = primary
-                textColorPrimary = textPrimary
-                textColorSecondary = textSecondary
-                iconTitleActiveColor = active
-                iconTitleInactiveColor = inactive
-                statusBarColor = primary
-                navBarColor = primary
-                windowBackground = windowColor
-                snackBarTextColor = snackbarText
-                snackBarActionColor = snackbarAction
-                snackBarBackgroundColor = randomColor()
-                cardViewBackgroundColor = cardColor
-                isDark = false
-                navigationViewMode = NavigationViewTintMode.PRIMARY
-                rippleView = view
-                rippleAnimDuration = 480
-            }
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action") {
-                        logi { "do something..." }
-                    }.show()
+        if (Oops.oops.isFirstTime) {
+            updateTheme(fab)
         }
-
+        fab.setOnClickListener { view ->
+            updateTheme(view)
+        }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    private fun updateTheme(view: View) {
+        val accent = randomColor()
+        val primary = randomColor()
+        val textPrimary = randomColor()
+        val textSecondary = randomColor()
+        val active = randomColor()
+        val inactive = randomColor()
+        val windowColor = Color.WHITE
+        val snackbarText = randomColor()
+        val snackbarAction = randomColor()
+        val cardColor = randomColor()
+        Oops.oops {
+            colorAccent = accent
+            colorPrimary = primary
+            textColorPrimary = textPrimary
+            textColorSecondary = textSecondary
+            iconTitleActiveColor = active
+            iconTitleInactiveColor = inactive
+            statusBarColor = primary
+            navBarColor = primary
+            windowBackground = windowColor
+            snackBarTextColor = snackbarText
+            snackBarActionColor = snackbarAction
+            snackBarBackgroundColor = randomColor()
+            cardViewBackgroundColor = cardColor
+            isDark = false
+            navigationViewMode = NavigationViewTintMode.PRIMARY
+            rippleView = view
+            rippleAnimDuration = 480
+        }
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action") {
+                    logi { "do something..." }
+                }.show()
     }
 
     private fun initTabLayout() {

@@ -280,10 +280,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = null
         }
         if (view is OopsViewLifeAndLive) {
-            val backgroudRes = context.resId(attrs, android.R.attr.background)
-            view.getOopsViewModel().live(backgroudRes)?.observe(context.activity(), Observer {
-                if (view !is CardView
-                        || view !is Toolbar) {
+            val backgroundResId = context.resId(attrs, android.R.attr.background)
+            view.getOopsViewModel().live(backgroundResId)?.observe(context.activity(), Observer {
+                if (view !is CardView && view !is Toolbar) {
                     view.setBackgroundColor(it)
                 }
             })
