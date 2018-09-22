@@ -19,14 +19,14 @@ import io.nichijou.oops.temp.ActiveColor
 
 open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val colorPrimaryResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
     }
 
     private var colorStateList: ColorStateList? = null
@@ -40,7 +40,7 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(this.activity().resId(attrs, R.attr.colorPrimary), ovm.colorPrimary)?.observe(this, Observer(this::setBackgroundColor))
+        ovm.live(colorPrimaryResId, ovm.colorPrimary)?.observe(this, Observer(this::setBackgroundColor))
         ovm.activeColor.observe(this, Observer(this::updateColor))
     }
 

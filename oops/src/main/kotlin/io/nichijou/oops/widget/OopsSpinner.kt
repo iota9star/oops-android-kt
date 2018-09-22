@@ -16,18 +16,18 @@ import io.nichijou.oops.ext.tintAuto
 
 open class OopsSpinner : AppCompatSpinner, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val backgroundResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(this.activity().resId(attrs, android.R.attr.background), ovm.colorAccent).observe(this, Observer {
+        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
             this.tintAuto(it.color, true, it.isDark)
         })
     }

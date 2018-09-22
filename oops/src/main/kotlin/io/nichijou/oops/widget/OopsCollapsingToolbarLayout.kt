@@ -25,14 +25,14 @@ import io.nichijou.oops.temp.CollapsingToolbarStateColor
 
 open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
-    private val attrs: AttributeSet?
+    private val colorPrimaryResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
     }
 
     private var appBarLayout: AppBarLayout? = null
@@ -102,8 +102,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     }
 
     override fun bindingLive() {
-        val resId = this.activity().resId(attrs, R.attr.colorPrimary)
-        ovm.collapsingToolbarStateColor(resId).observe(this, Observer {
+        ovm.collapsingToolbarStateColor(colorPrimaryResId).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)

@@ -3,6 +3,7 @@ package io.nichijou.oops.ext
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
@@ -53,6 +54,20 @@ fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
     } finally {
         ta.recycle()
     }
+}
+
+fun Context.resIds(attrs: AttributeSet?, attrIds: IntArray): SparseIntArray {
+    val ids = SparseIntArray()
+    if (attrs == null) return ids
+    val ta = obtainStyledAttributes(attrs, attrIds)
+    try {
+        for ((i, v) in attrIds.withIndex()) {
+            ids.put(v, ta.getResourceId(i, -1))
+        }
+    } finally {
+        ta.recycle()
+    }
+    return ids
 }
 
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {

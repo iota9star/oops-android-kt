@@ -3,6 +3,7 @@ package io.nichijou.oops.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.Lifecycle
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.resIds
 import io.nichijou.oops.ext.tintAuto
 import io.nichijou.oops.ext.tintCursor
 import io.nichijou.oops.temp.IsDarkColor
@@ -19,14 +21,14 @@ import io.nichijou.oops.temp.IsDarkColor
 
 open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val ids: SparseIntArray
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     private fun updateColor(isDarkColor: IsDarkColor) {
@@ -36,17 +38,9 @@ open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
     @SuppressLint("ResourceType")
     override fun bindingLive() {
-        if (attrs != null) {
-            val attrsArray = intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint)
-            val ta = context.obtainStyledAttributes(attrs, attrsArray)
-            val backgroundResId = ta.getResourceId(0, 0)
-            val textColorResId = ta.getResourceId(1, 0)
-            val textColorHintResId = ta.getResourceId(2, 0)
-            ta.recycle()
-            ovm.live(textColorResId)?.observe(this, Observer(this::setTextColor))
-            ovm.live(textColorHintResId)?.observe(this, Observer(this::setHighlightColor))
-            ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer(this::updateColor))
-        }
+        ovm.isDarkColor(ids[android.R.attr.background], ovm.colorAccent).observe(this, Observer(this::updateColor))
+        ovm.live(ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        ovm.live(ids[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm

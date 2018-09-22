@@ -17,15 +17,12 @@ import io.nichijou.oops.ext.tintCursor
 
 @SuppressLint("RestrictedApi")
 class OopsSearchAutoComplete : SearchView.SearchAutoComplete, OopsViewLifeAndLive {
-    private val attrs: AttributeSet?
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun bindingLive() {
         ovm.iconTitleActiveColor.observe(this, Observer {

@@ -20,19 +20,18 @@ import io.nichijou.oops.ext.tintAuto
 
 open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val backgroundResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     override fun bindingLive() {
-        val resId = this.activity().resId(attrs, android.R.attr.background)
-        ovm.live(resId, ovm.colorAccent)?.observe(this, Observer {
+        ovm.live(backgroundResId, ovm.colorAccent)?.observe(this, Observer {
             val isLight = it.isColorLight()
             val stateList = ColorStateList(
                     arrayOf(

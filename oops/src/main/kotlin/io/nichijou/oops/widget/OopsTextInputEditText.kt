@@ -19,14 +19,14 @@ import io.nichijou.oops.temp.IsDarkColor
 
 open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val backgroundResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     private var lastState: IsDarkColor? = null
@@ -47,7 +47,7 @@ open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(this.activity().resId(attrs, android.R.attr.background), ovm.colorAccent).observe(this, Observer(this::updateColor))
+        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer(this::updateColor))
         ovm.textColorPrimary.observe(this, Observer(this::setTextColor))
         ovm.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }

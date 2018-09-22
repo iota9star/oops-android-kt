@@ -13,15 +13,11 @@ import io.nichijou.oops.ext.activity
 
 open class OopsImageButton : AppCompatImageButton, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun getOopsViewModel(): OopsViewModel = ovm
 

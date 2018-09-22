@@ -15,19 +15,18 @@ import io.nichijou.oops.ext.resId
 
 open class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val textColorResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        textColorResId = context.resId(attrs, android.R.attr.textColor)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        textColorResId = context.resId(attrs, android.R.attr.textColor)
     }
 
     override fun bindingLive() {
-        val resId = this.activity().resId(attrs, android.R.attr.textColor)
-        ovm.live(resId, if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary)
+        ovm.live(textColorResId, if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary)
                 ?.observe(this, Observer(this::setTextColor))
     }
 

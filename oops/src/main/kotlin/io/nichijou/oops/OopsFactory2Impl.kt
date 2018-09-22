@@ -80,15 +80,15 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (wrapContext) {
             ctx = TintContextWrapper.wrap(ctx)
         }
-        var view = createOopsView(name, parent, context, attrs)
+        var view = createOopsView(name, parent, ctx, attrs)
         if (view != null && view.tag != null && view.tag == context.getString(MR.string.ignore_view)) {
-            view = createDefaultView(name, context, attrs)
+            view = createDefaultView(name, ctx, attrs)
         }
         if (view == null) {
             try {
-                view = activity.onCreateView(parent, name, context, attrs)
+                view = activity.onCreateView(parent, name, ctx, attrs)
                 if (view == null) {
-                    view = activity.onCreateView(name, context, attrs)
+                    view = activity.onCreateView(name, ctx, attrs)
                 }
             } catch (e: Throwable) {
                 throw IllegalStateException("Unable to delegate inflation of $name to your Activity.", e)
@@ -96,7 +96,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         }
         if (view == null) {
             try {
-                view = activity.delegate.createView(parent, name, context, attrs)
+                view = activity.delegate.createView(parent, name, ctx, attrs)
             } catch (e: Throwable) {
                 throw IllegalStateException("Unable to delegate inflation of $name to AppCompat.", e)
             }

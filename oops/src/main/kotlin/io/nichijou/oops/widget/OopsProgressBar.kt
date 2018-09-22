@@ -16,19 +16,17 @@ import io.nichijou.oops.ext.tint
 
 open class OopsProgressBar : ProgressBar, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    private val backgroundResId: Int
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
+        backgroundResId = context.resId(attrs, android.R.attr.background)
     }
 
     override fun bindingLive() {
-        val ctx = this.activity()
-        val backgroundResId = ctx.resId(attrs, android.R.attr.background)
         ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
             this.tint(it.color, it.isDark)
         })

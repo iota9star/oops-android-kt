@@ -21,15 +21,11 @@ import io.nichijou.oops.temp.ActiveColor
 @SuppressLint("RestrictedApi")
 open class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
 
-    private val attrs: AttributeSet?
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        this.attrs = attrs
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.attrs = attrs
-    }
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private var colorStateList: ColorStateList? = null
 
