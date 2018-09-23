@@ -45,6 +45,7 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
             if (currentTheme != it) {
                 currentTheme = it
                 Oops.oops.rippleAnimation?.cancel()
+                Oops.oops.rippleAnimation = null
                 recreate()
             }
         })

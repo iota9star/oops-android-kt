@@ -76,6 +76,8 @@ class RippleAnimation private constructor(
 
     fun cancel() {
         if (isStarted) {
+            animator.removeAllUpdateListeners()
+            animator.removeListener(mAnimatorListener)
             animator.cancel()
         }
     }
@@ -91,12 +93,12 @@ class RippleAnimation private constructor(
     private fun initListener() {
         mAnimatorListener = object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                if (mOnAnimationEndListener != null) {
-                    mOnAnimationEndListener!!.onAnimationEnd()
-                }
                 isStarted = false
                 //动画播放完毕, 移除本View
                 detachFromRootView()
+                if (mOnAnimationEndListener != null) {
+                    mOnAnimationEndListener!!.onAnimationEnd()
+                }
             }
         }
         mAnimatorUpdateListener = ValueAnimator.AnimatorUpdateListener { animation ->
@@ -150,6 +152,9 @@ class RippleAnimation private constructor(
         if (mPaint != null) {
             mPaint = null
         }
+        mAnimatorListener = null
+        mAnimatorUpdateListener = null
+        mOnAnimationEndListener = null
     }
 
     /**
@@ -212,6 +217,5 @@ class RippleAnimation private constructor(
             val radius = Math.max(newWidth, newHeight)
             return RippleAnimation(context, startX, startY, radius)
         }
-
     }
 }

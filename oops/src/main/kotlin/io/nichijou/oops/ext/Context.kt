@@ -57,7 +57,7 @@ fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
 }
 
 fun Context.resIds(attrs: AttributeSet?, attrIds: IntArray): SparseIntArray {
-    val ids = SparseIntArray()
+    val ids = SparseIntArray(attrIds.size)
     if (attrs == null) return ids
     val ta = obtainStyledAttributes(attrs, attrIds)
     try {

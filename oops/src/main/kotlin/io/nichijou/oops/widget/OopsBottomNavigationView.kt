@@ -49,9 +49,9 @@ open class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive 
             var iconTextColor = when (it.iconTextMode) {
                 BottomNavigationViewIconTextMode.ACCENT -> it.accent
                 BottomNavigationViewIconTextMode.PRIMARY -> it.primary
-                BottomNavigationViewIconTextMode.AUTO -> Color.TRANSPARENT
+                BottomNavigationViewIconTextMode.AUTO -> -1
             }
-            if (iconTextColor == Color.TRANSPARENT) {
+            if (iconTextColor == -1) {
                 iconTextColor = if (bgColor.isColorLight()) Color.BLACK else Color.WHITE
             }
             updateIconText(iconTextColor, bgColor)

@@ -137,6 +137,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
                 setBackgroundColor(Color.TRANSPARENT)
                 updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
             }
+            appBarLayout!!.addOnOffsetChangedListener(this)
         }
         bindingLive()
         mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
@@ -145,10 +146,8 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (hasWindowFocus) {
-            appBarLayout?.addOnOffsetChangedListener(this)
             mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         } else {
-            appBarLayout?.removeOnOffsetChangedListener(this)
             mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         }
     }

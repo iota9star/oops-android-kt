@@ -207,6 +207,7 @@ class ThirdActivity : OopsActivity() {
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
             swipeRefreshLayoutBackgroundColor = randomColor()
+            swipeRefreshLayoutSchemeColor = randomColors()
             isDark = false
             rippleAnimDuration = 480
             rippleView = view

@@ -17,6 +17,7 @@ open class OopsSwipeRefreshLayout(context: Context, attrs: AttributeSet?) : Swip
 
     override fun bindingLive() {
         ovm.swipeRefreshLayoutBackgroundColor.observe(this, Observer(this::tintCircleBackground))
+        ovm.swipeRefreshLayoutSchemeColor.observe(this, Observer { this.setColorSchemeColors(*it) })
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm

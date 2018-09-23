@@ -25,7 +25,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         initToolbar()
         initTabLayout()
         if (Oops.oops.isFirstTime) {
-            updateTheme(fab)
+//            updateTheme(fab)
         }
         fab.setOnClickListener { view ->
             updateTheme(view)

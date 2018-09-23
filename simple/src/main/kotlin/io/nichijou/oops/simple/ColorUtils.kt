@@ -15,3 +15,12 @@ fun randomColor(): Int {
 
     return Color.parseColor("#$r$g$b")
 }
+
+fun randomColors(): IntArray {
+    val size = Random().nextInt(12) + 3
+    val intArray = IntArray(size)
+    for (i in 0 until size) {
+        intArray[i] = randomColor()
+    }
+    return intArray
+}

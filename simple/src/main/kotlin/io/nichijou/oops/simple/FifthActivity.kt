@@ -198,7 +198,7 @@ class FifthActivity : OopsActivity() {
     private fun changeTheme(view: View) {
         val primary = randomColor()
         Oops.oops {
-            //            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
+            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
@@ -207,6 +207,7 @@ class FifthActivity : OopsActivity() {
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
             swipeRefreshLayoutBackgroundColor = randomColor()
+            swipeRefreshLayoutSchemeColor = randomColors()
             isDark = false
             rippleAnimDuration = 480
             rippleView = view

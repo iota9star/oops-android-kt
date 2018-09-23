@@ -33,6 +33,9 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
     val swipeRefreshLayoutBackgroundColor by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutBackgroundColor)
     }
+    val swipeRefreshLayoutSchemeColor by lazy {
+        OopsLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutSchemeColor)
+    }
     val navBarColor by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::navBarColor)
     }
