@@ -57,12 +57,6 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             else
                 shouldInheritContext(context, parent as ViewParent)
         }
-        if (parent != null) {
-            logi { "||||||||||| parent:${parent.javaClass.canonicalName}" }
-            logi { "||||||||||| name:$name" }
-            logi { "||||||||||| textColor:${context.resId(attrs, android.R.attr.textColor)}" }
-            logi { "||||||||||| background:${context.resId(attrs, android.R.attr.background)}" }
-        }
         return createView(parent, name, context, attrs, inheritContext, isPreLollipop, true, VectorEnabledTintResources.shouldBeUsed())
     }
 
@@ -111,7 +105,6 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (view != null) {
             checkOnClickListener(view, attrs)
         }
-        logi { "======================================================\n\n" }
         return view
     }
 

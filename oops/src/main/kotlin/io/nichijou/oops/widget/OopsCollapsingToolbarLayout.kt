@@ -51,15 +51,15 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
         stateColor?.let {
             val activeColor = it.active
             val collapsingColor = it.collapsingColor
-            val maxOffset = appBarLayout!!.measuredHeight - toolbar!!.measuredHeight
+            val maxOffset = appBarLayout!!.measuredHeight - toolbar!!.layoutParams.height - (toolbar!!.layoutParams as CollapsingToolbarLayout.LayoutParams).topMargin
             val ratio = lastOffset.toFloat() / maxOffset.toFloat()
             val bgColor = it.bgColor
             val blendedColor = collapsingColor.blendWith(bgColor, ratio)
-            val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK else Color.WHITE
+            val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK.adjustAlpha(.64f) else Color.WHITE
             val blendedTitleColor = expandedTitleColor.blendWith(activeColor, ratio)
             setCollapsedTitleTextColor(activeColor)
             setExpandedTitleColor(expandedTitleColor)
-            tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(.7f)))
+            tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(.64f)))
         }
     }
 

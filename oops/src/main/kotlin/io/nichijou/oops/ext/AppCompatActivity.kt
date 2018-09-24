@@ -1,6 +1,7 @@
 package io.nichijou.oops.ext
 
 import android.app.ActivityManager
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.view.View
@@ -49,5 +50,15 @@ fun AppCompatActivity.setTaskDescriptionColor(@ColorInt color: Int) {
     if (icon != null) {
         val td = ActivityManager.TaskDescription(title as String, icon, color.stripAlpha())
         setTaskDescription(td)
+    }
+}
+
+fun AppCompatActivity.insetStatusBar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        val decorView = this.window.decorView
+        decorView.systemUiVisibility = (decorView.systemUiVisibility
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        this.window.statusBarColor = Color.TRANSPARENT
     }
 }
