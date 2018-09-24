@@ -26,7 +26,7 @@ open class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive 
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
+        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer {
             val isDark = !it.color.isColorLight()
             this.setImageDrawable(drawable.tint(if (isDark) Color.WHITE else Color.BLACK))
             this.tintAuto(it.color, true, it.isDark)

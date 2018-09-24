@@ -47,7 +47,7 @@ open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer(this::updateColor))
+        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer(this::updateColor))
         ovm.textColorPrimary.observe(this, Observer(this::setTextColor))
         ovm.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }

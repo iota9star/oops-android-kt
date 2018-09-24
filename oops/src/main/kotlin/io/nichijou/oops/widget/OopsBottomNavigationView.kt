@@ -43,7 +43,7 @@ open class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive 
                 BottomNavigationViewBackgroundMode.ACCENT -> it.accent
                 BottomNavigationViewBackgroundMode.PRIMARY -> it.primary
                 BottomNavigationViewBackgroundMode.PRIMARY_DARK -> it.primaryDark
-                BottomNavigationViewBackgroundMode.AUTO -> this.activity().colorRes(if (it.isDark) R.color.md_bottom_nav_default_dark_bg else R.color.md_bottom_nav_default_light_bg)
+                BottomNavigationViewBackgroundMode.AUTO -> context.colorRes(if (it.isDark) R.color.md_bottom_nav_default_dark_bg else R.color.md_bottom_nav_default_light_bg)
             }
             this.setBackgroundColor(bgColor)
             var iconTextColor = when (it.iconTextMode) {

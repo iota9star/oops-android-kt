@@ -40,7 +40,7 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(colorPrimaryResId, ovm.colorPrimary)?.observe(this, Observer(this::setBackgroundColor))
+        ovm.live(context, colorPrimaryResId, ovm.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
         ovm.activeColor.observe(this, Observer(this::updateColor))
     }
 

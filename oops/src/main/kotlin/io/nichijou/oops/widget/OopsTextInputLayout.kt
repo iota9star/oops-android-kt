@@ -26,7 +26,7 @@ open class OopsTextInputLayout : TextInputLayout, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(backgroundResId, ovm.colorAccent)?.observe(this, Observer(this::setAccentColor))
+        ovm.live(context, backgroundResId, ovm.colorAccent)!!.observe(this, Observer(this::setAccentColor))
         ovm.textColorSecondary.observe(this, Observer {
             this.setHintColor(it.adjustAlpha(0.7f))
         })

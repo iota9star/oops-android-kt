@@ -102,7 +102,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     }
 
     override fun bindingLive() {
-        ovm.collapsingToolbarStateColor(colorPrimaryResId).observe(this, Observer {
+        ovm.collapsingToolbarStateColor(ovm.live(context, colorPrimaryResId, ovm.colorPrimary)!!).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)

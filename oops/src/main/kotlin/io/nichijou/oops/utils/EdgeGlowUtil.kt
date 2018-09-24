@@ -65,7 +65,7 @@ internal object EdgeGlowUtil {
         var efc: Field? = null
         try {
             efc = EdgeEffectCompat::class.java.getDeclaredField("mEdgeEffect")
-        } catch (e: NoSuchFieldException) {
+        } catch (_: Exception) {
         }
 
         EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT = efc
@@ -199,7 +199,7 @@ internal object EdgeGlowUtil {
             setEffectColor(ee, color)
             ee = SCROLL_VIEW_FIELD_EDGE_GLOW_BOTTOM!!.get(scrollView)
             setEffectColor(ee, color)
-        } catch (ex: Exception) {
+        } catch (_: Exception) {
         }
 
     }
@@ -211,7 +211,7 @@ internal object EdgeGlowUtil {
             setEffectColor(ee, color)
             ee = NESTED_SCROLL_VIEW_FIELD_EDGE_GLOW_BOTTOM!!.get(scrollView)
             setEffectColor(ee, color)
-        } catch (ex: Exception) {
+        } catch (_: Exception) {
         }
 
     }
@@ -223,7 +223,7 @@ internal object EdgeGlowUtil {
             setEffectColor(ee, color)
             ee = LIST_VIEW_FIELD_EDGE_GLOW_BOTTOM!!.get(listView)
             setEffectColor(ee, color)
-        } catch (ex: Exception) {
+        } catch (_: Exception) {
         }
 
     }
@@ -257,7 +257,7 @@ internal object EdgeGlowUtil {
             setEffectColor(ee, color)
             ee = RECYCLER_VIEW_FIELD_EDGE_GLOW_RIGHT!!.get(scrollView)
             setEffectColor(ee, color)
-        } catch (ex: Exception) {
+        } catch (_: Exception) {
         }
 
     }
@@ -269,7 +269,7 @@ internal object EdgeGlowUtil {
             setEffectColor(ee, color)
             ee = VIEW_PAGER_FIELD_EDGE_GLOW_RIGHT!!.get(pager)
             setEffectColor(ee, color)
-        } catch (ex: Exception) {
+        } catch (_: Exception) {
         }
 
     }
@@ -285,8 +285,7 @@ internal object EdgeGlowUtil {
             try {
                 EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT!!.isAccessible = true
                 edgeEffect = EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT!!.get(edgeEffect)
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
+            } catch (_: Exception) {
                 return
             }
 
@@ -305,8 +304,7 @@ internal object EdgeGlowUtil {
                 mGlow.setColorFilter(color, PorterDuff.Mode.SRC_IN)
                 mEdge.callback = null // free up any references
                 mGlow.callback = null // free up any references
-            } catch (ex: Exception) {
-                ex.printStackTrace()
+            } catch (_: Exception) {
             }
 
         } else {

@@ -26,8 +26,7 @@ open class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(textColorResId, if (id == android.R.id.title) ovm.textColorPrimary else ovm.textColorSecondary)
-                ?.observe(this, Observer(this::setTextColor))
+        ovm.live(context, textColorResId)?.observe(this, Observer(this::setTextColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm

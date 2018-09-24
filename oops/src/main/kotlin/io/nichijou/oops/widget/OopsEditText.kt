@@ -38,9 +38,9 @@ open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
     @SuppressLint("ResourceType")
     override fun bindingLive() {
-        ovm.isDarkColor(ids[android.R.attr.background], ovm.colorAccent).observe(this, Observer(this::updateColor))
-        ovm.live(ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
-        ovm.live(ids[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
+        ovm.isDarkColor(ovm.live(context, ids[android.R.attr.background], ovm.colorAccent)!!).observe(this, Observer(this::updateColor))
+        ovm.live(context, ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        ovm.live(context, ids[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm

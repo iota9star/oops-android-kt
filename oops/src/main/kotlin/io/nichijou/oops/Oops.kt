@@ -158,10 +158,10 @@ class Oops private constructor(val context: Context) {
             rippleAnimation!!.setOnAnimationEndListener(object : RippleAnimation.OnAnimationEndListener {
                 override fun onAnimationEnd() {
                     rippleAnimation = null
-                    rippleView = null
                 }
             })
         }
+        rippleView = null
     }
 
     internal var transaction = false
@@ -223,8 +223,8 @@ class Oops private constructor(val context: Context) {
                 loge(e) { "oops config not be save..." }
                 throw e
             }
-            oops.apply()
             oops.showRippleAnimation()
+            oops.apply()
         }
     }
 }

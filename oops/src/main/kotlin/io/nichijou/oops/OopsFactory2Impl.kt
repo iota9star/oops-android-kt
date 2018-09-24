@@ -18,7 +18,8 @@ import androidx.cardview.widget.CardView
 import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
-import io.nichijou.oops.ext.activity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.widget.*
@@ -33,21 +34,18 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
 
     private fun shouldInheritContext(context: Context, parent: ViewParent?): Boolean {
         var thisParent: ViewParent? = parent ?: return false
-        when (context) {
-            is AppCompatActivity -> {
-                val windowDecor = context.window.decorView
-                while (true) {
-                    if (thisParent == null) {
-                        return true
-                    } else if (thisParent === windowDecor || thisParent !is View
-                            || ViewCompat.isAttachedToWindow((thisParent as View?)!!)) {
-                        return false
-                    }
-                    thisParent = (thisParent as ViewParent).parent
+        if (context is AppCompatActivity) {
+            val windowDecor = context.window.decorView
+            while (true) {
+                if (thisParent == null) {
+                    return true
+                } else if (thisParent === windowDecor || thisParent !is View
+                        || ViewCompat.isAttachedToWindow((thisParent as View?)!!)) {
+                    return false
                 }
+                thisParent = (thisParent as ViewParent).parent
             }
-            else -> return false
-        }
+        } else return false
     }
 
     override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
@@ -58,6 +56,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 (attrs as XmlPullParser).depth > 1
             else
                 shouldInheritContext(context, parent as ViewParent)
+        }
+        if (parent != null) {
+            logi { "||||||||||| parent:${parent.javaClass.canonicalName}" }
+            logi { "||||||||||| name:$name" }
+            logi { "||||||||||| textColor:${context.resId(attrs, android.R.attr.textColor)}" }
+            logi { "||||||||||| background:${context.resId(attrs, android.R.attr.background)}" }
         }
         return createView(parent, name, context, attrs, inheritContext, isPreLollipop, true, VectorEnabledTintResources.shouldBeUsed())
     }
@@ -107,6 +111,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (view != null) {
             checkOnClickListener(view, attrs)
         }
+        logi { "======================================================\n\n" }
         return view
     }
 
@@ -279,15 +284,21 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             else ->
                 view = null
         }
-        if (view is OopsViewLifeAndLive) {
-            val backgroundResId = context.resId(attrs, android.R.attr.background)
-            view.getOopsViewModel().live(backgroundResId)?.observe(context.activity(), Observer {
-                if (view !is CardView && view !is Toolbar) {
-                    view.setBackgroundColor(it)
+        return view?.apply {
+            val backgroundResId = this.context.resId(attrs, android.R.attr.background)
+            (this as OopsViewLifeAndLive).getOopsViewModel().live(this.context, backgroundResId)?.observe(this as OopsViewLifeAndLive, Observer {
+                if (!needlessBackgroundColor(this)) {
+                    this.setBackgroundColor(it)
                 }
             })
         }
-        return view
+    }
+
+    private fun needlessBackgroundColor(view: View): Boolean {
+        return view is CardView
+                || view is Toolbar
+                || view is TabLayout
+                || view is BottomNavigationView
     }
 
     private fun isBorderlessButton(context: Context, attrs: AttributeSet?): Boolean {

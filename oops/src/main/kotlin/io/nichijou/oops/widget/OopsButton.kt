@@ -31,7 +31,7 @@ open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(backgroundResId, ovm.colorAccent)?.observe(this, Observer {
+        ovm.live(context, backgroundResId, ovm.colorAccent)!!.observe(this, Observer {
             val isLight = it.isColorLight()
             val stateList = ColorStateList(
                     arrayOf(

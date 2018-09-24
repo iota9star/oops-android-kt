@@ -25,7 +25,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         initToolbar()
         initTabLayout()
         if (Oops.oops.isFirstTime) {
-//            updateTheme(fab)
+            updateTheme(fab)
         }
         fab.setOnClickListener { view ->
             updateTheme(view)
@@ -75,7 +75,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun initTabLayout() {
         tab_layout.setupWithViewPager(view_pager)
-        view_pager.adapter = ViewPagerAdapter(supportFragmentManager, arrayOf("BaseView", "ListView"), arrayOf(FragmentBaseView.newInstance(), FragmentListView.newInstance()))
+        view_pager.adapter = ViewPagerAdapter(supportFragmentManager, arrayOf("BaseView", "ListView"), arrayOf(FragmentBaseView.newInstance(), FragmentScrollView.newInstance()))
         tab_layout.getTabAt(0)?.setIcon(R.drawable.ic_menu_send)
         tab_layout.getTabAt(1)?.setIcon(R.drawable.ic_menu_manage)
     }

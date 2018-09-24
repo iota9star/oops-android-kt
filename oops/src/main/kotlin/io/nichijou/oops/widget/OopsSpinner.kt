@@ -27,7 +27,7 @@ open class OopsSpinner : AppCompatSpinner, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
+        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer {
             this.tintAuto(it.color, true, it.isDark)
         })
     }

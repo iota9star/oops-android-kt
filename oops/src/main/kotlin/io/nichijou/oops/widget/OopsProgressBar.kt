@@ -27,7 +27,7 @@ open class OopsProgressBar : ProgressBar, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(backgroundResId, ovm.colorAccent).observe(this, Observer {
+        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer {
             this.tint(it.color, it.isDark)
         })
     }

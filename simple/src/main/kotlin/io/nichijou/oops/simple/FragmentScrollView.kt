@@ -9,16 +9,16 @@ import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_list_view.*
+import kotlinx.android.synthetic.main.fragment_scroll_view.*
 
 
-class FragmentListView : Fragment() {
+class FragmentScrollView : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list_view, container, false)
+        return inflater.inflate(R.layout.fragment_scroll_view, container, false)
     }
 
     companion object {
-        fun newInstance() = FragmentListView()
+        fun newInstance() = FragmentScrollView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

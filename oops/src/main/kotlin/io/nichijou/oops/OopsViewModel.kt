@@ -1,6 +1,7 @@
 package io.nichijou.oops
 
 import android.app.Application
+import android.content.Context
 import androidx.annotation.IdRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -111,16 +112,15 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
         liveMediator(statusBarColor, statusBarMode, StatusBarStateColor.live())
     }
 
-    fun isDarkColor(@IdRes resId: Int, fallback: LiveData<Int>): LiveData<IsDarkColor> {
-        return liveMediator(live(resId, fallback)!!, isDark, IsDarkColor.live())
+    fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkColor> {
+        return liveMediator(color, isDark, IsDarkColor.live())
     }
 
-    fun collapsingToolbarStateColor(@IdRes resId: Int): LiveData<CollapsingToolbarStateColor> {
-        return liveMediator(iconTitleActiveColor, live(resId, colorPrimary)!!, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
+    fun collapsingToolbarStateColor(bgColor: LiveData<Int>): LiveData<CollapsingToolbarStateColor> {
+        return liveMediator(iconTitleActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
     }
 
-    fun live(@IdRes resId: Int, fallback: LiveData<Int>? = null): LiveData<Int>? {
-        val ctx = getApplication<Application>()
+    fun live(ctx: Context, @IdRes resId: Int, fallback: LiveData<Int>? = null): LiveData<Int>? {
         return when (resId) {
             -1, 0 -> fallback
             ctx.resId(R.attr.colorAccent, -1),

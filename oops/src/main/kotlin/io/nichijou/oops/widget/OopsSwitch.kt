@@ -28,10 +28,10 @@ open class OopsSwitch : SwitchCompat, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.isDarkColor(ids[android.R.attr.background], ovm.colorAccent).observe(this, Observer {
+        ovm.isDarkColor(ovm.live(context, ids[android.R.attr.background], ovm.colorAccent)!!).observe(this, Observer {
             this.tint(it.color, it.isDark)
         })
-        ovm.live(ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        ovm.live(context, ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = ovm
