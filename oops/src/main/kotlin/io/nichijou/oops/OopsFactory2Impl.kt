@@ -122,9 +122,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = OopsSnackBarContentLayout(context, attrs)
             }
             "TextView", "androidx.appcompat.widget.AppCompatTextView" -> {
-                if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") {
-                    logi { "this text view is the child of tab view, we ignore it." }
-                    return null
+                if (parent != null) {
+                    val parentName = parent::class.java.canonicalName
+                    if (parentName == "com.google.android.material.tabs.TabLayout.TabView" || parentName == "com.google.android.material.internal.NavigationMenuView") {
+                        logi { "this TextView is the child of $parentName, we ignore it." }
+                        return null
+                    }
                 }
                 view = if (viewId == com.google.android.material.R.id.snackbar_text) {
                     OopsSnackBarTextView(context, attrs)
@@ -143,6 +146,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             }
             "RadioButton", "androidx.appcompat.widget.AppCompatRadioButton" -> {
                 view = OopsRadioButton(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "CheckedTextView", "androidx.appcompat.widget.AppCompatCheckedTextView" -> {
+                view = OopsCheckedTextView(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "ImageView", "androidx.appcompat.widget.AppCompatImageView" -> {

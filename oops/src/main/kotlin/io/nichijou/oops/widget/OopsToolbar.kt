@@ -69,7 +69,7 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)// action view is late init, need hasWindowFocus = true
+        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {

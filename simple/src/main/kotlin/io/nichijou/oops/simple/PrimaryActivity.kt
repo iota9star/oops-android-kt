@@ -1,7 +1,6 @@
 package io.nichijou.oops.simple
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -44,7 +43,6 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         val textSecondary = randomColor()
         val active = randomColor()
         val inactive = randomColor()
-        val windowColor = Color.WHITE
         val snackbarText = randomColor()
         val snackbarAction = randomColor()
         val cardColor = randomColor()
@@ -57,12 +55,10 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             iconTitleInactiveColor = inactive
             statusBarColor = primary
             navBarColor = primary
-            windowBackground = windowColor
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction
             snackBarBackgroundColor = randomColor()
             cardViewBackgroundColor = cardColor
-            isDark = false
             navigationViewMode = NavigationViewTintMode.PRIMARY
             rippleView = view
             rippleAnimDuration = 480
@@ -93,15 +89,11 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_primary, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_go_next -> {
                 startActivity(Intent(this, SecondaryActivity::class.java))
@@ -112,28 +104,6 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }

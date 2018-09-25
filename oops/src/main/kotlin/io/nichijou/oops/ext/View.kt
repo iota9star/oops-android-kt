@@ -14,6 +14,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.AppCompatCheckedTextView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
@@ -26,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import io.nichijou.oops.R
 import io.nichijou.oops.temp.ActiveColor
+import io.nichijou.oops.temp.IsDarkColor
 import io.nichijou.oops.utils.TintUtils
 
 
@@ -514,6 +516,32 @@ fun TextInputLayout.tint(@ColorInt color: Int) {
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw  IllegalStateException("Failed to set TextInputLayout accent (expanded) oops: ${t.localizedMessage}", t)
+    }
+}
+
+fun AppCompatCheckedTextView.tint(state: IsDarkColor) {
+    var tint = state.color
+    if (state.isDark) {
+        tint = tint.shiftColor(1.1f)
+    }
+    tint = tint.adjustAlpha(.5f)
+    val disabled = context.colorRes(if (state.isDark) R.color.md_switch_track_disabled_dark else R.color.md_switch_track_disabled_light)
+    val normal = context.colorRes(if (state.isDark) R.color.md_switch_track_normal_dark else R.color.md_switch_track_normal_light).stripAlpha()
+    val sl = ColorStateList(
+            arrayOf(
+                    intArrayOf(-android.R.attr.state_enabled),
+                    intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+            ),
+            intArrayOf(disabled, normal, tint, tint)
+    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        compoundDrawableTintList = sl
+    } else {
+        for (compoundDrawable in compoundDrawables) {
+            compoundDrawable?.setColorFilter(state.color, PorterDuff.Mode.SRC_IN)
+        }
     }
 }
 

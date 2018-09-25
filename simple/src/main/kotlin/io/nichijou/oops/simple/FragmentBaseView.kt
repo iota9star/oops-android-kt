@@ -1,11 +1,13 @@
 package io.nichijou.oops.simple
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import io.nichijou.oops.Oops
 import kotlinx.android.synthetic.main.fragment_base_view.*
 
 class FragmentBaseView : Fragment() {
@@ -20,6 +22,26 @@ class FragmentBaseView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
+        initEvent()
+    }
+
+    private fun initEvent() {
+        switch_dark.isChecked = Oops.oops.isDark
+        switch_dark.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Oops.oops {
+                    theme = R.style.AppThemeDark
+                    isDark = true
+                    windowBackground = Color.BLACK
+                }
+            } else {
+                Oops.oops {
+                    theme = R.style.AppTheme
+                    isDark = false
+                    windowBackground = Color.WHITE
+                }
+            }
+        }
     }
 
     private fun initButton() {
@@ -33,9 +55,5 @@ class FragmentBaseView : Fragment() {
                     .show()
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

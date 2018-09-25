@@ -40,16 +40,18 @@
         </LinearLayout>
 
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:checked="true"
             android:gravity="center_vertical"
-            android:text="@string/switch_compat"
-            android:textColor="?android:textColorPrimary"
+            android:text="@string/switch_dark"
             android:textSize="16sp"
+            android:textOff="@string/light_theme"
+            android:textOn="@string/dark_theme"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -63,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/seek_bar"
-                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -85,7 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar"
-                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -121,7 +121,6 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/check_box"
-                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -131,7 +130,6 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/radio_button"
-                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

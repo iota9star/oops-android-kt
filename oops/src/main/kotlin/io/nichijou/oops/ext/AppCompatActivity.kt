@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 
@@ -60,5 +61,11 @@ fun AppCompatActivity.insetStatusBar() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         this.window.statusBarColor = Color.TRANSPARENT
+    }
+}
+
+fun AppCompatActivity.translucentStatusBar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        this.window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 }

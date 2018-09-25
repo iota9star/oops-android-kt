@@ -31,17 +31,14 @@ open class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
 
     private fun updateColor(selectedColor: Int, isDark: Boolean) {
         val baseColor = if (isDark) Color.WHITE else Color.BLACK
-        val unselectedIconColor = baseColor.adjustAlpha(0.54f)
-        val unselectedTextColor = baseColor.adjustAlpha(0.87f)
-        val selectedItemBgColor = this.activity().colorRes(if (isDark) R.color.md_navigation_drawer_selected_dark else R.color.md_navigation_drawer_selected_light)
-        val iconSl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconColor, selectedColor))
-        val textSl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedTextColor, selectedColor))
-        val bgDrawable = StateListDrawable()
-        bgDrawable.addState(intArrayOf(android.R.attr.state_checked), ColorDrawable(selectedItemBgColor))
-
-        this.itemTextColor = textSl
-        this.itemIconTintList = iconSl
-        this.itemBackground = bgDrawable
+        val unselectedIconColor = baseColor.adjustAlpha(.54f)
+        val unselectedTextColor = baseColor.adjustAlpha(.87f)
+        val selectedItemBgColor = context.colorRes(if (isDark) R.color.md_navigation_drawer_selected_dark else R.color.md_navigation_drawer_selected_light)
+        this.itemTextColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedTextColor, selectedColor))
+        this.itemIconTintList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconColor, selectedColor))
+        this.itemBackground = StateListDrawable().apply {
+            addState(intArrayOf(android.R.attr.state_checked), ColorDrawable(selectedItemBgColor))
+        }
     }
 
     override fun bindingLive() {

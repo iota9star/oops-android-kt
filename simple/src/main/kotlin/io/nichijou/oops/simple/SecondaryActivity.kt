@@ -1,6 +1,5 @@
 package io.nichijou.oops.simple
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +11,7 @@ import io.nichijou.oops.OopsActivity
 import io.nichijou.oops.ext.insetStatusBar
 import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.setLightStatusBarCompat
+import io.nichijou.oops.ext.translucentStatusBar
 import io.nichijou.oops.widget.BottomNavigationViewBackgroundMode
 import io.nichijou.oops.widget.BottomNavigationViewIconTextMode
 import kotlinx.android.synthetic.main.activity_secondary.*
@@ -182,6 +182,7 @@ class SecondaryActivity : OopsActivity() {
         setContentView(R.layout.activity_secondary)
         setOverStatusBarColor(Color.TRANSPARENT)
         insetStatusBar()
+        translucentStatusBar()
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
             toolbar.topStatusBarMargin()
         }
@@ -189,12 +190,6 @@ class SecondaryActivity : OopsActivity() {
         toolbar.inflateMenu(R.menu.menu_secondary)
         toolbar.menu.findItem(R.id.action_change_image).setOnMenuItemClickListener {
             loadImage()
-            true
-        }
-        val classes = arrayOf(SecondaryActivity::class.java, ThirdActivity::class.java, FourthActivity::class.java, FifthActivity::class.java)
-        toolbar.menu.findItem(R.id.action_next).setOnMenuItemClickListener {
-            val intent = Intent(this@SecondaryActivity, classes[Random().nextInt(classes.size)])
-            startActivity(intent)
             true
         }
         toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -208,7 +203,6 @@ class SecondaryActivity : OopsActivity() {
     private fun changeTheme(view: View) {
         val primary = randomColor()
         Oops.oops {
-            //            theme = if (theme == R.style.AppTheme) R.style.AppThemeDark else R.style.AppTheme
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary

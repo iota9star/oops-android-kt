@@ -39,6 +39,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     private var toolbar: OopsToolbar? = null
     private var lastOffset = 0
     private var stateColor: CollapsingToolbarStateColor? = null
+    private var needLife = false
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, offset: Int) {
         if (lastOffset != Math.abs(offset)) {
@@ -51,11 +52,12 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
         stateColor?.let {
             val activeColor = it.active
             val collapsingColor = it.collapsingColor
-            val maxOffset = appBarLayout!!.measuredHeight - toolbar!!.layoutParams.height - (toolbar!!.layoutParams as CollapsingToolbarLayout.LayoutParams).topMargin
+            val tlp = toolbar!!.layoutParams as CollapsingToolbarLayout.LayoutParams
+            val maxOffset = appBarLayout!!.measuredHeight - tlp.height - tlp.topMargin - tlp.bottomMargin
             val ratio = lastOffset.toFloat() / maxOffset.toFloat()
             val bgColor = it.bgColor
             val blendedColor = collapsingColor.blendWith(bgColor, ratio)
-            val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK.adjustAlpha(.64f) else Color.WHITE
+            val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK else Color.WHITE
             val blendedTitleColor = expandedTitleColor.blendWith(activeColor, ratio)
             setCollapsedTitleTextColor(activeColor)
             setExpandedTitleColor(expandedTitleColor)
@@ -69,7 +71,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
             if (child is OopsToolbar) {
                 toolbar = child
                 return
-            }
+            } else if (child is ViewGroup) eachChildren(child)
         }
     }
 
@@ -132,29 +134,36 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
         }
         if (appBarLayout != null) {
             eachChildren(this)
-            toolbar?.apply {
-                unbindingLive()
-                setBackgroundColor(Color.TRANSPARENT)
-                updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
+            if (toolbar == null) {
+                appBarLayout = null
+            } else {
+                needLife = true
+                toolbar!!.apply {
+                    unbindingLive()
+                    setBackgroundColor(Color.TRANSPARENT)
+                    updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
+                }
+                appBarLayout!!.addOnOffsetChangedListener(this)
+                bindingLive()
+                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
             }
-            appBarLayout!!.addOnOffsetChangedListener(this)
         }
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        if (needLife) {
+            if (hasWindowFocus) {
+                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+            } else {
+                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+            }
         }
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        if (appBarLayout != null && toolbar != null) {
+        if (needLife) {
+            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             appBarLayout!!.removeOnOffsetChangedListener(this)
             appBarLayout = null
             toolbar = null
