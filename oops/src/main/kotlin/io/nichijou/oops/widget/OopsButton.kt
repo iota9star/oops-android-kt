@@ -31,17 +31,15 @@ open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
     }
 
     override fun bindingLive() {
-        ovm.live(context, backgroundResId, ovm.colorAccent)!!.observe(this, Observer {
-            val isLight = it.isColorLight()
-            val stateList = ColorStateList(
-                    arrayOf(
-                            intArrayOf(android.R.attr.state_enabled),
-                            intArrayOf(-android.R.attr.state_enabled)),
-                    intArrayOf(
-                            if (isLight) Color.BLACK else Color.WHITE,
-                            if (isLight) Color.WHITE else Color.BLACK))
-            this.setTextColor(stateList)
-            this.tintAuto(it, true, !isLight)
+        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer {
+            val textColorSl = ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
+                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)
+            )
+            this.setTextColor(textColorSl)
+            this.tintAuto(it.color, true, it.isDark)
+            isEnabled = !isEnabled
+            isEnabled = !isEnabled
         })
     }
 
