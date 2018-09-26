@@ -212,7 +212,6 @@ class SecondaryActivity : OopsActivity() {
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
             swipeRefreshLayoutBackgroundColor = randomColor()
             swipeRefreshLayoutSchemeColor = randomColors()
-            isDark = false
             rippleAnimDuration = 480
             rippleView = view
         }

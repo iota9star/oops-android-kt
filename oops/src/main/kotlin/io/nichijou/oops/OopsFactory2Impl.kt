@@ -149,6 +149,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 verifyNotNull(view, name, false)
             }
             "CheckedTextView", "androidx.appcompat.widget.AppCompatCheckedTextView" -> {
+                if (parent != null && parent::class.java.canonicalName == "com.google.android.material.internal.NavigationMenuItemView") {
+                    logi { "this CheckedTextView is the child of com.google.android.material.internal.NavigationMenuItemView, we ignore it." }
+                    return null
+                }
                 view = OopsCheckedTextView(context, attrs)
                 verifyNotNull(view, name, false)
             }
