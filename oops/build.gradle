@@ -55,6 +55,15 @@ group = "io.nichijou"
 def libName = "oops"
 version = "0.0.1"
 
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.kotlin.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 install {
     repositories.mavenInstaller {
         pom {
@@ -99,5 +108,6 @@ bintray {
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
         publish = true
+        override = true
     }
 }
