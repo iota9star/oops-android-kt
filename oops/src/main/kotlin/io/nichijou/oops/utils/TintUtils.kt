@@ -60,6 +60,7 @@ object TintUtils {
         if (imageView.drawable != null) {
             imageView.setImageDrawable(imageView.drawable.tint(color.toEnabledSl()))
         }
+        field.isAccessible = false
     }
 
     @SuppressLint("PrivateResource")

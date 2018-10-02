@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewParent
 import android.widget.LinearLayout
-import androidx.appcompat.R
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.*
@@ -27,7 +27,6 @@ import org.xmlpull.v1.XmlPullParser
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
-import io.nichijou.oops.R as MR
 
 @SuppressLint("RestrictedApi")
 class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater.Factory2 {
@@ -79,7 +78,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             ctx = TintContextWrapper.wrap(ctx)
         }
         var view = createOopsView(name, parent, ctx, attrs)
-        if (view != null && view.tag != null && view.tag == context.getString(MR.string.ignore_view)) {
+        if (view != null && view.tag != null && view.tag == context.getString(R.string.ignore_view)) {
             view = createDefaultView(name, ctx, attrs)
         }
         if (view == null) {
@@ -112,14 +111,13 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         var view: View?
         val viewId = context.resId(attrs, android.R.attr.id)
         when (name) {
-            "androidx.appcompat.widget.SearchView${'$'}SearchAutoComplete" -> {
-                view = OopsSearchAutoComplete(context, attrs)
-            }
             "SearchView", "androidx.appcompat.widget.SearchView" -> {
                 view = OopsSearchView(context, attrs)
+                verifyNotNull(view, name, false)
             }
             "com.google.android.material.snackbar.SnackbarContentLayout" -> {
                 view = OopsSnackBarContentLayout(context, attrs)
+                verifyNotNull(view, name, false)
             }
             "TextView", "androidx.appcompat.widget.AppCompatTextView" -> {
                 if (parent != null) {
@@ -157,11 +155,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 verifyNotNull(view, name, false)
             }
             "ImageView", "androidx.appcompat.widget.AppCompatImageView" -> {
-                view = if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") {
-                    OopsTabImageView(context, attrs)
-                } else {
-                    OopsImageView(context, attrs)
+                if (isSearchIcon(context.resId(attrs, android.R.attr.id))) {
+                    logi { "this ImageView is the child of SearchView, we ignore it." }
+                    return null
                 }
+                view = if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") OopsTabImageView(context, attrs)
+                else OopsImageView(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "ImageButton", "androidx.appcompat.widget.AppCompatImageButton" -> {
@@ -237,6 +236,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = OopsSeekBar(context, attrs)
                 verifyNotNull(view, name, false)
             }
+            "RatingBar", "androidx.appcompat.widget.AppCompatRatingBar" -> {
+                view = OopsRatingBar(context, attrs)
+                verifyNotNull(view, name, false)
+            }
             "Spinner", "androidx.appcompat.widget.AppCompatSpinner" -> {
                 view = OopsSeekBar(context, attrs)
                 verifyNotNull(view, name, false)
@@ -303,6 +306,14 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 || view is Toolbar
                 || view is TabLayout
                 || view is BottomNavigationView
+    }
+
+    private fun isSearchIcon(@IdRes id: Int): Boolean {
+        return id == androidx.appcompat.R.id.search_button
+                || id == androidx.appcompat.R.id.search_mag_icon
+                || id == androidx.appcompat.R.id.search_close_btn
+                || id == androidx.appcompat.R.id.search_go_btn
+                || id == androidx.appcompat.R.id.search_voice_btn
     }
 
     private fun isBorderlessButton(context: Context, attrs: AttributeSet?): Boolean {
@@ -420,7 +431,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
 
     private fun checkOnClickListener(view: View, attrs: AttributeSet) {
         val context = view.context
-        if (context !is ContextWrapper || Build.VERSION.SDK_INT >= 15 && !ViewCompat.hasOnClickListeners(view)) {
+        if (context !is ContextWrapper && !ViewCompat.hasOnClickListeners(view)) {
             return
         }
 
@@ -508,13 +519,13 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
 
         private fun themifyContext(context: Context, attrs: AttributeSet, useAndroidTheme: Boolean, useAppTheme: Boolean): Context {
             var thisCtx = context
-            val a = thisCtx.obtainStyledAttributes(attrs, R.styleable.View, 0, 0)
+            val a = thisCtx.obtainStyledAttributes(attrs, androidx.appcompat.R.styleable.View, 0, 0)
             var themeId = 0
             if (useAndroidTheme) {
-                themeId = a.getResourceId(R.styleable.View_android_theme, 0)
+                themeId = a.getResourceId(androidx.appcompat.R.styleable.View_android_theme, 0)
             }
             if (useAppTheme && themeId == 0) {
-                themeId = a.getResourceId(R.styleable.View_theme, 0)
+                themeId = a.getResourceId(androidx.appcompat.R.styleable.View_theme, 0)
                 if (themeId != 0) {
                     logi { "app:theme is now deprecated. Please move to using android:theme instead." }
                 }

@@ -13,9 +13,9 @@ import io.nichijou.oops.widget.StatusBarMode
 
 open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
+    private val oopsVM by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
 
     private var currentTheme = Oops.oops.theme
 
@@ -32,8 +32,8 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
         setNavBarColorCompat(color)
     }
 
-    override fun bindingLive() {
-        ovm.statusBarStateColor.observe(this, Observer {
+    override fun howToLive() {
+        oopsVM.statusBarStateColor.observe(this, Observer {
             when (it.statusBarMode) {
                 StatusBarMode.AUTO -> {
                     val statusBarColor = if (sbc.first) {
@@ -54,7 +54,7 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
                 StatusBarMode.LIGHT -> setLightStatusBarCompat(true)
             }
         })
-        ovm.navBarColor.observe(this, Observer {
+        oopsVM.navBarColor.observe(this, Observer {
             val navBarColor = if (nbc.first) {
                 nbc.second
             } else {
@@ -62,11 +62,11 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
             }
             setNavBarColorCompat(navBarColor)
         })
-        ovm.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
-        ovm.windowBackground.observe(this, Observer {
+        oopsVM.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
+        oopsVM.windowBackground.observe(this, Observer {
             this.window.setBackgroundDrawable(ColorDrawable(it))
         })
-        ovm.theme.observe(this, Observer {
+        oopsVM.theme.observe(this, Observer {
             if (currentTheme != it) {
                 currentTheme = it
                 Oops.oops.rippleAnimation?.cancel()
@@ -78,7 +78,7 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Oops.binding(this)
-        bindingLive()
+        howToLive()
         super.onCreate(savedInstanceState)
     }
 }

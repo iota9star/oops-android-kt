@@ -46,41 +46,36 @@ open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
         }
     }
 
-    override fun bindingLive() {
-        ovm.isDarkColor(ovm.live(context, backgroundResId, ovm.colorAccent)!!).observe(this, Observer(this::updateColor))
-        ovm.textColorPrimary.observe(this, Observer(this::setTextColor))
-        ovm.textColorSecondary.observe(this, Observer(this::setHintTextColor))
+    override fun howToLive() {
+        oopsVM.isDarkColor(oopsVM.live(context, backgroundResId, oopsVM.colorAccent)!!).observe(this, Observer(this::updateColor))
+        oopsVM.textColorPrimary.observe(this, Observer(this::setTextColor))
+        oopsVM.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy {
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        startOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        }
+        resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        endOopsLife()
         super.onDetachedFromWindow()
     }
 }

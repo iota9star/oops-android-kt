@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "io.nichijou.oops.simple"
         minSdkVersion 16
@@ -51,6 +51,4 @@ dependencies {
     }
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.github.florent37:glidepalette:2.1.2'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 }

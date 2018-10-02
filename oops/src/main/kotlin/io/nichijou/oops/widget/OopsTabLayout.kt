@@ -22,11 +22,11 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    override fun bindingLive() {
-        ovm.iconTitleActiveColor.observe(this, Observer {
+    override fun howToLive() {
+        oopsVM.iconTitleActiveColor.observe(this, Observer {
             this.setTabTextColors(it.adjustAlpha(.7f), it)
         })
-        ovm.tabStateColor.observe(this, Observer {
+        oopsVM.tabStateColor.observe(this, Observer {
             when (it.indicatorMode) {
                 TabLayoutIndicatorMode.ACCENT -> this.setSelectedTabIndicatorColor(it.accent)
                 TabLayoutIndicatorMode.PRIMARY -> this.setSelectedTabIndicatorColor(it.primary)
@@ -39,35 +39,30 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy {
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        startOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        }
+        resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        endOopsLife()
         super.onDetachedFromWindow()
     }
 }

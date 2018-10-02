@@ -129,17 +129,16 @@ fun ActionMenuItemView.tintIcon(colorStateList: ColorStateList) {
 }
 
 fun CheckBox.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.activity()
     val sl = ColorStateList(arrayOf(
             intArrayOf(-android.R.attr.state_enabled),
             intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
-            intArrayOf(ctx.colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light), ctx.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color))
+            intArrayOf(context.colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light), context.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color))
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.buttonTintList = sl
     } else {
         @SuppressLint("PrivateResource")
-        this.buttonDrawable = ContextCompat.getDrawable(ctx, R.drawable.abc_btn_check_material)?.tint(sl)
+        this.buttonDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)?.tint(sl)
     }
 }
 
@@ -149,28 +148,25 @@ fun ImageView.tint(@ColorInt color: Int) {
 
 
 fun Switch.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.activity()
     if (this.trackDrawable != null) {
-        this.trackDrawable = TintUtils.tintSwitchDrawable(ctx, this.trackDrawable, color, false, false, isDark)
+        this.trackDrawable = TintUtils.tintSwitchDrawable(context, this.trackDrawable, color, false, false, isDark)
     }
     if (this.thumbDrawable != null) {
-        this.thumbDrawable = TintUtils.tintSwitchDrawable(ctx, this.thumbDrawable, color, true, false, isDark)
+        this.thumbDrawable = TintUtils.tintSwitchDrawable(context, this.thumbDrawable, color, true, false, isDark)
     }
 }
 
 
 fun SwitchCompat.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.activity()
     if (this.trackDrawable != null) {
-        this.trackDrawable = TintUtils.tintSwitchDrawable(ctx, this.trackDrawable, color, false, true, isDark)
+        this.trackDrawable = TintUtils.tintSwitchDrawable(context, this.trackDrawable, color, false, true, isDark)
     }
     if (this.thumbDrawable != null) {
-        this.thumbDrawable = TintUtils.tintSwitchDrawable(ctx, this.thumbDrawable, color, true, true, isDark)
+        this.thumbDrawable = TintUtils.tintSwitchDrawable(context, this.thumbDrawable, color, true, true, isDark)
     }
 }
 
 fun RadioButton.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.activity()
     val sl = ColorStateList(
             arrayOf(
                     intArrayOf(-android.R.attr.state_enabled),
@@ -179,8 +175,8 @@ fun RadioButton.tint(@ColorInt color: Int, isDark: Boolean) {
             ),
             intArrayOf(
                     // Radio button includes own alpha for disabled state
-                    ctx.colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light).stripAlpha(),
-                    ctx.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light),
+                    context.colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light).stripAlpha(),
+                    context.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light),
                     color
             )
     )
@@ -188,15 +184,16 @@ fun RadioButton.tint(@ColorInt color: Int, isDark: Boolean) {
         this.buttonTintList = sl
     } else {
         @SuppressLint("PrivateResource")
-        this.buttonDrawable = ContextCompat.getDrawable(ctx, R.drawable.abc_btn_radio_material)?.tint(sl)
+        this.buttonDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_radio_material)?.tint(sl)
     }
 }
 
-fun SeekBar.tint(@ColorInt color: Int, isDark: Boolean) {
-    val s1 = TintUtils.getDisabledColorStateList(color, this.activity().colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light))
+fun AbsSeekBar.tint(@ColorInt color: Int, isDark: Boolean) {
+    val s1 = TintUtils.getDisabledColorStateList(color, context.colorRes(if (isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light))
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.thumbTintList = s1
         this.progressTintList = s1
+        this.secondaryProgressTintList = s1
     } else {
         this.progressDrawable = this.progressDrawable.tint(s1)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -229,10 +226,9 @@ fun ProgressBar.tint(@ColorInt color: Int, skipIndeterminate: Boolean) {
 }
 
 fun EditText.tint(@ColorInt color: Int, isDark: Boolean) {
-    val ctx = this.activity()
     val editTextColorStateList = ColorStateList(
             arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_focused), intArrayOf()),
-            intArrayOf(ctx.colorRes(if (isDark) R.color.md_text_disabled_dark else R.color.md_text_disabled_light), ctx.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color)
+            intArrayOf(context.colorRes(if (isDark) R.color.md_text_disabled_dark else R.color.md_text_disabled_light), context.colorRes(if (isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color)
     )
     if (this is TintableBackgroundView) {
         ViewCompat.setBackgroundTintList(this, editTextColorStateList)
@@ -247,6 +243,7 @@ fun EditText.tintCursor(@ColorInt color: Int) {
         val fCursorDrawableRes = TextView::class.java.getDeclaredField("mCursorDrawableRes")
         fCursorDrawableRes.isAccessible = true
         val mCursorDrawableRes = fCursorDrawableRes.getInt(this)
+        fCursorDrawableRes.isAccessible = false
         val fEditor = TextView::class.java.getDeclaredField("mEditor")
         fEditor.isAccessible = true
         val editor = fEditor.get(this)
@@ -255,10 +252,9 @@ fun EditText.tintCursor(@ColorInt color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables = arrayOfNulls<Drawable>(2)
-        drawables[0] = ContextCompat.getDrawable(this.activity(), mCursorDrawableRes)
-        drawables[0] = drawables[0]?.tint(color)
-        drawables[1] = ContextCompat.getDrawable(this.activity(), mCursorDrawableRes)
-        drawables[1] = drawables[1]?.tint(color)
+        val tintDrawable = context.drawableRes(mCursorDrawableRes)?.tint(color)
+        drawables[0] = tintDrawable
+        drawables[1] = tintDrawable
         fCursorDrawable.set(editor, drawables)
         fCursorDrawable.isAccessible = false
     } catch (e: Exception) {
@@ -274,11 +270,13 @@ fun TextInputLayout.setHintColor(@ColorInt hintColor: Int) {
         )
         defaultHintColorField.isAccessible = true
         defaultHintColorField.set(this, ColorStateList.valueOf(hintColor))
+        defaultHintColorField.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout hint (collapsed) color: " + t.localizedMessage, t
@@ -293,11 +291,13 @@ fun TextInputLayout.setAccentColor(@ColorInt accentColor: Int) {
         )
         focusedTextColor.isAccessible = true
         focusedTextColor.set(this, ColorStateList.valueOf(accentColor))
+        focusedTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
@@ -310,11 +310,13 @@ fun TextInputLayout.setStrokeColor(@ColorInt accentColor: Int) {
         val disabledTextColor = TextInputLayout::class.java.findField("defaultStrokeColor")
         disabledTextColor.isAccessible = true
         disabledTextColor.set(this, accentColor)
+        disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
@@ -327,11 +329,13 @@ fun TextInputLayout.setStrokeColorHover(@ColorInt accentColor: Int) {
         val disabledTextColor = TextInputLayout::class.java.findField("hoveredStrokeColor")
         disabledTextColor.isAccessible = true
         disabledTextColor.set(this, accentColor)
+        disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
@@ -344,11 +348,13 @@ fun TextInputLayout.setStrokeColorFocused(@ColorInt accentColor: Int) {
         val disabledTextColor = TextInputLayout::class.java.findField("focusedStrokeColor")
         disabledTextColor.isAccessible = true
         disabledTextColor.set(this, accentColor)
+        disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
@@ -361,11 +367,13 @@ fun TextInputLayout.setDisabledColor(@ColorInt accentColor: Int) {
         val disabledTextColor = TextInputLayout::class.java.findField("disabledColor")
         disabledTextColor.isAccessible = true
         disabledTextColor.set(this, accentColor)
+        disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
                 "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
+        updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
                 "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
@@ -375,8 +383,15 @@ fun TextInputLayout.setDisabledColor(@ColorInt accentColor: Int) {
 
 
 fun SearchView.tint(color: ActiveColor) {
-    val cls = javaClass
     try {
+        val cls = javaClass
+        val mSearchSrcTextViewField = cls.getDeclaredField("mSearchSrcTextView")
+        mSearchSrcTextViewField.isAccessible = true
+        val mSearchSrcTextView = mSearchSrcTextViewField.get(this) as EditText
+        mSearchSrcTextView.setTextColor(color.active)
+        mSearchSrcTextView.setHintTextColor(color.active.adjustAlpha(0.7f))
+        mSearchSrcTextView.tintCursor(color.active)
+        mSearchSrcTextViewField.isAccessible = false
         var field = cls.getDeclaredField("mSearchButton")
         TintUtils.tintImageViewDrawable(this, field, color)
         field = cls.getDeclaredField("mGoButton")
@@ -389,10 +404,11 @@ fun SearchView.tint(color: ActiveColor) {
         field = cls.getDeclaredField("mSearchPlate")
         field.isAccessible = true
         (field.get(this) as View).tintAuto(color.active, true, !color.active.isColorLight())
-
+        field.isAccessible = false
         field = cls.getDeclaredField("mSearchHintIcon")
         field.isAccessible = true
         field.set(this, (field.get(this) as? Drawable?)?.tint(color.toEnabledSl()))
+        field.isAccessible = false
     } catch (e: Exception) {
         e.printStackTrace()
     }

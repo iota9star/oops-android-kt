@@ -41,8 +41,8 @@ open class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
         }
     }
 
-    override fun bindingLive() {
-        ovm.navStateColor.observe(this, Observer {
+    override fun howToLive() {
+        oopsVM.navStateColor.observe(this, Observer {
             when (it.mode) {
                 NavigationViewTintMode.ACCENT -> updateColor(it.accent, it.isDark)
                 NavigationViewTintMode.PRIMARY -> updateColor(it.primary, it.isDark)
@@ -50,35 +50,30 @@ open class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy {
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        startOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        }
+        resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        endOopsLife()
         super.onDetachedFromWindow()
     }
 }

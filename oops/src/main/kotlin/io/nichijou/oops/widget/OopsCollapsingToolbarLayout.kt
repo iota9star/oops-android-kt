@@ -49,17 +49,14 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     }
 
     private fun updateColor() {
-        stateColor?.let {
-            val activeColor = it.active
-            val collapsingColor = it.collapsingColor
+        stateColor?.apply {
             val tlp = toolbar!!.layoutParams as CollapsingToolbarLayout.LayoutParams
             val maxOffset = appBarLayout!!.measuredHeight - tlp.height - tlp.topMargin - tlp.bottomMargin
             val ratio = lastOffset.toFloat() / maxOffset.toFloat()
-            val bgColor = it.bgColor
             val blendedColor = collapsingColor.blendWith(bgColor, ratio)
             val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK else Color.WHITE
-            val blendedTitleColor = expandedTitleColor.blendWith(activeColor, ratio)
-            setCollapsedTitleTextColor(activeColor)
+            val blendedTitleColor = expandedTitleColor.blendWith(active, ratio)
+            setCollapsedTitleTextColor(active)
             setExpandedTitleColor(expandedTitleColor)
             tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(.64f)))
         }
@@ -87,7 +84,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
                 for (j in 0 until v.childCount) {
                     val itemView = v.getChildAt(j)
                     if (itemView is OopsActionMenuItemView) {
-                        itemView.unbindingLive()
+                        itemView.endOopsLife()
                         itemView.setTextColor(color.active)
                         val drawablesCount = itemView.compoundDrawables.size
                         for (k in 0 until drawablesCount) {
@@ -103,8 +100,8 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
         toolbar.tintMenuItem(toolbar.menu ?: return, color)
     }
 
-    override fun bindingLive() {
-        ovm.collapsingToolbarStateColor(ovm.live(context, colorPrimaryResId, ovm.colorPrimary)!!).observe(this, Observer {
+    override fun howToLive() {
+        oopsVM.collapsingToolbarStateColor(oopsVM.live(context, colorPrimaryResId, oopsVM.colorPrimary)!!).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)
@@ -114,17 +111,17 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy {
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -139,31 +136,24 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
             } else {
                 needLife = true
                 toolbar!!.apply {
-                    unbindingLive()
+                    endOopsLife()
                     setBackgroundColor(Color.TRANSPARENT)
                     updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
                 }
                 appBarLayout!!.addOnOffsetChangedListener(this)
-                bindingLive()
-                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+                startOopsLife()
             }
         }
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (needLife) {
-            if (hasWindowFocus) {
-                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-            } else {
-                mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-            }
-        }
+        if (needLife) resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
         if (needLife) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            endOopsLife()
             appBarLayout!!.removeOnOffsetChangedListener(this)
             appBarLayout = null
             toolbar = null

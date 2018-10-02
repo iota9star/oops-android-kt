@@ -7,6 +7,7 @@ import android.util.SparseIntArray
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
@@ -85,3 +86,5 @@ fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {
 fun Context.colorAttr(@AttrRes attr: Int): Int = this.colorAttr(attr, -1)
 
 fun Context.colorRes(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
+
+fun Context.drawableRes(@DrawableRes resId: Int) = ContextCompat.getDrawable(this, resId)

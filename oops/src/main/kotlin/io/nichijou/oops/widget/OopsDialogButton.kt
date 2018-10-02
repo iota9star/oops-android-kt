@@ -12,7 +12,7 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 
-class OopsDialogButton : AppCompatButton, OopsViewLifeAndLive {
+internal class OopsDialogButton : AppCompatButton, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
@@ -20,39 +20,34 @@ class OopsDialogButton : AppCompatButton, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    override fun bindingLive() {
-        ovm.colorAccent.observe(this, Observer(this::setTextColor))
+    override fun howToLive() {
+        oopsVM.colorAccent.observe(this, Observer(this::setTextColor))
     }
 
-    private val ovm by lazy {
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
+
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
-
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        startOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        }
+        resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        endOopsLife()
         super.onDetachedFromWindow()
     }
 }

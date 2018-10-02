@@ -39,9 +39,9 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
         }
     }
 
-    override fun bindingLive() {
-        ovm.live(context, colorPrimaryResId, ovm.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
-        ovm.activeColor.observe(this, Observer(this::updateColor))
+    override fun howToLive() {
+        oopsVM.live(context, colorPrimaryResId, oopsVM.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
+        oopsVM.activeColor.observe(this, Observer(this::updateColor))
     }
 
     fun updateColor(color: ActiveColor) {
@@ -54,35 +54,30 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
         this.tintMenuItem(menu, color)
     }
 
-    override fun getOopsViewModel(): OopsViewModel = ovm
+    override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val ovm by lazy {
+    private val oopsVM by lazy {
         ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
     }
 
-    private val mViewLifecycleRegistry: LifecycleRegistry by lazy {
+    private val oopsLife: LifecycleRegistry by lazy {
         LifecycleRegistry(this)
     }
 
-    override fun getLifecycle(): Lifecycle = mViewLifecycleRegistry
+    override fun getLifecycle(): Lifecycle = oopsLife
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        bindingLive()
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        startOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (hasWindowFocus) {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        } else {
-            mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        }
+        resumeOrPauseLife(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        mViewLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        endOopsLife()
         super.onDetachedFromWindow()
     }
 }

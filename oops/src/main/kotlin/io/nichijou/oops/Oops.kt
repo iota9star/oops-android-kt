@@ -15,7 +15,10 @@ import androidx.core.view.LayoutInflaterCompat
 import io.nichijou.oops.ext.colorAttr
 import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.loge
-import io.nichijou.oops.pref.*
+import io.nichijou.oops.pref.BooleanPref
+import io.nichijou.oops.pref.EnumValuePref
+import io.nichijou.oops.pref.IntArrayPref
+import io.nichijou.oops.pref.IntPref
 import io.nichijou.oops.widget.*
 import kotlin.properties.ReadWriteProperty
 
@@ -175,9 +178,6 @@ class Oops private constructor(val context: Context) {
         prefs.edit()
     }
 
-    private fun stringPref(value: String = "", key: String): ReadWriteProperty<Oops, String> = StringPref(value, key)
-    private fun longPref(value: Long = 0L, key: String): ReadWriteProperty<Oops, Long> = LongPref(value, key)
-    private fun floatPref(value: Float = 0F, key: String): ReadWriteProperty<Oops, Float> = FloatPref(value, key)
     private fun intArrayPref(value: IntArray, key: String): ReadWriteProperty<Oops, IntArray> = IntArrayPref(value, key)
     private fun intPref(value: Int = 0, key: String): ReadWriteProperty<Oops, Int> = IntPref(value, key)
     private fun booleanPref(value: Boolean = false, key: String): ReadWriteProperty<Oops, Boolean> = BooleanPref(value, key)

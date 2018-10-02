@@ -49,9 +49,9 @@
             android:checked="true"
             android:gravity="center_vertical"
             android:text="@string/switch_dark"
-            android:textSize="16sp"
             android:textOff="@string/light_theme"
             android:textOn="@string/dark_theme"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -72,7 +72,30 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:progress="76" />
+                android:max="100"
+                android:progress="20"
+                android:secondaryProgress="60" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating_bar"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="2" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +125,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                android:progress="45" />
+                android:progress="45"
+                android:secondaryProgress="67" />
 
         </LinearLayout>
 
