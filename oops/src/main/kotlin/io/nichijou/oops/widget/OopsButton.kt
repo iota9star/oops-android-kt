@@ -13,25 +13,25 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.isColorLight
-import io.nichijou.oops.ext.resId
 import io.nichijou.oops.ext.tintAuto
 
 
 open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
 
-    private val backgroundResId: Int
+    private val backgroundAttrName: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        backgroundResId = context.resId(attrs, android.R.attr.background)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundResId = context.resId(attrs, android.R.attr.background)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(context, backgroundResId, oopsVM.colorAccent)!!).observe(this, Observer {
+        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
             val textColorSl = ColorStateList(
                     arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
                     intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)

@@ -50,7 +50,7 @@ open class OopsDrawerLayout : DrawerLayout, OopsViewLifeAndLive {
     }
 
     override fun howToLive() {
-        oopsVM.iconTitleActiveColor.observe(this, Observer {
+        oopsVM.toolbarActiveColor.observe(this, Observer {
             this.iconColor = it
             updateColor()
         })

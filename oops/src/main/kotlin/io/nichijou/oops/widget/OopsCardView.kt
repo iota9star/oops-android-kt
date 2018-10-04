@@ -11,17 +11,22 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrName
 
 open class OopsCardView : CardView, OopsViewLifeAndLive {
 
-    constructor(context: Context) : super(context)
+    private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+        backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
+    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
+    }
 
     override fun howToLive() {
-        oopsVM.cardViewBackgroundColor.observe(this, Observer(this::setBackgroundColor))
+        oopsVM.live(backgroundAttrName)?.observe(this, Observer(this::setCardBackgroundColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

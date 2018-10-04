@@ -2,7 +2,7 @@ package io.nichijou.oops.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.SparseIntArray
+import android.util.SparseArray
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.Lifecycle
@@ -12,26 +12,26 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.resIds
+import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.tint
 
 open class OopsSwitch : SwitchCompat, OopsViewLifeAndLive {
 
-    private val ids: SparseIntArray
+    private val attrNames: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(context, ids[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
+        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
             this.tint(it.color, it.isDark)
         })
-        oopsVM.live(context, ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

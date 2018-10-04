@@ -12,21 +12,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.R
 import io.nichijou.oops.ext.*
 import io.nichijou.oops.temp.ActiveColor
 
 
 open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
 
-    private val colorPrimaryResId: Int
+    private val backgroundAttrName: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     private var colorStateList: ColorStateList? = null
@@ -40,8 +39,8 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
     }
 
     override fun howToLive() {
-        oopsVM.live(context, colorPrimaryResId, oopsVM.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
-        oopsVM.activeColor.observe(this, Observer(this::updateColor))
+        oopsVM.live(backgroundAttrName, oopsVM.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
+        oopsVM.toolbarColor.observe(this, Observer(this::updateColor))
     }
 
     fun updateColor(color: ActiveColor) {

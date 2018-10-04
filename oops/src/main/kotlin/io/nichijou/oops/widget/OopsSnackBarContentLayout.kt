@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.SnackbarContentLayout
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.tint
 
 @SuppressLint("RestrictedApi")
 internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAndLive {
@@ -25,7 +26,11 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAn
         setBackgroundColor(color)
         val parent = this.parent
         if (parent != null && parent is Snackbar.SnackbarLayout) {
-            parent.setBackgroundColor(color)
+            if (parent.background != null) {
+                parent.background = parent.background.tint(color)
+            } else {
+                parent.setBackgroundColor(color)
+            }
         }
     }
 

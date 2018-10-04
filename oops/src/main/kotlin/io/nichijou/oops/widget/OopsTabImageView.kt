@@ -38,7 +38,7 @@ open class OopsTabImageView : AppCompatImageView, OopsViewLifeAndLive {
     }
 
     override fun howToLive() {
-        oopsVM.iconTitleActiveColor.observe(this, Observer {
+        oopsVM.toolbarActiveColor.observe(this, Observer {
             activeColor = it
             setImageDrawable(drawable)
         })

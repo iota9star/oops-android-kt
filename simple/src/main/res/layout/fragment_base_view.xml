@@ -158,6 +158,103 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:clipToPadding="true"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/card_view"
+                android:textAlignment="center"
+                android:textSize="28sp" />
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:clipToPadding="true"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="12dp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/material_card_view"
+                android:textAlignment="center"
+                android:textSize="28sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/button_show_dialog" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_unelevated_button"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UnelevatedButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_text_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_icon_button"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Icon"
+            app:icon="@drawable/ic_menu_send" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextIconButton"
+            app:icon="@drawable/ic_menu_camera" />
+
+        <Button
+            style="?borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/borderless_button" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:enabled="false"
+            android:text="@string/button_disable" />
 
         <EditText
             android:layout_width="match_parent"
@@ -265,47 +362,6 @@
                 android:hint="@string/text_input"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:clipToPadding="true"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/card_view"
-                android:textAlignment="center"
-                android:textSize="28sp" />
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/button_show_dialog" />
-
-        <Button
-            style="?borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/borderless_button" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:enabled="false"
-            android:text="@string/button_disable" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

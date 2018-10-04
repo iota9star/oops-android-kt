@@ -1,12 +1,9 @@
 package io.nichijou.oops
 
 import android.app.Application
-import android.content.Context
-import androidx.annotation.IdRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import io.nichijou.oops.ext.liveMediator
-import io.nichijou.oops.ext.resId
 import io.nichijou.oops.temp.*
 
 class OopsViewModel(app: Application) : AndroidViewModel(app) {
@@ -55,11 +52,11 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
     val textColorSecondaryInverse by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::textColorSecondaryInverse)
     }
-    val iconTitleActiveColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::iconTitleActiveColor)
+    val toolbarActiveColor by lazy {
+        OopsLive(Oops.oops.prefs, Oops.oops::toolbarActiveColor)
     }
-    val iconTitleInactiveColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::iconTitleInactiveColor)
+    val toolbarInactiveColor by lazy {
+        OopsLive(Oops.oops.prefs, Oops.oops::toolbarInactiveColor)
     }
     val snackBarTextColor by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::snackBarTextColor)
@@ -69,9 +66,6 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
     }
     val snackBarBackgroundColor by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::snackBarBackgroundColor)
-    }
-    val cardViewBackgroundColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::cardViewBackgroundColor)
     }
     val navigationViewMode by lazy {
         OopsLive(Oops.oops.prefs, Oops.oops::navigationViewMode)
@@ -92,8 +86,8 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
         OopsLive(Oops.oops.prefs, Oops.oops::collapsingToolbarColor)
     }
 
-    val activeColor by lazy {
-        liveMediator(iconTitleActiveColor, iconTitleInactiveColor, ActiveColor.live())
+    val toolbarColor by lazy {
+        liveMediator(toolbarActiveColor, toolbarInactiveColor, ActiveColor.live())
     }
 
     val bottomNavStateColor by lazy {
@@ -117,24 +111,20 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun collapsingToolbarStateColor(bgColor: LiveData<Int>): LiveData<CollapsingToolbarStateColor> {
-        return liveMediator(iconTitleActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
+        return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
     }
 
-    fun live(ctx: Context, @IdRes resId: Int, fallback: LiveData<Int>? = null): LiveData<Int>? {
-        return when (resId) {
-            -1, 0 -> fallback
-            ctx.resId(R.attr.colorAccent, -1),
-            ctx.resId(android.R.attr.colorAccent, -1) -> colorAccent
-            ctx.resId(R.attr.colorPrimary, -1),
-            ctx.resId(android.R.attr.colorPrimary, -1) -> colorPrimary
-            ctx.resId(R.attr.colorPrimaryDark, -1),
-            ctx.resId(android.R.attr.colorPrimaryDark, -1) -> colorPrimaryDark
-            ctx.resId(android.R.attr.statusBarColor, -1) -> statusBarColor
-            ctx.resId(android.R.attr.windowBackground, -1) -> windowBackground
-            ctx.resId(android.R.attr.textColorPrimary, -1) -> textColorPrimary
-            ctx.resId(android.R.attr.textColorPrimaryInverse, -1) -> textColorPrimaryInverse
-            ctx.resId(android.R.attr.textColorSecondary, -1) -> textColorSecondary
-            ctx.resId(android.R.attr.textColorSecondaryInverse, -1) -> textColorSecondary
+    fun live(attrName: String?, fallback: LiveData<Int>? = null): LiveData<Int>? {
+        return when (attrName) {
+            "", null -> fallback
+            "?attr/colorPrimary", "?android:attr/colorPrimary" -> colorPrimary
+            "?attr/colorPrimaryDark", "?android:attr/colorPrimaryDark" -> colorPrimaryDark
+            "?attr/colorSecondary", "?android:attr/colorSecondary", "?attr/colorAccent", "?android:attr/colorAccent" -> colorAccent
+            "?android:attr/windowBackground" -> windowBackground
+            "?android:attr/textColorPrimary" -> textColorPrimary
+            "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse
+            "?android:attr/textColorSecondary" -> textColorSecondary
+            "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
             else -> fallback
         }
     }

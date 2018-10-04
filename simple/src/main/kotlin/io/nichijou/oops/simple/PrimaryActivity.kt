@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsActivity
 import io.nichijou.oops.ext.logi
+import io.nichijou.oops.ext.translucentStatusBar
 import io.nichijou.oops.widget.NavigationViewTintMode
 import kotlinx.android.synthetic.main.activity_primary.*
 import kotlinx.android.synthetic.main.activity_primary_content.*
@@ -21,6 +22,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_primary)
+        setSupportActionBar(bar)
         initToolbar()
         initTabLayout()
         if (Oops.oops.isFirstTime) {
@@ -34,6 +36,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+        translucentStatusBar()
     }
 
     private fun updateTheme(view: View) {
@@ -45,25 +48,23 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         val inactive = randomColor()
         val snackbarText = randomColor()
         val snackbarAction = randomColor()
-        val cardColor = randomColor()
         Oops.oops {
             colorAccent = accent
             colorPrimary = primary
             textColorPrimary = textPrimary
             textColorSecondary = textSecondary
-            iconTitleActiveColor = active
-            iconTitleInactiveColor = inactive
+            toolbarActiveColor = active
+            toolbarInactiveColor = inactive
             statusBarColor = primary
             navBarColor = primary
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction
             snackBarBackgroundColor = randomColor()
-            cardViewBackgroundColor = cardColor
             navigationViewMode = NavigationViewTintMode.PRIMARY
             rippleView = view
             rippleAnimDuration = 480
         }
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        Snackbar.make(coordinatorLayout, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action") {
                     logi { "do something..." }
                 }.show()
@@ -77,7 +78,11 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
+        toolbar.inflateMenu(R.menu.menu_primary)
+        toolbar.menu.findItem(R.id.action_go_next).setOnMenuItemClickListener {
+            startActivity(Intent(this, SecondaryActivity::class.java))
+            true
+        }
     }
 
     override fun onBackPressed() {
@@ -89,16 +94,13 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_primary, menu)
+        menuInflater.inflate(R.menu.menu_bottom_nav, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_go_next -> {
-                startActivity(Intent(this, SecondaryActivity::class.java))
-                true
-            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

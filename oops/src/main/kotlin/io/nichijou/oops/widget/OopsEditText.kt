@@ -3,7 +3,7 @@ package io.nichijou.oops.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.SparseIntArray
+import android.util.SparseArray
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.Lifecycle
@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.resIds
+import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.tintAuto
 import io.nichijou.oops.ext.tintCursor
 import io.nichijou.oops.temp.IsDarkColor
@@ -21,14 +21,14 @@ import io.nichijou.oops.temp.IsDarkColor
 
 open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
-    private val ids: SparseIntArray
+    private val attrNames: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        ids = context.resIds(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     private fun updateColor(isDarkColor: IsDarkColor) {
@@ -38,9 +38,9 @@ open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
     @SuppressLint("ResourceType")
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(context, ids[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::updateColor))
-        oopsVM.live(context, ids[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
-        oopsVM.live(context, ids[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
+        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::updateColor))
+        oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        oopsVM.live(attrNames[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

@@ -23,7 +23,7 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun howToLive() {
-        oopsVM.iconTitleActiveColor.observe(this, Observer {
+        oopsVM.toolbarActiveColor.observe(this, Observer {
             this.setTabTextColors(it.adjustAlpha(.7f), it)
         })
         oopsVM.tabStateColor.observe(this, Observer {

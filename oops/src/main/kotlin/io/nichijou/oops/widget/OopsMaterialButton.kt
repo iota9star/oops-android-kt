@@ -1,37 +1,45 @@
 package io.nichijou.oops.widget
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.AttributeSet
 import android.util.SparseArray
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.button.MaterialButton
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrNames
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.*
 
-open class OopsRadioButton : AppCompatRadioButton, OopsViewLifeAndLive {
+
+open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
     override fun howToLive() {
         oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
-            this.tint(it.color, it.isDark)
+            val textColorSl = ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
+                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)
+            )
+            this.setTextColor(textColorSl)
+            this.icon = this.icon?.tint(textColorSl)
+            this.tintAuto(it.color, true, it.isDark)
+            isEnabled = !isEnabled
+            isEnabled = !isEnabled
         })
-        oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

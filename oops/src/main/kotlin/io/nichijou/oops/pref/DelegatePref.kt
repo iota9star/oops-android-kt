@@ -1,5 +1,6 @@
 package io.nichijou.oops.pref
 
+import android.content.SharedPreferences
 import android.os.SystemClock
 import io.nichijou.oops.Oops
 import kotlin.properties.ReadWriteProperty
@@ -14,10 +15,10 @@ abstract class DelegatePref<T> : ReadWriteProperty<Oops, T>, PrefKey {
 
     override operator fun getValue(thisRef: Oops, property: KProperty<*>): T {
         if (!thisRef.transaction) {
-            return get(property, thisRef)
+            return get(property, thisRef.prefs)
         }
         if (lastUpdate < thisRef.transactionStartTime) {
-            value = get(property, thisRef)
+            value = get(property, thisRef.prefs)
             lastUpdate = SystemClock.uptimeMillis()
         }
         return value ?: throw IllegalAccessException("can't get value($key)... ")
@@ -27,14 +28,14 @@ abstract class DelegatePref<T> : ReadWriteProperty<Oops, T>, PrefKey {
         if (thisRef.transaction) {
             this.value = value
             lastUpdate = SystemClock.uptimeMillis()
-            applyAll(property, value, thisRef)
+            applyAll(property, value, thisRef.prefsEditor)
         } else {
-            apply(property, value, thisRef)
+            apply(property, value, thisRef.prefs)
         }
     }
 
-    abstract fun get(property: KProperty<*>, thisRef: Oops): T
-    abstract fun apply(property: KProperty<*>, value: T, thisRef: Oops)
-    abstract fun applyAll(property: KProperty<*>, value: T, thisRef: Oops)
+    abstract fun get(property: KProperty<*>, prefs: SharedPreferences): T
+    abstract fun apply(property: KProperty<*>, value: T, prefs: SharedPreferences)
+    abstract fun applyAll(property: KProperty<*>, value: T, editor: SharedPreferences.Editor)
 }
 

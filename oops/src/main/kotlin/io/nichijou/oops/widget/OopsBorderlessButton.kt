@@ -1,5 +1,6 @@
 package io.nichijou.oops.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
@@ -23,9 +24,12 @@ open class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    @SuppressLint("RestrictedApi")
     private fun updateColor(color: Int) {
         val textColorSl = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)), intArrayOf(color, color.adjustAlpha(0.56f)))
         this.setTextColor(textColorSl)
+        isEnabled = !isEnabled
+        isEnabled = !isEnabled
     }
 
     override fun howToLive() {

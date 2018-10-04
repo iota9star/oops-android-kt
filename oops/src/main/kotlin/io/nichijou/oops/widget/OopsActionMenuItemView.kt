@@ -45,7 +45,7 @@ open class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
     }
 
     override fun howToLive() {
-        oopsVM.activeColor.observe(this, Observer(this::updateColor))
+        oopsVM.toolbarColor.observe(this, Observer(this::updateColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

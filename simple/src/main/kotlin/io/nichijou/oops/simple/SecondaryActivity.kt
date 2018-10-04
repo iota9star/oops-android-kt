@@ -207,11 +207,12 @@ class SecondaryActivity : OopsActivity() {
             colorPrimary = primary
             statusBarColor = primary
             navBarColor = primary
-            iconTitleActiveColor = randomColor()
+            toolbarActiveColor = randomColor()
+            toolbarInactiveColor = randomColor()
             bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
             swipeRefreshLayoutBackgroundColor = randomColor()
-            swipeRefreshLayoutSchemeColor = randomColors()
+            swipeRefreshLayoutSchemeColor = randomColors(3..8)
             rippleAnimDuration = 480
             rippleView = view
         }

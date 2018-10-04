@@ -418,21 +418,22 @@ fun SearchView.tint(color: ActiveColor) {
 fun View.tintAuto(@ColorInt color: Int, background: Boolean, isDark: Boolean) {
     var thisBg = background
     if (!thisBg) {
-        when {
-            this is RadioButton -> this.tint(color, isDark)
-            this is SeekBar -> this.tint(color, isDark)
-            this is ProgressBar -> this.tint(color)
-            this is EditText -> this.tint(color, isDark)
-            this is CheckBox -> this.tint(color, isDark)
-            this is ImageView -> this.tint(color)
-            this is Switch -> this.tint(color, isDark)
-            this is SwitchCompat -> this.tint(color, isDark)
+        when (this) {
+            is RadioButton -> this.tint(color, isDark)
+            is SeekBar -> this.tint(color, isDark)
+            is ProgressBar -> this.tint(color)
+            is EditText -> this.tint(color, isDark)
+            is CheckBox -> this.tint(color, isDark)
+            is ImageView -> this.tint(color)
+            is Switch -> this.tint(color, isDark)
+            is SwitchCompat -> this.tint(color, isDark)
+            is AppCompatCheckedTextView -> this.tint(IsDarkColor(color, isDark))
             else -> thisBg = true
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !thisBg && this.background is RippleDrawable) {
             // Ripples for the above views (e.g. when you tap and hold a switch or checkbox)
             val rd = this.background as RippleDrawable
-            val unchecked = this.activity().colorRes(if (isDark) R.color.ripple_material_dark else R.color.ripple_material_light)
+            val unchecked = context.colorRes(if (isDark) R.color.ripple_material_dark else R.color.ripple_material_light)
             val checked = color.adjustAlpha(0.4f)
             val sl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_activated, -android.R.attr.state_checked), intArrayOf(android.R.attr.state_activated), intArrayOf(android.R.attr.state_checked)), intArrayOf(unchecked, checked, checked))
             rd.setColor(sl)
@@ -458,12 +459,11 @@ fun View.tintAuto(@ColorInt color: Int, background: Boolean, isDark: Boolean) {
 
 fun View.tintSelector(@ColorInt color: Int, darker: Boolean, isDark: Boolean) {
     val isColorLight = color.isColorLight()
-    val ctx = this.activity()
-    val disabled = ctx.colorRes(if (isDark) R.color.md_button_disabled_dark else R.color.md_button_disabled_light)
+    val disabled = context.colorRes(if (isDark) R.color.md_button_disabled_dark else R.color.md_button_disabled_light)
     val pressed = color.shiftColor(if (darker) 0.9f else 1.1f)
     val activated = color.shiftColor(if (darker) 1.1f else 0.9f)
-    val rippleColor = TintUtils.getDefaultRippleColor(ctx, isColorLight)
-    val textColor = ctx.colorRes(if (isColorLight) R.color.md_primary_text_light else R.color.md_primary_text_dark)
+    val rippleColor = TintUtils.getDefaultRippleColor(context, isColorLight)
+    val textColor = context.colorRes(if (isColorLight) R.color.md_primary_text_light else R.color.md_primary_text_dark)
     val sl: ColorStateList
     when {
         this is Button -> {
@@ -473,7 +473,7 @@ fun View.tintSelector(@ColorInt color: Int, darker: Boolean, isDark: Boolean) {
                 rd.setColor(ColorStateList.valueOf(rippleColor))
             }
             // Disabled text oops state for buttons, may oops overridden later by ATE tags
-            this.setTextColor(TintUtils.getDisabledColorStateList(textColor, ctx.colorRes(if (isDark) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light)))
+            this.setTextColor(TintUtils.getDisabledColorStateList(textColor, context.colorRes(if (isDark) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light)))
         }
         this is FloatingActionButton -> {
             // FloatingActionButton doesn't support disabled state?
@@ -501,7 +501,7 @@ fun View.tintSelector(@ColorInt color: Int, darker: Boolean, isDark: Boolean) {
         this.setBackgroundCompat(drawable)
     }
     if (this is TextView && this !is Button) {
-        this.setTextColor(TintUtils.getDisabledColorStateList(textColor, ctx.colorRes(if (isColorLight) R.color.md_text_disabled_light else R.color.md_text_disabled_dark)))
+        this.setTextColor(TintUtils.getDisabledColorStateList(textColor, context.colorRes(if (isColorLight) R.color.md_text_disabled_light else R.color.md_text_disabled_dark)))
     }
 }
 

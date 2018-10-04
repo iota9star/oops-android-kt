@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
+import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
 import io.nichijou.oops.widget.*
@@ -171,9 +172,14 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = when {
                     viewId == android.R.id.button1 || viewId == android.R.id.button2 || viewId == android.R.id.button3 -> OopsDialogButton(context, attrs)
                     viewId == com.google.android.material.R.id.snackbar_action -> OopsSnackBarButton(context, attrs)
-                    isBorderlessButton(context, attrs) -> OopsBorderlessButton(context, attrs)
+                    isBorderlessAppCompatButton(context, attrs) -> OopsBorderlessButton(context, attrs)
                     else -> OopsButton(context, attrs)
                 }
+                verifyNotNull(view, name, false)
+            }
+            "com.google.android.material.button.MaterialButton" -> {
+                view = if (isBorderlessMaterialButton(context, attrs)) OopsMaterialBorderlessButton(context, attrs)
+                else OopsMaterialButton(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "Toolbar", "androidx.appcompat.widget.Toolbar" -> {
@@ -182,6 +188,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             }
             "com.google.android.material.floatingactionbutton.FloatingActionButton" -> {
                 view = OopsFloatingActionButton(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "com.google.android.material.bottomappbar.BottomAppBar" -> {
+                view = OopsBottomAppBar(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "androidx.drawerlayout.widget.DrawerLayout" -> {
@@ -214,6 +224,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             }
             "androidx.cardview.widget.CardView" -> {
                 view = OopsCardView(context, attrs)
+                verifyNotNull(view, name, false)
+            }
+            "com.google.android.material.card.MaterialCardView" -> {
+                view = OopsMaterialCardView(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "com.google.android.material.bottomnavigation.BottomNavigationView" -> {
@@ -292,8 +306,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 view = null
         }
         return view?.apply {
-            val backgroundResId = this.context.resId(attrs, android.R.attr.background)
-            (this as OopsViewLifeAndLive).getOopsViewModel().live(this.context, backgroundResId)?.observe(this as OopsViewLifeAndLive, Observer {
+            //            if (this !is OopsViewLifeAndLive) return@apply // always false
+            val backgroundAttrName = this.context.attrName(attrs, android.R.attr.background)
+            (this as OopsViewLifeAndLive).getOopsViewModel().live(backgroundAttrName)?.observe(this as OopsViewLifeAndLive, Observer {
                 if (!needlessBackgroundColor(this)) {
                     this.setBackgroundColor(it)
                 }
@@ -316,16 +331,30 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 || id == androidx.appcompat.R.id.search_voice_btn
     }
 
-    private fun isBorderlessButton(context: Context, attrs: AttributeSet?): Boolean {
+    private fun isBorderlessAppCompatButton(context: Context, attrs: AttributeSet?): Boolean {
         if (attrs == null) {
             return false
         }
-        val backgroundRes = context.resId(attrs, android.R.attr.background)
+        val b1 = context.resId(attrs, android.R.attr.background)
+        val b2 = context.resId(attrs, R.attr.backgroundTint)
+        if (b1 == -1 && b2 == -1) {
+            return false
+        }
+        val bn1 = context.resources.getResourceEntryName(b1)
+        val bn2 = context.resources.getResourceEntryName(b2)
+        return bn1.endsWith("btn_borderless_material") || bn2.endsWith("mtrl_btn_transparent_bg_color")
+    }
+
+    private fun isBorderlessMaterialButton(context: Context, attrs: AttributeSet?): Boolean {
+        if (attrs == null) {
+            return false
+        }
+        val backgroundRes = context.resId(attrs, com.google.android.material.R.attr.backgroundTint)
         if (backgroundRes == -1) {
             return false
         }
         val resName = context.resources.getResourceEntryName(backgroundRes)
-        return resName.endsWith("btn_borderless_material")
+        return resName.endsWith("mtrl_btn_transparent_bg_color")
     }
 
     private fun createDefaultView(name: String, context: Context, attrs: AttributeSet): View? {

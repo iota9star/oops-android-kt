@@ -11,22 +11,22 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.resId
+import io.nichijou.oops.ext.attrName
 
 open class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
 
-    private val textColorResId: Int
+    private val textColorAttrName: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        textColorResId = context.resId(attrs, android.R.attr.textColor)
+        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        textColorResId = context.resId(attrs, android.R.attr.textColor)
+        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
     }
 
     override fun howToLive() {
-        oopsVM.live(context, textColorResId)?.observe(this, Observer(this::setTextColor))
+        oopsVM.live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

@@ -17,7 +17,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.R
 import io.nichijou.oops.ext.*
 import io.nichijou.oops.temp.ActiveColor
 import io.nichijou.oops.temp.CollapsingToolbarStateColor
@@ -25,14 +24,14 @@ import io.nichijou.oops.temp.CollapsingToolbarStateColor
 
 open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
-    private val colorPrimaryResId: Int
+    private val backgroundAttrName: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        colorPrimaryResId = context.resId(attrs, R.attr.colorPrimary)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     private var appBarLayout: AppBarLayout? = null
@@ -101,7 +100,7 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
     }
 
     override fun howToLive() {
-        oopsVM.collapsingToolbarStateColor(oopsVM.live(context, colorPrimaryResId, oopsVM.colorPrimary)!!).observe(this, Observer {
+        oopsVM.collapsingToolbarStateColor(oopsVM.live(backgroundAttrName, oopsVM.colorPrimary)!!).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)

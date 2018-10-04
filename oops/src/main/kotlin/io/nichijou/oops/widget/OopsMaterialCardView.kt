@@ -4,34 +4,31 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.SparseArray
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.card.MaterialCardView
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
-import io.nichijou.oops.ext.tint
 
-open class OopsRadioButton : AppCompatRadioButton, OopsViewLifeAndLive {
+open class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
-            this.tint(it.color, it.isDark)
-        })
-        oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        oopsVM.live(attrNames[com.google.android.material.R.attr.cardBackgroundColor])?.observe(this, Observer(this::setCardBackgroundColor))
+        oopsVM.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer(this::setStrokeColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

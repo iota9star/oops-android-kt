@@ -3,6 +3,7 @@ package io.nichijou.oops.ext
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.util.SparseIntArray
 import android.util.TypedValue
 import androidx.annotation.AttrRes
@@ -69,6 +70,69 @@ fun Context.resIds(attrs: AttributeSet?, attrIds: IntArray): SparseIntArray {
         ta.recycle()
     }
     return ids
+}
+
+fun Context.attrNames(attrs: AttributeSet?, attrIds: IntArray): SparseArray<String> {
+    val names = SparseArray<String>(attrIds.size)
+    if (attrs == null || attrs.attributeCount == 0 || attrIds.isEmpty()) return names
+    val name2Id = HashMap<String, Int>()
+    val resources = this.resources
+    for (attrId in attrIds) {
+        name2Id[resources.getResourceName(attrId)] = attrId
+    }
+    for (i in 0 until attrs.attributeCount) {
+        val nameResource = attrs.getAttributeNameResource(i)
+        val attrName = if (nameResource != 0) resources.getResourceName(nameResource) else ""
+        if (name2Id.containsKey(attrName)) {
+            val attrVal = attrs.getAttributeValue(i).run {
+                when {
+                    this.startsWith('@') || this.startsWith('?') -> {
+                        val id = this.substring(1).toInt()
+                        if (id == 0) {
+                            return@run ""
+                        }
+                        var name = resources.getResourceName(id)
+                        if (!name.startsWith("android")) {
+                            name = name.substring(name.indexOf(':') + 1)
+                        }
+                        "${this[0]}$name"
+                    }
+                    else -> this
+                }
+            }
+            names.put(name2Id[attrName]!!, attrVal)
+        }
+    }
+    return names
+}
+
+fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
+    if (attrs == null || attrs.attributeCount == 0 || attrId == 0) return ""
+    val resources = this.resources
+    val resName = resources.getResourceName(attrId)
+    for (i in 0 until attrs.attributeCount) {
+        val attrNameRes = attrs.getAttributeNameResource(i)
+        val attrName = if (attrNameRes != 0) resources.getResourceName(attrNameRes) else ""
+        if (resName == attrName) {
+            return attrs.getAttributeValue(i).run {
+                when {
+                    this.startsWith('@') || this.startsWith('?') -> {
+                        val id = this.substring(1).toInt()
+                        if (id == 0) {
+                            return@run ""
+                        }
+                        var name = resources.getResourceName(id)
+                        if (!name.startsWith("android")) {
+                            name = name.substring(name.indexOf(':') + 1)
+                        }
+                        "${this[0]}$name"
+                    }
+                    else -> this
+                }
+            }
+        }
+    }
+    return ""
 }
 
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {

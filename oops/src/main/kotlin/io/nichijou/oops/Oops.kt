@@ -12,7 +12,6 @@ import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
-import io.nichijou.oops.ext.colorAttr
 import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.loge
 import io.nichijou.oops.pref.BooleanPref
@@ -34,22 +33,22 @@ class Oops private constructor(val context: Context) {
 
     var theme by intPref(0, OopsPrefsKey.KEY_THEME)
     var isDark by booleanPref(false, OopsPrefsKey.KEY_IS_DARK)
-    var colorAccent by intPref(context.colorAttr(R.attr.colorAccent), OopsPrefsKey.KEY_COLOR_ACCENT)
+    var colorAccent by intPref(0, OopsPrefsKey.KEY_COLOR_ACCENT)
     fun colorAccentRes(@ColorRes colorAccentRes: Int) {
         this.colorAccent = context.colorRes(colorAccentRes)
     }
 
-    var colorPrimary by intPref(context.colorAttr(R.attr.colorPrimary), OopsPrefsKey.KEY_COLOR_PRIMARY)
+    var colorPrimary by intPref(0, OopsPrefsKey.KEY_COLOR_PRIMARY)
     fun colorPrimaryRes(@ColorRes colorPrimaryRes: Int) {
         this.colorPrimary = context.colorRes(colorPrimaryRes)
     }
 
-    var colorPrimaryDark by intPref(context.colorAttr(R.attr.colorPrimaryDark), OopsPrefsKey.KEY_COLOR_PRIMARY_DARK)
+    var colorPrimaryDark by intPref(0, OopsPrefsKey.KEY_COLOR_PRIMARY_DARK)
     fun colorPrimaryDarkRes(@ColorRes colorPrimaryDarkRes: Int) {
         this.colorPrimaryDark = context.colorRes(colorPrimaryDarkRes)
     }
 
-    var statusBarColor by intPref(context.colorAttr(R.attr.colorPrimaryDark), OopsPrefsKey.KEY_STATUS_BAR_COLOR)
+    var statusBarColor by intPref(0, OopsPrefsKey.KEY_STATUS_BAR_COLOR)
     fun statusBarColorRes(@ColorRes statusBarColorRes: Int) {
         this.statusBarColor = context.colorRes(statusBarColorRes)
     }
@@ -76,44 +75,44 @@ class Oops private constructor(val context: Context) {
         this.swipeRefreshLayoutSchemeColor = swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray()
     }
 
-    var navBarColor by intPref(context.colorAttr(R.attr.colorPrimaryDark), OopsPrefsKey.KEY_NAV_BAR_COLOR)
+    var navBarColor by intPref(0, OopsPrefsKey.KEY_NAV_BAR_COLOR)
     fun navBarColorRes(@ColorRes navBarColorRes: Int) {
         this.navBarColor = context.colorRes(navBarColorRes)
     }
 
-    var windowBackground by intPref(context.colorAttr(android.R.attr.windowBackground), OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR)
+    var windowBackground by intPref(0, OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR)
     fun windowBackgroundRes(@ColorRes windowBackgroundRes: Int) {
         this.windowBackground = context.colorRes(windowBackgroundRes)
     }
 
-    var textColorPrimary by intPref(context.colorAttr(android.R.attr.textColorPrimary), OopsPrefsKey.KEY_PRIMARY_TEXT_COLOR)
+    var textColorPrimary by intPref(0, OopsPrefsKey.KEY_PRIMARY_TEXT_COLOR)
     fun textColorPrimaryRes(@ColorRes textColorPrimaryRes: Int) {
         this.textColorPrimary = context.colorRes(textColorPrimaryRes)
     }
 
-    var textColorPrimaryInverse by intPref(context.colorAttr(android.R.attr.textColorPrimaryInverse), OopsPrefsKey.KEY_PRIMARY_TEXT_INVERSE_COLOR)
+    var textColorPrimaryInverse by intPref(0, OopsPrefsKey.KEY_PRIMARY_TEXT_INVERSE_COLOR)
     fun textColorPrimaryInverseRes(@ColorRes textColorPrimaryInverseRes: Int) {
         this.textColorPrimaryInverse = context.colorRes(textColorPrimaryInverseRes)
     }
 
-    var textColorSecondary by intPref(context.colorAttr(android.R.attr.textColorSecondary), OopsPrefsKey.KEY_SECONDARY_TEXT_COLOR)
+    var textColorSecondary by intPref(0, OopsPrefsKey.KEY_SECONDARY_TEXT_COLOR)
     fun textColorSecondaryRes(@ColorRes textColorSecondaryRes: Int) {
         this.textColorSecondary = context.colorRes(textColorSecondaryRes)
     }
 
-    var textColorSecondaryInverse by intPref(context.colorAttr(android.R.attr.textColorSecondaryInverse), OopsPrefsKey.KEY_SECONDARY_TEXT_INVERSE_COLOR)
+    var textColorSecondaryInverse by intPref(0, OopsPrefsKey.KEY_SECONDARY_TEXT_INVERSE_COLOR)
     fun textColorSecondaryInverseRes(@ColorRes textColorSecondaryInverseRes: Int) {
         this.textColorSecondaryInverse = context.colorRes(textColorSecondaryInverseRes)
     }
 
-    var iconTitleActiveColor by intPref(0, OopsPrefsKey.KEY_ICON_TITLE_ACTIVE_COLOR)
-    fun iconTitleActiveColorRes(@ColorRes iconTitleActiveColorRes: Int) {
-        this.iconTitleActiveColor = context.colorRes(iconTitleActiveColorRes)
+    var toolbarActiveColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR)
+    fun toolbarActiveColorRes(@ColorRes toolbarActiveColorRes: Int) {
+        this.toolbarActiveColor = context.colorRes(toolbarActiveColorRes)
     }
 
-    var iconTitleInactiveColor by intPref(0, OopsPrefsKey.KEY_ICON_TITLE_INACTIVE_COLOR)
-    fun iconTitleInactiveColorRes(@ColorRes iconTitleInactiveColorRes: Int) {
-        this.iconTitleInactiveColor = context.colorRes(iconTitleInactiveColorRes)
+    var toolbarInactiveColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_INACTIVE_COLOR)
+    fun toolbarInactiveColorRes(@ColorRes toolbarInactiveColorRes: Int) {
+        this.toolbarInactiveColor = context.colorRes(toolbarInactiveColorRes)
     }
 
     var snackBarTextColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR)
@@ -129,11 +128,6 @@ class Oops private constructor(val context: Context) {
     var snackBarBackgroundColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_BACKGROUND_COLOR)
     fun snackBarBackgroundColorRes(@ColorRes snackBarBackgroundColorRes: Int) {
         this.snackBarBackgroundColor = context.colorRes(snackBarBackgroundColorRes)
-    }
-
-    var cardViewBackgroundColor by intPref(0, OopsPrefsKey.KEY_CARD_VIEW_BACKGROUND_COLOR)
-    fun cardViewBackgroundColorRes(@ColorRes cardViewBackgroundColorRes: Int) {
-        this.cardViewBackgroundColor = context.colorRes(cardViewBackgroundColorRes)
     }
 
     var navigationViewMode by enumValuePref(NavigationViewTintMode.PRIMARY, OopsPrefsKey.KEY_NAV_VIEW_MODE)

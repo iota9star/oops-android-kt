@@ -13,6 +13,7 @@
     <string name="edit_text">EditText</string>
     <string name="text_input"><![CDATA[TextInputLayout&TextInputEditText]]></string>
     <string name="card_view">CardView</string>
+    <string name="material_card_view">MaterialCardView</string>
     <string name="more_action">More Action</string>
     <string name="button_show_dialog"><![CDATA[BUTTON&SHOW DIALOG]]></string>
     <string name="nested_scroll_view">NestedScrollView</string>

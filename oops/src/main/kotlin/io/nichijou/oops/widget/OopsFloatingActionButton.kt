@@ -15,18 +15,18 @@ import io.nichijou.oops.ext.*
 
 open class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive {
 
-    private val backgroundResId: Int
+    private val backgroundAttrName: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-        backgroundResId = context.resId(attrs, android.R.attr.background)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundResId = context.resId(attrs, android.R.attr.background)
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(context, backgroundResId, oopsVM.colorAccent)!!).observe(this, Observer {
+        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
             val isDark = !it.color.isColorLight()
             this.setImageDrawable(drawable.tint(if (isDark) Color.WHITE else Color.BLACK))
             this.tintAuto(it.color, true, it.isDark)

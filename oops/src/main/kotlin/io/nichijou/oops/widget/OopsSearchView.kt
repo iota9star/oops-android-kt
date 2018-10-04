@@ -22,7 +22,7 @@ open class OopsSearchView : SearchView, OopsViewLifeAndLive {
     constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun howToLive() {
-        oopsVM.activeColor.observe(this, Observer(this::tint))
+        oopsVM.toolbarColor.observe(this, Observer(this::tint))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
