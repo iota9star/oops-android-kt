@@ -204,41 +204,12 @@
             android:layout_marginBottom="12dp"
             android:text="@string/button_show_dialog" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_button"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_unelevated_button"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UnelevatedButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_text_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_icon_button"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Icon"
-            app:icon="@drawable/ic_menu_send" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextIconButton"
-            app:icon="@drawable/ic_menu_camera" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/appcompat_button" />
 
         <Button
             style="?borderlessButtonStyle"
@@ -246,7 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:text="@string/borderless_button" />
+            android:text="@string/borderless_appcompat_button" />
 
         <Button
             android:layout_width="match_parent"
@@ -254,7 +225,49 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:enabled="false"
-            android:text="@string/button_disable" />
+            android:text="@string/disable_appcompat_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_icon_button"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:text="TEXT ICON MATERIAL BUTTON"
+            app:icon="@drawable/ic_menu_send"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/material_unelevated_button"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UNELEVATED MATERIAL BUTTON"
+            app:icon="@drawable/ic_menu_send" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BORDERLESS TEXT ICON MATERIAL BUTTON"
+            app:icon="@drawable/ic_menu_send" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="DISABLE MATERIAL BUTTON"
+            app:icon="@drawable/ic_menu_send" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="DISABLE BORDERLESS MATERIAL BUTTON"
+            app:icon="@drawable/ic_menu_send" />
 
         <EditText
             android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.view.InflateException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewParent
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -321,6 +322,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 || view is Toolbar
                 || view is TabLayout
                 || view is BottomNavigationView
+                || view is Button
     }
 
     private fun isSearchIcon(@IdRes id: Int): Boolean {

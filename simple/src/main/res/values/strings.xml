@@ -20,8 +20,9 @@
     <string name="list_view">ListView</string>
     <string name="scroll_view">ScrollView</string>
     <string name="recycler_view">RecyclerView</string>
-    <string name="button_disable">DISABLE BUTTON</string>
-    <string name="borderless_button">Borderless button</string>
+    <string name="appcompat_button">APPCOMPAT BUTTON</string>
+    <string name="disable_appcompat_button">DISABLE APPCOMPAT BUTTON</string>
+    <string name="borderless_appcompat_button">BORDERLESS APPCOMPAT BUTTON</string>
     <string name="change_image">change image</string>
     <string name="next">Next</string>
     <string name="menu_search">Search</string>

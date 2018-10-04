@@ -15,7 +15,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.isColorLight
-import io.nichijou.oops.ext.tintAuto
+import io.nichijou.oops.ext.tintSelector
 
 
 open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
@@ -37,7 +37,7 @@ open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
                     intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)
             )
             this.setTextColor(textColorSl)
-            this.tintAuto(it.color, true, it.isDark)
+            this.tintSelector(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
         })

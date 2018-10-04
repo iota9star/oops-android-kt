@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.button.MaterialButton
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.R
 import io.nichijou.oops.ext.*
 
 
@@ -32,13 +33,16 @@ open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
         oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
             val textColorSl = ColorStateList(
                     arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
-                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)
+                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, context.colorRes(if (it.isDark) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
             )
             this.setTextColor(textColorSl)
             this.icon = this.icon?.tint(textColorSl)
-            this.tintAuto(it.color, true, it.isDark)
+            this.tintSelector(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
+        })
+        oopsVM.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer {
+            strokeColor = ColorStateList.valueOf(it)
         })
     }
 

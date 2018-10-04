@@ -1,8 +1,9 @@
 package io.nichijou.oops.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.RippleDrawable
+import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
@@ -14,26 +15,35 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.attrName
+import io.nichijou.oops.ext.setBackgroundCompat
 
 
 open class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
 
-    constructor(context: Context) : super(context)
+    private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
-    @SuppressLint("RestrictedApi")
-    private fun updateColor(color: Int) {
-        val textColorSl = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)), intArrayOf(color, color.adjustAlpha(0.56f)))
-        this.setTextColor(textColorSl)
-        isEnabled = !isEnabled
-        isEnabled = !isEnabled
+    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     override fun howToLive() {
-        oopsVM.colorAccent.observe(this, Observer(this::updateColor))
+        oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!.observe(this, Observer {
+            val textColorSl = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)), intArrayOf(it, it.adjustAlpha(.56f)))
+            this.setTextColor(textColorSl)
+            this.background?.let { d ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && d is RippleDrawable) {
+                    d.setColor(ColorStateList.valueOf(it.adjustAlpha(.56f)))
+                }
+                this.setBackgroundCompat(d)
+            }
+            isEnabled = !isEnabled
+            isEnabled = !isEnabled
+        })
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
