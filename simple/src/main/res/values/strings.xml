@@ -5,6 +5,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="text_color_primary">TextColorPrimary</string>
     <string name="text_color_secondary">TextColorSecondary</string>
+    <string name="custom_attr_color1">CustomAttrColor 1</string>
+    <string name="custom_attr_color2">CustomAttrColor 2</string>
     <string name="check_box">CheckBox</string>
     <string name="radio_button">RadioButton</string>
     <string name="switch_dark">Switch Dark</string>
@@ -23,6 +25,7 @@
     <string name="appcompat_button">APPCOMPAT BUTTON</string>
     <string name="disable_appcompat_button">DISABLE APPCOMPAT BUTTON</string>
     <string name="borderless_appcompat_button">BORDERLESS APPCOMPAT BUTTON</string>
+    <string name="disable_borderless_appcompat_button">DISABLE BORDERLESS APPCOMPAT BUTTON</string>
     <string name="change_image">change image</string>
     <string name="next">Next</string>
     <string name="menu_search">Search</string>

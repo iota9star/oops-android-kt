@@ -135,6 +135,14 @@ fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
     return ""
 }
 
+fun Context.attrName(@AttrRes attrId: Int): String {
+    var name = this.resources.getResourceName(attrId)
+    if (!name.startsWith("android")) {
+        name = name.substring(name.indexOf(':') + 1)
+    }
+    return name
+}
+
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {
     val a = this.theme.obtainStyledAttributes(intArrayOf(attr))
     return try {

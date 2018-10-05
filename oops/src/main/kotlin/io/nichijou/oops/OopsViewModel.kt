@@ -8,82 +8,82 @@ import io.nichijou.oops.temp.*
 
 class OopsViewModel(app: Application) : AndroidViewModel(app) {
     val theme by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::theme)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::theme)
     }
     val isDark by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::isDark)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::isDark)
     }
     val colorAccent by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::colorAccent)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::colorAccent)
     }
     val colorPrimary by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::colorPrimary)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::colorPrimary)
     }
     val colorPrimaryDark by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::colorPrimaryDark)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::colorPrimaryDark)
     }
     val statusBarColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::statusBarColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::statusBarColor)
     }
     val statusBarMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::statusBarMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::statusBarMode)
     }
     val swipeRefreshLayoutBackgroundColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutBackgroundColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutBackgroundColor)
     }
     val swipeRefreshLayoutSchemeColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutSchemeColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::swipeRefreshLayoutSchemeColor)
     }
     val navBarColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::navBarColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::navBarColor)
     }
     val windowBackground by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::windowBackground)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::windowBackground)
     }
     val textColorPrimary by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::textColorPrimary)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::textColorPrimary)
     }
     val textColorPrimaryInverse by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::textColorPrimaryInverse)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::textColorPrimaryInverse)
     }
     val textColorSecondary by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::textColorSecondary)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::textColorSecondary)
     }
     val textColorSecondaryInverse by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::textColorSecondaryInverse)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::textColorSecondaryInverse)
     }
     val toolbarActiveColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::toolbarActiveColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::toolbarActiveColor)
     }
     val toolbarInactiveColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::toolbarInactiveColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::toolbarInactiveColor)
     }
     val snackBarTextColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::snackBarTextColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::snackBarTextColor)
     }
     val snackBarActionColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::snackBarActionColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::snackBarActionColor)
     }
     val snackBarBackgroundColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::snackBarBackgroundColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::snackBarBackgroundColor)
     }
     val navigationViewMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::navigationViewMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::navigationViewMode)
     }
     val tabLayoutBackgroundMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::tabLayoutBackgroundMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::tabLayoutBackgroundMode)
     }
     val tabLayoutIndicatorMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::tabLayoutIndicatorMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::tabLayoutIndicatorMode)
     }
     val bottomNavigationViewBackgroundMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::bottomNavigationViewBackgroundMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::bottomNavigationViewBackgroundMode)
     }
     val bottomNavigationViewIconTextMode by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::bottomNavigationViewIconTextMode)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::bottomNavigationViewIconTextMode)
     }
     val collapsingToolbarColor by lazy {
-        OopsLive(Oops.oops.prefs, Oops.oops::collapsingToolbarColor)
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::collapsingToolbarColor)
     }
 
     val toolbarColor by lazy {
@@ -114,17 +114,31 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
         return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
     }
 
+    fun customAttrColor(attrName: String): OopsSharedPreferencesLive<Int> {
+        return OopsSharedPreferencesLive(Oops.oops.prefs, attrName) {
+            Oops.oops.prefs.getInt(attrName, 0)
+        }
+    }
+
     fun live(attrName: String?, fallback: LiveData<Int>? = null): LiveData<Int>? {
-        return when (attrName) {
-            "", null -> fallback
-            "?attr/colorPrimary", "?android:attr/colorPrimary" -> colorPrimary
-            "?attr/colorPrimaryDark", "?android:attr/colorPrimaryDark" -> colorPrimaryDark
-            "?attr/colorSecondary", "?android:attr/colorSecondary", "?attr/colorAccent", "?android:attr/colorAccent" -> colorAccent
-            "?android:attr/windowBackground" -> windowBackground
-            "?android:attr/textColorPrimary" -> textColorPrimary
-            "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse
-            "?android:attr/textColorSecondary" -> textColorSecondary
-            "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
+        return when {
+            attrName.isNullOrBlank() -> fallback
+            attrName == "?attr/colorPrimary"
+                    || attrName == "?android:attr/colorPrimary" -> colorPrimary
+            attrName == "?attr/colorPrimaryDark"
+                    || attrName == "?android:attr/colorPrimaryDark" -> colorPrimaryDark
+            attrName == "?attr/colorSecondary"
+                    || attrName == "?android:attr/colorSecondary"
+                    || attrName == "?attr/colorAccent"
+                    || attrName == "?android:attr/colorAccent" -> colorAccent
+            attrName == "?android:attr/windowBackground" -> windowBackground
+            attrName == "?android:attr/textColorPrimary" -> textColorPrimary
+            attrName == "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse
+            attrName == "?android:attr/textColorSecondary" -> textColorSecondary
+            attrName == "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
+            attrName == "?android:attr/statusBarColor" -> statusBarColor
+            attrName == "?android:attr/navigationBarColor" -> navBarColor
+            attrName.contains("attr/") -> customAttrColor(attrName.replace("?", ""))
             else -> fallback
         }
     }

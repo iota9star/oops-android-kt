@@ -1,8 +1,14 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar" />
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="customColor1">#000000</item>
+        <item name="customColor2">#000000</item>
+    </style>
 
-    <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar" />
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="customColor1">#000000</item>
+        <item name="customColor2">#000000</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

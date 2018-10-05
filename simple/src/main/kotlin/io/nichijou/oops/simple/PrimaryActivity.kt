@@ -61,6 +61,8 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             snackBarActionColor = snackbarAction
             snackBarBackgroundColor = randomColor()
             navigationViewMode = NavigationViewTintMode.PRIMARY
+            customAttrColor(this@PrimaryActivity, R.attr.customColor1, randomColor())
+            customAttrColor(this@PrimaryActivity, R.attr.customColor2, randomColor())
             rippleView = view
             rippleAnimDuration = 480
         }
@@ -100,7 +102,6 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-
             else -> super.onOptionsItemSelected(item)
         }
     }

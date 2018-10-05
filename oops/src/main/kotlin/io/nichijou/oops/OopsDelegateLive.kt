@@ -6,7 +6,7 @@ import io.nichijou.oops.pref.PrefKey
 import kotlin.reflect.KProperty0
 import kotlin.reflect.jvm.isAccessible
 
-class OopsLive<T>(private val prefs: SharedPreferences, private val property: KProperty0<T>) : MutableLiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class OopsDelegateLive<T>(private val prefs: SharedPreferences, private val property: KProperty0<T>) : MutableLiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var lastValue: T
 

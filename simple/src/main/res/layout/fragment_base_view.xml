@@ -39,6 +39,31 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/custom_attr_color1"
+                android:textColor="?customColor1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/custom_attr_color2"
+                android:textColor="?customColor2"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_dark"
@@ -207,25 +232,26 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:text="@string/appcompat_button" />
 
         <Button
             style="?borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:text="@string/borderless_appcompat_button" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:enabled="false"
             android:text="@string/disable_appcompat_button" />
+
+        <Button
+            style="?borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/disable_borderless_appcompat_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/material_icon_button"
@@ -272,9 +298,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
             android:layout_marginBottom="12dp"
             android:hint="@string/edit_text"
             android:inputType="text"

@@ -342,9 +342,13 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (b1 == -1 && b2 == -1) {
             return false
         }
-        val bn1 = context.resources.getResourceEntryName(b1)
-        val bn2 = context.resources.getResourceEntryName(b2)
-        return bn1.endsWith("btn_borderless_material") || bn2.endsWith("mtrl_btn_transparent_bg_color")
+        return try {
+            val bn1 = context.resources.getResourceEntryName(b1)
+            val bn2 = context.resources.getResourceEntryName(b2)
+            bn1.endsWith("btn_borderless_material") || bn2.endsWith("mtrl_btn_transparent_bg_color")
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun isBorderlessMaterialButton(context: Context, attrs: AttributeSet?): Boolean {
@@ -355,8 +359,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (backgroundRes == -1) {
             return false
         }
-        val resName = context.resources.getResourceEntryName(backgroundRes)
-        return resName.endsWith("mtrl_btn_transparent_bg_color")
+        return try {
+            val resName = context.resources.getResourceEntryName(backgroundRes)
+            resName.endsWith("mtrl_btn_transparent_bg_color")
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun createDefaultView(name: String, context: Context, attrs: AttributeSet): View? {

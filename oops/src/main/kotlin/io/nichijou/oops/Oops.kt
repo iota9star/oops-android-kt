@@ -7,11 +7,13 @@ import android.graphics.Color
 import android.os.Build
 import android.os.SystemClock
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
+import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.loge
 import io.nichijou.oops.pref.BooleanPref
@@ -138,6 +140,18 @@ class Oops private constructor(val context: Context) {
     var collapsingToolbarColor by intPref(0, OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_COLOR)
     fun collapsingToolbarColorRes(@ColorRes collapsingToolbarColorRes: Int) {
         this.collapsingToolbarColor = context.colorRes(collapsingToolbarColorRes)
+    }
+
+    fun customAttrColor(context: Context, @AttrRes attrId: Int, color: Int) {
+        return prefsEditor.putInt(context.attrName(attrId).replace("?", ""), color).apply()
+    }
+
+    fun customAttrColor(context: Context, @AttrRes attrId: Int): Int {
+        return prefs.getInt(context.attrName(attrId), 0)
+    }
+
+    internal fun customAttrColor(attrName: String): Int {
+        return prefs.getInt(attrName.replace("?", ""), 0)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
