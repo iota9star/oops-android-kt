@@ -64,17 +64,17 @@ class Oops private constructor(val context: Context) {
 
     var swipeRefreshLayoutSchemeColor by intArrayPref(intArrayOf(0x3cba54, 0xf4c20d, 0xdb3236, 0x4885ed), OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS)
     fun swipeRefreshLayoutSchemeColors(@ColorRes vararg swipeRefreshLayoutSchemeColor: Int) {
-        if (swipeRefreshLayoutSchemeColor.isEmpty()) throw IllegalArgumentException("color res args size should > 0")
+        if (swipeRefreshLayoutSchemeColor.isEmpty()) throw IllegalArgumentException("color res args size = 0")
         this.swipeRefreshLayoutSchemeColor = swipeRefreshLayoutSchemeColor
     }
 
     fun swipeRefreshLayoutSchemeColorRes(swipeRefreshLayoutSchemeColorRes: IntArray) {
-        if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color array size should > 0")
+        if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color array size = 0")
         this.swipeRefreshLayoutSchemeColor = swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray()
     }
 
     fun swipeRefreshLayoutSchemeColorsRes(@ColorRes vararg swipeRefreshLayoutSchemeColorRes: Int) {
-        if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color res args size should > 0")
+        if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color res args size = 0")
         this.swipeRefreshLayoutSchemeColor = swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray()
     }
 
@@ -188,8 +188,8 @@ class Oops private constructor(val context: Context) {
         prefs.edit()
     }
 
-    private fun intArrayPref(value: IntArray, key: String): ReadWriteProperty<Oops, IntArray> = IntArrayPref(value, key)
     private fun intPref(value: Int = 0, key: String): ReadWriteProperty<Oops, Int> = IntPref(value, key)
+    private fun intArrayPref(value: IntArray, key: String): ReadWriteProperty<Oops, IntArray> = IntArrayPref(value, key)
     private fun booleanPref(value: Boolean = false, key: String): ReadWriteProperty<Oops, Boolean> = BooleanPref(value, key)
     private inline fun <reified T : Enum<*>> enumValuePref(default: T, key: String = ""): ReadWriteProperty<Oops, T> = EnumValuePref(T::class, default, key)
 
