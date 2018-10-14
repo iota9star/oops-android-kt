@@ -6,7 +6,7 @@ def siteUrl = 'https://github.com/iota9star/oops-android-kt'
 def gitUrl = 'https://github.com/iota9star/oops-android-kt.git'
 group = "io.nichijou"
 def libName = "oops"
-version = "0.3.0"
+version = "0.2.0"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs
@@ -56,7 +56,7 @@ bintray {
     pkg {
         repo = "nichijou"
         name = libName
-        desc = 'Android Material Theme engine, Powered by LiveData & ViewModel.'
+        desc = 'Android Material Design Theme engine, Powered by LiveData & ViewModel.'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

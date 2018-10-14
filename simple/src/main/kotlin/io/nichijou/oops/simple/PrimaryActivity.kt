@@ -1,6 +1,7 @@
 package io.nichijou.oops.simple
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsActivity
 import io.nichijou.oops.ext.logi
-import io.nichijou.oops.ext.translucentStatusBar
 import io.nichijou.oops.widget.NavigationViewTintMode
 import kotlinx.android.synthetic.main.activity_primary.*
 import kotlinx.android.synthetic.main.activity_primary_content.*
@@ -26,6 +26,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         initToolbar()
         initTabLayout()
         if (Oops.oops.isFirstTime) {
+            Oops.setStaticStatusBarColor<SecondaryActivity>(Color.TRANSPARENT)
             updateTheme(fab)
         }
         fab.setOnClickListener { view ->
@@ -36,7 +37,45 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
-        translucentStatusBar()
+//        translucentStatusBar()
+//        Oops.oops {
+//            theme = R.style.AppTheme
+//            isDark = false
+//            colorAccent = Color.WHITE
+//            colorAccentRes(R.color.colorAccent)
+//            colorPrimary = Color.WHITE
+//            colorPrimaryRes(R.color.colorPrimary)
+//            colorPrimaryDark = Color.WHITE
+//            colorPrimaryDarkRes(R.color.colorPrimaryDark)
+//            statusBarColor = Color.WHITE
+//            statusBarMode = StatusBarMode.AUTO
+//            swipeRefreshLayoutBackgroundColor = Color.WHITE
+//            swipeRefreshLayoutBackgroundColorRes(R.color.colorAccent)
+//            swipeRefreshLayoutSchemeColor = intArrayOf(Color.BLACK, Color.WHITE, Color.RED)
+//            swipeRefreshLayoutSchemeColors(Color.BLACK, Color.WHITE, Color.RED)
+//            swipeRefreshLayoutSchemeColorRes(intArrayOf(R.color.colorAccent, R.color.colorPrimary))
+//            swipeRefreshLayoutSchemeColorsRes(R.color.colorAccent, R.color.colorPrimary)
+//            navBarColor = Color.WHITE
+//            navBarColorRes(R.color.colorAccent)
+//            windowBackground = Color.WHITE
+//            windowBackgroundRes(R.color.colorAccent)
+//            textColorPrimary = Color.WHITE
+//            textColorPrimaryInverse = Color.WHITE
+//            textColorSecondary = Color.WHITE
+//            textColorSecondaryInverse = Color.WHITE
+//            toolbarActiveColor = Color.WHITE
+//            toolbarInactiveColor = Color.WHITE
+//            snackBarTextColor = Color.WHITE
+//            snackBarActionColor = Color.WHITE
+//            snackBarBackgroundColor = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//            colorAccent = Color.WHITE
+//        }
     }
 
     private fun updateTheme(view: View) {

@@ -7,7 +7,9 @@ import android.net.Uri
 
 internal class OopsInitProvider : ContentProvider() {
     override fun onCreate(): Boolean {
-        context?.apply { Oops.init(this.applicationContext) }
+        context?.also {
+            Oops.init(it.applicationContext)
+        }
         return true
     }
 

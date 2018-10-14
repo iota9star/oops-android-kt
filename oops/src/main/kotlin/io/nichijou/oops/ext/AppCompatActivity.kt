@@ -9,10 +9,15 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.widget.StatusBarMode
 
 
 fun AppCompatActivity.getRootView() = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
-
 
 fun AppCompatActivity.setStatusBarColorCompat(@ColorInt color: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -68,4 +73,41 @@ fun AppCompatActivity.translucentStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         this.window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
+}
+
+internal fun AppCompatActivity.attachOops(themeId: Int) {
+    val viewModel = ViewModelProviders.of(this).get(OopsViewModel::class.java)
+    viewModel.statusBarStateColor.observe(this, Observer {
+        when (it.statusBarMode) {
+            StatusBarMode.AUTO -> {
+                val rootView = this.getRootView()
+                val key = this::class.java.canonicalName.toString().oopsSignedStatusBarColorKey()
+                val statusBarColor = if (Oops.oops.prefs.contains(key)) Oops.oops.prefs.getInt(key, 0) else it.statusBarColor
+                if (rootView is DrawerLayout) {
+                    this.setStatusBarColorCompat(Color.TRANSPARENT)
+                    rootView.setStatusBarBackgroundColor(statusBarColor)
+                } else {
+                    this.setStatusBarColorCompat(statusBarColor)
+                }
+                this.setLightStatusBarCompat(statusBarColor.isColorLight())
+            }
+            StatusBarMode.DARK -> this.setLightStatusBarCompat(false)
+            StatusBarMode.LIGHT -> this.setLightStatusBarCompat(true)
+        }
+    })
+    viewModel.navBarColor.observe(this, Observer {
+        val key = this::class.java.canonicalName.toString().oopsSignedNavBarColorKey()
+        val navBarColor = if (Oops.oops.prefs.contains(key)) Oops.oops.prefs.getInt(key, 0) else it
+        this.setNavBarColorCompat(navBarColor)
+    })
+    viewModel.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
+//    viewModel.windowBackground.observe(this, Observer {
+//        this.window.setBackgroundDrawable(ColorDrawable(it))
+//    })
+    viewModel.theme.observe(this, Observer {
+        if (themeId != it) {
+            Oops.oops.cancelRippleAnimation()
+            this.recreate()
+        }
+    })
 }

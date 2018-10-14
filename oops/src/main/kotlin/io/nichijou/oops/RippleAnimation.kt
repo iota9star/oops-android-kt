@@ -65,9 +65,12 @@ class RippleAnimation private constructor(
         }
     }
 
-    fun setDuration(duration: Long): RippleAnimation {
+    fun setDuration(duration: Long) {
         mDuration = duration
-        return this
+    }
+
+    fun setOnAnimationEndListener(listener: OnAnimationEndListener) {
+        mOnAnimationEndListener = listener
     }
 
     private fun initListener() {
@@ -139,11 +142,6 @@ class RippleAnimation private constructor(
         canvas.drawBitmap(mBackground!!, 0f, 0f, null)
         canvas.drawCircle(mStartX, mStartY, mCurrentRadius.toFloat(), mPaint)
         canvas.restoreToCount(layer)
-    }
-
-    fun setOnAnimationEndListener(listener: OnAnimationEndListener): RippleAnimation {
-        mOnAnimationEndListener = listener
-        return this
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

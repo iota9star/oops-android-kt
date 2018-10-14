@@ -2,6 +2,7 @@ package io.nichijou.oops.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.Lifecycle
@@ -44,6 +45,11 @@ internal class OopsSnackBarButton : AppCompatButton, OopsViewLifeAndLive {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         resumeOrPauseLife(hasWindowFocus)
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        resumeOrPauseLife(visibility == View.VISIBLE)
     }
 
     override fun onDetachedFromWindow() {

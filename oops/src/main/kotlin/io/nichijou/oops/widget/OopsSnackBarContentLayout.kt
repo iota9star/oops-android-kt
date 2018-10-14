@@ -3,6 +3,7 @@ package io.nichijou.oops.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
@@ -58,6 +59,11 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAn
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         resumeOrPauseLife(hasWindowFocus)
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        resumeOrPauseLife(visibility == View.VISIBLE)
     }
 
     override fun onDetachedFromWindow() {
