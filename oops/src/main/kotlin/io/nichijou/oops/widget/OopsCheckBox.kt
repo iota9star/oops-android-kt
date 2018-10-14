@@ -13,24 +13,22 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.oopsTint
 
 open class OopsCheckBox : AppCompatCheckBox, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
-            this.tint(it.color, it.isDark)
-        })
+        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::oopsTint))
         oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
     }
 

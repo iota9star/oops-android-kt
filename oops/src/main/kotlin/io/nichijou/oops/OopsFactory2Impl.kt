@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 @SuppressLint("RestrictedApi")
-class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater.Factory2 {
+class OopsFactory2Impl(private val activity: AppCompatActivity, private val factory: OopsLayoutInflaterFactory?) : LayoutInflater.Factory2 {
 
     private fun shouldInheritContext(context: Context, parent: ViewParent?): Boolean {
         var thisParent: ViewParent? = parent ?: return false
@@ -40,8 +40,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
             while (true) {
                 if (thisParent == null) {
                     return true
-                } else if (thisParent === windowDecor || thisParent !is View
-                        || ViewCompat.isAttachedToWindow((thisParent as View?)!!)) {
+                } else if (thisParent === windowDecor
+                        || thisParent !is View
+                        || ViewCompat.isAttachedToWindow((thisParent as View))) {
                     return false
                 }
                 thisParent = (thisParent as ViewParent).parent
@@ -49,7 +50,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         } else return false
     }
 
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
+    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?): View? {
         var inheritContext = false
         val isPreLollipop = Build.VERSION.SDK_INT < 21
         if (isPreLollipop) {
@@ -61,13 +62,13 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         return createView(parent, name, context, attrs, inheritContext, isPreLollipop, true, VectorEnabledTintResources.shouldBeUsed())
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet?): View? {
         return onCreateView(null, name, context, attrs)
     }
 
     private val mConstructorArgs = arrayOfNulls<Any>(2)
 
-    private fun createView(parent: View?, name: String, context: Context, attrs: AttributeSet, inheritContext: Boolean, readAndroidTheme: Boolean, readAppTheme: Boolean, wrapContext: Boolean): View? {
+    private fun createView(parent: View?, name: String, context: Context, attrs: AttributeSet?, inheritContext: Boolean, readAndroidTheme: Boolean, readAppTheme: Boolean, wrapContext: Boolean): View? {
         var ctx = context
         val originalContext = ctx
         if (inheritContext && parent != null) {
@@ -79,7 +80,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         if (wrapContext) {
             ctx = TintContextWrapper.wrap(ctx)
         }
-        var view = createOopsView(name, parent, ctx, attrs)
+        var view = createOopsView(parent, name, ctx, attrs)
+        if (view == null) {
+            view = factory?.onCreateView(parent, name, ctx, attrs)
+        }
         if (view != null && view.tag != null && view.tag == context.getString(R.string.ignore_view)) {
             view = createDefaultView(name, ctx, attrs)
         }
@@ -93,13 +97,6 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
                 throw IllegalStateException("Unable to delegate inflation of $name to your Activity.", e)
             }
         }
-        if (view == null) {
-            try {
-                view = activity.delegate.createView(parent, name, ctx, attrs)
-            } catch (e: Throwable) {
-                throw IllegalStateException("Unable to delegate inflation of $name to AppCompat.", e)
-            }
-        }
         if (view == null && originalContext !== ctx) {
             view = createViewFromTag(ctx, name, attrs)
         }
@@ -109,7 +106,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         return view
     }
 
-    private fun createOopsView(name: String, parent: View?, context: Context, attrs: AttributeSet): View? {
+    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?): View? {
         var view: View?
         val viewId = context.resId(attrs, android.R.attr.id)
         when (name) {
@@ -367,7 +364,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         }
     }
 
-    private fun createDefaultView(name: String, context: Context, attrs: AttributeSet): View? {
+    private fun createDefaultView(name: String, context: Context, attrs: AttributeSet?): View? {
         val view: View?
         when (name) {
             "TextView" -> {
@@ -441,9 +438,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         }
     }
 
-    private fun createViewFromTag(context: Context, name: String, attrs: AttributeSet): View? {
+    private fun createViewFromTag(context: Context, name: String, attrs: AttributeSet?): View? {
         var thisName = name
-        if (thisName == "view") {
+        if (thisName == "view" && attrs != null) {
             thisName = attrs.getAttributeValue(null, "class")
         }
         try {
@@ -468,7 +465,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
         }
     }
 
-    private fun checkOnClickListener(view: View, attrs: AttributeSet) {
+    private fun checkOnClickListener(view: View, attrs: AttributeSet?) {
         val context = view.context
         if (context !is ContextWrapper && !ViewCompat.hasOnClickListeners(view)) {
             return
@@ -556,7 +553,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity) : LayoutInflater
 
         private val sConstructorMap = ArrayMap<String, Constructor<out View>>()
 
-        private fun themifyContext(context: Context, attrs: AttributeSet, useAndroidTheme: Boolean, useAppTheme: Boolean): Context {
+        private fun themifyContext(context: Context, attrs: AttributeSet?, useAndroidTheme: Boolean, useAppTheme: Boolean): Context {
             var thisCtx = context
             val a = thisCtx.obtainStyledAttributes(attrs, androidx.appcompat.R.styleable.View, 0, 0)
             var themeId = 0

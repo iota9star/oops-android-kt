@@ -9,23 +9,30 @@ import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
+@Px
 fun Context.getStatusBarHeight() = this.resources.getDimensionPixelSize(this.resources.getIdentifier("status_bar_height", "dimen", "android"))
 
+@Px
 fun Context.getScreenHeight(): Int = this.resources.displayMetrics.heightPixels
 
+@Px
 fun Context.getScreenWidth(): Int = this.resources.displayMetrics.widthPixels
 
+@Px
 fun Context.dp2px(dp: Float): Int = (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, this.resources.displayMetrics) + 0.5f).toInt()
 
 fun Context.px2dp(px: Float): Int = (px / this.resources.displayMetrics.density + 0.5f).toInt()
 
 fun Context.px2sp(px: Float): Int = (px / this.resources.displayMetrics.scaledDensity + 0.5f).toInt()
 
+@Px
 fun Context.sp2px(sp: Float): Int = (sp * this.resources.displayMetrics.scaledDensity + 0.5f).toInt()
 
+@Px
 fun Context.getDialogWidth(): Int = this.resources.displayMetrics.widthPixels - 100
 
 fun Context.activity(): AppCompatActivity {
@@ -39,7 +46,7 @@ fun Context.activity(): AppCompatActivity {
     throw IllegalStateException("no context ...")
 }
 
-fun Context.resId(@AttrRes attr: Int, fallback: Int = 0): Int {
+fun Context.resId(@AttrRes attr: Int, fallback: Int = -1): Int {
     val a = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         return a.getResourceId(0, fallback)
@@ -140,7 +147,7 @@ fun Context.attrName(@AttrRes attrId: Int): String {
     if (!name.startsWith("android")) {
         name = name.substring(name.indexOf(':') + 1)
     }
-    return name
+    return "?$name"
 }
 
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {

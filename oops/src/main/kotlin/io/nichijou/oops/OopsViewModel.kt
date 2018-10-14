@@ -3,8 +3,9 @@ package io.nichijou.oops
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import io.nichijou.oops.color.*
 import io.nichijou.oops.ext.liveMediator
-import io.nichijou.oops.temp.*
+import io.nichijou.oops.ext.oopsSignedAttrName
 
 class OopsViewModel(app: Application) : AndroidViewModel(app) {
     val theme by lazy {
@@ -114,9 +115,13 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
         return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
     }
 
-    fun customAttrColor(attrName: String): OopsSharedPreferencesLive<Int> {
-        return OopsSharedPreferencesLive(Oops.oops.prefs, attrName) {
-            Oops.oops.prefs.getInt(attrName, 0)
+    fun customAttrColor(attrName: String): OopsSharedPreferencesLive<Int>? {
+        return if (Oops.oops.prefs.contains(attrName))
+            OopsSharedPreferencesLive(Oops.oops.prefs, attrName) {
+                Oops.oops.prefs.getInt(attrName, 0)
+            }
+        else {
+            null
         }
     }
 
@@ -138,8 +143,7 @@ class OopsViewModel(app: Application) : AndroidViewModel(app) {
             attrName == "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
             attrName == "?android:attr/statusBarColor" -> statusBarColor
             attrName == "?android:attr/navigationBarColor" -> navBarColor
-            attrName.contains("attr/") -> customAttrColor(attrName.replace("?", ""))
-            else -> fallback
+            else -> fallback ?: customAttrColor(attrName.oopsSignedAttrName())
         }
     }
 }

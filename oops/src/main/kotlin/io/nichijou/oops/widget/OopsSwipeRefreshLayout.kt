@@ -10,13 +10,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.tintCircleBackground
+import io.nichijou.oops.ext.oopsTintCircleBackground
 
 
 open class OopsSwipeRefreshLayout(context: Context, attrs: AttributeSet?) : SwipeRefreshLayout(context, attrs), OopsViewLifeAndLive {
 
     override fun howToLive() {
-        oopsVM.swipeRefreshLayoutBackgroundColor.observe(this, Observer(this::tintCircleBackground))
+        oopsVM.swipeRefreshLayoutBackgroundColor.observe(this, Observer(this::oopsTintCircleBackground))
         oopsVM.swipeRefreshLayoutSchemeColor.observe(this, Observer { this.setColorSchemeColors(*it) })
     }
 

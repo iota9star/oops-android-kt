@@ -1,7 +1,6 @@
 package io.nichijou.oops.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
@@ -11,26 +10,24 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrName
+import io.nichijou.oops.ext.oopsTint
 
 open class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
-            val isDark = !it.color.isColorLight()
-            this.setImageDrawable(drawable.tint(if (isDark) Color.WHITE else Color.BLACK))
-            this.tintAuto(it.color, true, it.isDark)
-        })
+        oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!.observe(this, Observer(this::oopsTint))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

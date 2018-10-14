@@ -18,11 +18,11 @@ open class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 

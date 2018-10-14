@@ -14,31 +14,24 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
-import io.nichijou.oops.ext.tintAuto
-import io.nichijou.oops.ext.tintCursor
-import io.nichijou.oops.temp.IsDarkColor
+import io.nichijou.oops.ext.oopsTint
 
 
 open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
-    }
-
-    private fun updateColor(isDarkColor: IsDarkColor) {
-        this.tintCursor(isDarkColor.color)
-        this.tintAuto(isDarkColor.color, true, isDarkColor.isDark)
     }
 
     @SuppressLint("ResourceType")
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::updateColor))
+        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::oopsTint))
         oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
         oopsVM.live(attrNames[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }

@@ -16,6 +16,7 @@ import androidx.core.view.LayoutInflaterCompat
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.loge
+import io.nichijou.oops.ext.oopsSignedAttrName
 import io.nichijou.oops.pref.BooleanPref
 import io.nichijou.oops.pref.EnumValuePref
 import io.nichijou.oops.pref.IntArrayPref
@@ -143,7 +144,8 @@ class Oops private constructor(val context: Context) {
     }
 
     fun customAttrColor(context: Context, @AttrRes attrId: Int, color: Int) {
-        return prefsEditor.putInt(context.attrName(attrId).replace("?", ""), color).apply()
+        prefsEditor.putInt(context.attrName(attrId).oopsSignedAttrName(), color)
+        if (!transaction) prefsEditor.apply()
     }
 
     fun customAttrColor(context: Context, @AttrRes attrId: Int): Int {
@@ -151,14 +153,14 @@ class Oops private constructor(val context: Context) {
     }
 
     internal fun customAttrColor(attrName: String): Int {
-        return prefs.getInt(attrName.replace("?", ""), 0)
+        return prefs.getInt(attrName.oopsSignedAttrName(), 0)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     var rippleView: View? = null
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @IntRange(from = 300, to = 1600)
-    var rippleAnimDuration: Long = 520
+    @IntRange(from = 300, to = 1200)
+    var rippleAnimDuration: Long = 480
 
     internal var rippleAnimation: RippleAnimation? = null
 
@@ -209,17 +211,27 @@ class Oops private constructor(val context: Context) {
     companion object {
 
         lateinit var oops: Oops
+        private var factory: OopsLayoutInflaterFactory? = null
+
 
         internal fun init(context: Context) {
             oops = Oops(context)
         }
 
         fun binding(activity: AppCompatActivity) {
-            LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl(activity))
+            binding(activity, factory)
+        }
+
+        fun binding(activity: AppCompatActivity, factory: OopsLayoutInflaterFactory?) {
+            LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl(activity, factory))
             val theme = oops.theme
             if (theme != 0) {
                 activity.setTheme(theme)
             }
+        }
+
+        fun setLayoutInflaterFactory(factory: OopsLayoutInflaterFactory?) {
+            this.factory = factory
         }
 
         fun oops(block: Oops.() -> Unit) {

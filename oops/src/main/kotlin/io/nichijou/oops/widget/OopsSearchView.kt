@@ -11,18 +11,18 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.oopsTint
 
 open class OopsSearchView : SearchView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun howToLive() {
-        oopsVM.toolbarColor.observe(this, Observer(this::tint))
+        oopsVM.toolbarColor.observe(this, Observer(this::oopsTint))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

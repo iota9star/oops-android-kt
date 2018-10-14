@@ -12,24 +12,22 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.oopsTint
 
 open class OopsSeekBar : AppCompatSeekBar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
-            this.tint(it.color, it.isDark)
-        })
+        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer(this::oopsTint))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

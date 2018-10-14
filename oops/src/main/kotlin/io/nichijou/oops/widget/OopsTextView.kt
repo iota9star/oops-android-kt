@@ -17,11 +17,11 @@ open class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
 
     private val textColorAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
     }
 

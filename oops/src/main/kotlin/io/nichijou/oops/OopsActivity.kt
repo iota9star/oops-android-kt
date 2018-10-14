@@ -1,7 +1,6 @@
 package io.nichijou.oops
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +15,6 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 
     private val oopsVM by lazy { ViewModelProviders.of(this).get(OopsViewModel::class.java) }
-
-    private var currentTheme = Oops.oops.theme
 
     private var sbc = Pair(false, 0)
     private var nbc = Pair(false, 0)
@@ -63,12 +60,13 @@ open class OopsActivity : AppCompatActivity(), OopsViewLifeAndLive {
             setNavBarColorCompat(navBarColor)
         })
         oopsVM.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
-        oopsVM.windowBackground.observe(this, Observer {
-            this.window.setBackgroundDrawable(ColorDrawable(it))
-        })
+//        oopsVM.windowBackground.observe(this, Observer {
+//            this.window.setBackgroundDrawable(ColorDrawable(it))
+//        })
         oopsVM.theme.observe(this, Observer {
-            if (currentTheme != it) {
-                currentTheme = it
+            val themeId = this.resId(android.R.attr.theme)
+            logi { "themeId: $themeId" }
+            if (themeId != -1 && themeId != it) {
                 Oops.oops.rippleAnimation?.cancel()
                 Oops.oops.rippleAnimation = null
                 recreate()

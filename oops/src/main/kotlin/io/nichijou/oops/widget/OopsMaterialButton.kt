@@ -21,11 +21,11 @@ open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
@@ -43,6 +43,8 @@ open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
         })
         oopsVM.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer {
             strokeColor = ColorStateList.valueOf(it)
+            isEnabled = !isEnabled
+            isEnabled = !isEnabled
         })
     }
 

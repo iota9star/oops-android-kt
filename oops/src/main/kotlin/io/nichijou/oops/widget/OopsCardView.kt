@@ -17,11 +17,11 @@ open class OopsCardView : CardView, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
     }
 

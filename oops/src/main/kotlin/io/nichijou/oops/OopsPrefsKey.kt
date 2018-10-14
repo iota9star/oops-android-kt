@@ -1,7 +1,7 @@
 package io.nichijou.oops
 
 internal object OopsPrefsKey {
-    const val PREFS_NAME = "oops_theme_prefs"
+    const val PREFS_NAME = "oops_signed_theme_prefs"
     const val KEY_THEME = "theme"
     const val KEY_IS_FIRST_TIME = "is_first_time"
     const val KEY_IS_DARK = "is_dark"

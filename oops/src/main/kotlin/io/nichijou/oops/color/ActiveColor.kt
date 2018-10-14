@@ -1,4 +1,4 @@
-package io.nichijou.oops.temp
+package io.nichijou.oops.color
 
 import android.content.res.ColorStateList
 import androidx.annotation.ColorInt

@@ -12,19 +12,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.*
-import io.nichijou.oops.temp.ActiveColor
 
 
 open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
@@ -45,12 +45,12 @@ open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
 
     fun updateColor(color: ActiveColor) {
         this.setTitleTextColor(color.active)
-        this.tintOverflowIcon(color.active)
+        this.oopsTintOverflowIcon(color.active)
         val sl = color.toEnabledSl()
         colorStateList = sl
-        this.tintCollapseIcon(sl)
-        this.tintNavIcon(sl)
-        this.tintMenuItem(menu, color)
+        this.oopsTintCollapseIcon(sl)
+        this.oopsTintNavIcon(sl)
+        this.oopsTintMenuItem(menu, color)
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM

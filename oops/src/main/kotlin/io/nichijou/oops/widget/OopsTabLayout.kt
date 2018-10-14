@@ -18,9 +18,9 @@ open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun howToLive() {
         oopsVM.toolbarActiveColor.observe(this, Observer {

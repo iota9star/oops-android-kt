@@ -20,7 +20,7 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAn
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
     private fun updateColor(color: Int) {
         setBackgroundColor(color)

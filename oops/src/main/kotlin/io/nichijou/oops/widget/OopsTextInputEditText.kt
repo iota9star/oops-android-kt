@@ -10,31 +10,29 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.color.IsDarkColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
-import io.nichijou.oops.ext.tintAuto
-import io.nichijou.oops.ext.tintCursor
-import io.nichijou.oops.temp.IsDarkColor
+import io.nichijou.oops.ext.oopsTint
 
 
 open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
     private var lastState: IsDarkColor? = null
 
-    private fun updateColor(isDarkColor: IsDarkColor) {
-        this.lastState = isDarkColor
-        this.tintAuto(isDarkColor.color, true, isDarkColor.isDark)
-        this.tintCursor(isDarkColor.color)
+    private fun updateColor(color: IsDarkColor) {
+        this.lastState = color
+        this.oopsTint(color)
     }
 
     override fun refreshDrawableState() {

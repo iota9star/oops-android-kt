@@ -21,11 +21,11 @@ open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
@@ -35,7 +35,15 @@ open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
                     intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
                     intArrayOf(it.color, it.color.adjustAlpha(.56f)))
             this.setTextColor(textColorSl)
-            this.icon = this.icon?.tint(textColorSl)
+            this.icon = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.icon?.tint(textColorSl)
+            } else {
+                if (isEnabled) {
+                    this.icon?.tint(it.color)
+                } else {
+                    this.icon?.tint(it.color.adjustAlpha(.56f))
+                }
+            }
             this.background?.let { d ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && d is RippleDrawable) {
                     d.setColor(ColorStateList.valueOf(it.color.adjustAlpha(.56f)))
@@ -46,7 +54,7 @@ open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
             isEnabled = !isEnabled
         })
         oopsVM.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer {
-            strokeColor = ColorStateList.valueOf(it)
+            this.strokeColor = ColorStateList.valueOf(it)
         })
     }
 

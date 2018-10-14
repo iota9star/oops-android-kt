@@ -17,20 +17,20 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.color.ActiveColor
+import io.nichijou.oops.color.CollapsingToolbarStateColor
 import io.nichijou.oops.ext.*
-import io.nichijou.oops.temp.ActiveColor
-import io.nichijou.oops.temp.CollapsingToolbarStateColor
 
 
 open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
     private val backgroundAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
@@ -73,9 +73,9 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
 
     private fun tintMenu(toolbar: Toolbar, color: ActiveColor) {
         val sl = color.toEnabledSl()
-        toolbar.tintNavIcon(sl)
-        toolbar.tintCollapseIcon(sl)
-        toolbar.tintOverflowIcon(color.active)
+        toolbar.oopsTintNavIcon(sl)
+        toolbar.oopsTintCollapseIcon(sl)
+        toolbar.oopsTintOverflowIcon(color.active)
         val colorFilter = PorterDuffColorFilter(color.active, PorterDuff.Mode.SRC_IN)
         for (i in 0 until toolbar.childCount) {
             val v = toolbar.getChildAt(i)
@@ -91,12 +91,12 @@ open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAn
                                 itemView.compoundDrawables[k].colorFilter = colorFilter
                             }
                         }
-                        itemView.tintIcon(sl)
+                        itemView.oopsTintIcon(sl)
                     }
                 }
             }
         }
-        toolbar.tintMenuItem(toolbar.menu ?: return, color)
+        toolbar.oopsTintMenuItem(toolbar.menu ?: return, color)
     }
 
     override fun howToLive() {

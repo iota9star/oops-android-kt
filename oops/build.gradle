@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "0.1.1"
+        versionName "0.3.0"
     }
     buildTypes {
         release {
@@ -52,7 +52,7 @@ def siteUrl = 'https://github.com/iota9star/oops-android-kt'
 def gitUrl = 'https://github.com/iota9star/oops-android-kt.git'
 group = "io.nichijou"
 def libName = "oops"
-version = "0.1.1"
+version = "0.3.0"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs

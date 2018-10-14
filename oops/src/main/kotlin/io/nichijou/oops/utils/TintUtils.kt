@@ -9,11 +9,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import io.nichijou.oops.R
+import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.shiftColor
 import io.nichijou.oops.ext.stripAlpha
 import io.nichijou.oops.ext.tint
-import io.nichijou.oops.temp.ActiveColor
 import java.lang.reflect.Field
 
 

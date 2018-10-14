@@ -8,10 +8,7 @@ import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.GlidePalette
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsActivity
-import io.nichijou.oops.ext.insetStatusBar
-import io.nichijou.oops.ext.isColorLight
-import io.nichijou.oops.ext.setLightStatusBarCompat
-import io.nichijou.oops.ext.translucentStatusBar
+import io.nichijou.oops.ext.*
 import io.nichijou.oops.widget.BottomNavigationViewBackgroundMode
 import io.nichijou.oops.widget.BottomNavigationViewIconTextMode
 import kotlinx.android.synthetic.main.activity_secondary.*
@@ -184,7 +181,7 @@ class SecondaryActivity : OopsActivity() {
         insetStatusBar()
         translucentStatusBar()
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-            toolbar.topStatusBarMargin()
+            toolbar.setStatusBarHeightTopMarginInCollapsingToolbarLayout()
         }
         collapsingToolbar.title = "Secondary"
         toolbar.inflateMenu(R.menu.menu_secondary)

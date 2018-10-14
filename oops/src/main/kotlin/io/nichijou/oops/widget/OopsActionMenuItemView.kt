@@ -13,26 +13,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.oopsTintIcon
 import io.nichijou.oops.ext.tint
-import io.nichijou.oops.ext.tintIcon
-import io.nichijou.oops.temp.ActiveColor
 
 @SuppressLint("RestrictedApi")
 open class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private var colorStateList: ColorStateList? = null
 
     private fun updateColor(lastActive: ActiveColor) {
         this.setTextColor(lastActive.active)
         val sl = lastActive.toEnabledSl()
-        this.tintIcon(sl)
+        this.oopsTintIcon(sl)
         colorStateList = sl
     }
 

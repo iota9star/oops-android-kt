@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PrimaryActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -183,44 +181,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:clipToPadding="true"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/card_view"
-                android:textAlignment="center"
-                android:textSize="28sp" />
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:clipToPadding="true"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="12dp"
-            app:strokeColor="?colorAccent"
-            app:strokeWidth="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/material_card_view"
-                android:textAlignment="center"
-                android:textSize="28sp" />
-        </com.google.android.material.card.MaterialCardView>
-
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
@@ -261,7 +221,7 @@
             android:background="?colorPrimary"
             android:text="TEXT ICON MATERIAL BUTTON"
             app:icon="@drawable/ic_menu_send"
-            app:strokeColor="@color/colorAccent"
+            app:strokeColor="?colorAccent"
             app:strokeWidth="4dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -324,81 +284,43 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
             android:layout_marginBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:boxBackgroundMode="filled">
+            android:clipToPadding="true"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="12dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_input"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/card_view"
+                android:textAlignment="center"
+                android:textSize="28sp" />
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox.Dense"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
-            android:layout_marginBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:boxBackgroundMode="filled">
+            android:layout_marginBottom="24dp"
+            android:clipToPadding="true"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="12dp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="8dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_input"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
-            android:layout_marginBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:boxBackgroundMode="filled">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_input"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
-            android:layout_marginBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:boxBackgroundMode="filled">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_input"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/material_card_view"
+                android:textAlignment="center"
+                android:textSize="28sp" />
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

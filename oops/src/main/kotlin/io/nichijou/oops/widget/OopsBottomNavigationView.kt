@@ -23,9 +23,9 @@ open class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive 
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private fun updateIconText(selectedColor: Int, bgColor: Int) {
         val baseColor = this.activity().colorRes(if (bgColor.isColorLight()) R.color.md_icon_light else R.color.md_icon_dark)

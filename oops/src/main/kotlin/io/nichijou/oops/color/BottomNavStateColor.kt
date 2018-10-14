@@ -1,4 +1,4 @@
-package io.nichijou.oops.temp
+package io.nichijou.oops.color
 
 import androidx.annotation.ColorInt
 import io.nichijou.oops.ext.Live6
