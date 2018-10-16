@@ -3,6 +3,7 @@ package io.nichijou.oops.ext
 import android.app.ActivityManager
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -101,9 +102,9 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
         this.setNavBarColorCompat(navBarColor)
     })
     viewModel.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
-//    viewModel.windowBackground.observe(this, Observer {
-//        this.window.setBackgroundDrawable(ColorDrawable(it))
-//    })
+    viewModel.windowBackground.observe(this, Observer {
+        this.window.setBackgroundDrawable(ColorDrawable(it))
+    })
     viewModel.theme.observe(this, Observer {
         if (themeId != it) {
             Oops.oops.cancelRippleAnimation()

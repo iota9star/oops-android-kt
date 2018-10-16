@@ -2,7 +2,6 @@ package io.nichijou.oops.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.AttributeSet
 import android.util.SparseArray
 import androidx.annotation.Nullable
@@ -13,8 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.button.MaterialButton
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.R
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrNames
+import io.nichijou.oops.ext.isColorLight
+import io.nichijou.oops.ext.oopsTint
 
 
 open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
@@ -31,13 +32,7 @@ open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
 
     override fun howToLive() {
         oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
-            val textColorSl = ColorStateList(
-                    arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
-                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, context.colorRes(if (it.isDark) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
-            )
-            this.setTextColor(textColorSl)
-            this.icon = this.icon?.tint(textColorSl)
-            this.tintSelector(it.color, !it.color.isColorLight(), it.isDark)
+            this.oopsTint(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
         })

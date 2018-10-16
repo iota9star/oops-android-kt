@@ -1,8 +1,6 @@
 package io.nichijou.oops.widget
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
@@ -15,7 +13,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.isColorLight
-import io.nichijou.oops.ext.tintSelector
+import io.nichijou.oops.ext.oopsTint
 
 
 open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
@@ -32,12 +30,7 @@ open class OopsButton : AppCompatButton, OopsViewLifeAndLive {
 
     override fun howToLive() {
         oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
-            val textColorSl = ColorStateList(
-                    arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
-                    intArrayOf(if (it.color.isColorLight()) Color.BLACK else Color.WHITE, if (it.isDark) Color.WHITE else Color.BLACK)
-            )
-            this.setTextColor(textColorSl)
-            this.tintSelector(it.color, !it.color.isColorLight(), it.isDark)
+            this.oopsTint(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
         })

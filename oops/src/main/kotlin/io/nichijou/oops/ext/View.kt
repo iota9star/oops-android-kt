@@ -24,6 +24,7 @@ import androidx.core.view.TintableBackgroundView
 import androidx.core.view.ViewCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import io.nichijou.oops.R
@@ -450,45 +451,65 @@ fun View.oopsTintRippleBackground(color: IsDarkColor) {
     }
 }
 
-fun View.tintSelector(@ColorInt color: Int, darker: Boolean, useDarkTheme: Boolean) {
-    val isColorLight = color.isColorLight()
+fun MaterialButton.oopsTint(@ColorInt color: Int, darker: Boolean, useDarkTheme: Boolean) {
     val disabled = context.colorRes(if (useDarkTheme) R.color.md_button_disabled_dark else R.color.md_button_disabled_light)
     val pressed = color.shiftColor(if (darker) 0.9f else 1.1f)
     val activated = color.shiftColor(if (darker) 1.1f else 0.9f)
-    val rippleColor = defaultRippleColor(context, isColorLight)
+    val rippleColor = defaultRippleColor(context, darker)
     val textColor = context.colorRes(
-            if (isColorLight) R.color.md_primary_text_light
+            if (darker) R.color.md_primary_text_light
             else R.color.md_primary_text_dark
     )
-    val sl: ColorStateList
-    when (this) {
-        is Button -> {
-            sl = disabledColorStateList(color, disabled)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && this.background is RippleDrawable) {
-                val rd = this.background as RippleDrawable
-                rd.setColor(ColorStateList.valueOf(rippleColor))
-            }
-            setTextColor(disabledColorStateList(
-                    textColor,
-                    context.colorRes(if (useDarkTheme) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light)))
-        }
-        else -> sl = ColorStateList(
-                arrayOf(
-                        intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
-                        intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
-                        intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
-                        intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
-                ),
-                intArrayOf(disabled, color, pressed, activated, activated)
-        )
+    val sl = ColorStateList(
+            arrayOf(
+                    intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+            ), intArrayOf(disabled, color, pressed, activated, activated))
+    val dsl = disabledColorStateList(textColor, context.colorRes(if (useDarkTheme) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
+    this.setTextColor(dsl)
+    this.icon = this.icon?.tint(dsl)
+    this.backgroundTintList = sl
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && this.background is RippleDrawable) {
+        val rd = this.background as RippleDrawable
+        rd.setColor(ColorStateList.valueOf(rippleColor))
     }
+}
 
-    val drawable: Drawable? = this.background
-    if (drawable != null) {
-        setBackgroundCompat(drawable.tint(sl))
+fun Button.oopsTint(@ColorInt color: Int, darker: Boolean, useDarkTheme: Boolean) {
+    val disabled = context.colorRes(if (useDarkTheme) R.color.md_button_disabled_dark else R.color.md_button_disabled_light)
+    val pressed = color.shiftColor(if (darker) 0.9f else 1.1f)
+    val activated = color.shiftColor(if (darker) 1.1f else 0.9f)
+    val rippleColor = defaultRippleColor(context, darker)
+    val textColor = context.colorRes(
+            if (darker) R.color.md_primary_text_light
+            else R.color.md_primary_text_dark
+    )
+    val sl = ColorStateList(
+            arrayOf(
+                    intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+            ), intArrayOf(disabled, color, pressed, activated, activated))
+    val dsl = disabledColorStateList(textColor, context.colorRes(if (useDarkTheme) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
+    this.setTextColor(dsl)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && this.background is RippleDrawable) {
+        val rd = this.background as RippleDrawable
+        rd.setColor(ColorStateList.valueOf(rippleColor))
     }
-    if (this is TextView && this !is Button) {
-        setTextColor(disabledColorStateList(textColor, context.colorRes(if (isColorLight) R.color.md_text_disabled_light else R.color.md_text_disabled_dark)))
+    this.setBackgroundCompat(this.background?.tint(sl))
+}
+
+fun Button.oopsTintBorderless(@ColorInt color: Int, darker: Boolean, useDarkTheme: Boolean) {
+    val rippleColor = color.adjustAlpha(.56f)
+    val textColorSl = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)), intArrayOf(color, color.adjustAlpha(.56f)))
+    this.setTextColor(textColorSl)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && this.background is RippleDrawable) {
+        val rd = this.background as RippleDrawable
+        rd.setColor(ColorStateList.valueOf(rippleColor))
+        this.setBackgroundCompat(rd)
     }
 }
 

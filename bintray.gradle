@@ -6,7 +6,7 @@ def siteUrl = 'https://github.com/iota9star/oops-android-kt'
 def gitUrl = 'https://github.com/iota9star/oops-android-kt.git'
 group = "io.nichijou"
 def libName = "oops"
-version = "0.2.0"
+version = "0.2.2"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs

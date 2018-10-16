@@ -31,7 +31,7 @@
     <!--10%-->
     <color name="md_switch_track_disabled_dark">#1AFFFFFF</color>
     <!--12%-->
-    <color name="md_button_disabled_dark">#1F000000</color>
+    <color name="md_button_disabled_dark">#1FFFFFFF</color>
     <!-- 30% -->
     <color name="md_control_disabled_dark">#4DFFFFFF</color>
     <color name="md_switch_track_normal_dark">#4DFFFFFF</color>

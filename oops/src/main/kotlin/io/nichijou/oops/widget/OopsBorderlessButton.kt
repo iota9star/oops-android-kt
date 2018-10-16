@@ -1,9 +1,6 @@
 package io.nichijou.oops.widget
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.drawable.RippleDrawable
-import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
@@ -14,9 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.attrName
-import io.nichijou.oops.ext.setBackgroundCompat
+import io.nichijou.oops.ext.isColorLight
+import io.nichijou.oops.ext.oopsTintBorderless
 
 
 open class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
@@ -32,15 +29,8 @@ open class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
     }
 
     override fun howToLive() {
-        oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!.observe(this, Observer {
-            val textColorSl = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)), intArrayOf(it, it.adjustAlpha(.56f)))
-            this.setTextColor(textColorSl)
-            this.background?.let { d ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && d is RippleDrawable) {
-                    d.setColor(ColorStateList.valueOf(it.adjustAlpha(.56f)))
-                }
-                this.setBackgroundCompat(d)
-            }
+        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer {
+            this.oopsTintBorderless(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
         })

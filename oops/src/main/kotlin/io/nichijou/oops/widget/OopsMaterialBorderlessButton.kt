@@ -14,7 +14,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.button.MaterialButton
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.attrNames
+import io.nichijou.oops.ext.tint
 
 
 open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
@@ -48,7 +51,6 @@ open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && d is RippleDrawable) {
                     d.setColor(ColorStateList.valueOf(it.color.adjustAlpha(.56f)))
                 }
-                this.setBackgroundCompat(d)
             }
             isEnabled = !isEnabled
             isEnabled = !isEnabled

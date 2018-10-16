@@ -172,6 +172,82 @@ class Oops private constructor(val context: Context) {
         return prefs.getInt(attrName.oopsSignedAttrName(), 0)
     }
 
+    inline fun <reified T : AppCompatActivity> putStaticStatusBarColorRes(@ColorRes colorRes: Int) {
+        putStaticStatusBarColorRes(T::class.java, colorRes)
+    }
+
+    fun putStaticStatusBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int) {
+        putStaticStatusBarColorRes(activity::class.java, colorRes)
+    }
+
+    fun putStaticStatusBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int) {
+        putStaticNavBarColor(clazz, context.colorRes(colorRes))
+    }
+
+    inline fun <reified T : AppCompatActivity> putStaticStatusBarColor(@ColorInt color: Int) {
+        putStaticStatusBarColor(T::class.java, color)
+    }
+
+    fun putStaticStatusBarColor(activity: AppCompatActivity, @ColorInt color: Int) {
+        putStaticStatusBarColor(activity::class.java, color)
+    }
+
+    fun putStaticStatusBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int) {
+        oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedStatusBarColorKey(), color)
+        if (!transaction) prefsEditor.apply()
+    }
+
+    inline fun <reified T : AppCompatActivity> removeStaticStatusBarColor() {
+        removeStaticStatusBarColor(T::class.java)
+    }
+
+    fun removeStaticStatusBarColor(activity: AppCompatActivity) {
+        removeStaticStatusBarColor(activity::class.java)
+    }
+
+    fun removeStaticStatusBarColor(clazz: Class<out AppCompatActivity>) {
+        oops.prefsEditor.remove(clazz.canonicalName.toString().oopsSignedStatusBarColorKey())
+        if (!transaction) prefsEditor.apply()
+    }
+
+    inline fun <reified T : AppCompatActivity> putStaticNavBarColorRes(@ColorRes colorRes: Int) {
+        putStaticNavBarColorRes(T::class.java, colorRes)
+    }
+
+    fun putStaticNavBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int) {
+        putStaticNavBarColorRes(activity::class.java, colorRes)
+    }
+
+    fun putStaticNavBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int) {
+        putStaticNavBarColor(clazz, context.colorRes(colorRes))
+    }
+
+    inline fun <reified T : AppCompatActivity> putStaticNavBarColor(@ColorInt color: Int) {
+        putStaticNavBarColor(T::class.java, color)
+    }
+
+    fun putStaticNavBarColor(activity: AppCompatActivity, @ColorInt color: Int) {
+        putStaticNavBarColor(activity::class.java, color)
+    }
+
+    fun putStaticNavBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int) {
+        prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedNavBarColorKey(), color)
+        if (!transaction) prefsEditor.apply()
+    }
+
+    inline fun <reified T : AppCompatActivity> removeStaticNavBarColor() {
+        removeStaticNavBarColor(T::class.java)
+    }
+
+    fun removeStaticNavBarColor(activity: AppCompatActivity) {
+        removeStaticNavBarColor(activity::class.java)
+    }
+
+    fun removeStaticNavBarColor(clazz: Class<out AppCompatActivity>) {
+        prefsEditor.remove(clazz.canonicalName.toString().oopsSignedNavBarColorKey())
+        if (!transaction) prefsEditor.apply()
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     var rippleView: View? = null
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -254,78 +330,6 @@ class Oops private constructor(val context: Context) {
                 activity.setTheme(theme)
             }
             activity.attachOops(theme)
-        }
-
-        inline fun <reified T : AppCompatActivity> setStaticStatusBarColorRes(@ColorRes colorRes: Int) {
-            setStaticStatusBarColorRes(T::class.java, colorRes)
-        }
-
-        fun setStaticStatusBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int) {
-            setStaticStatusBarColorRes(activity::class.java, colorRes)
-        }
-
-        fun setStaticStatusBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int) {
-            oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedStatusBarColorKey(), oops.context.colorRes(colorRes))
-        }
-
-        inline fun <reified T : AppCompatActivity> setStaticStatusBarColor(@ColorInt color: Int) {
-            setStaticStatusBarColor(T::class.java, color)
-        }
-
-        fun setStaticStatusBarColor(activity: AppCompatActivity, @ColorInt color: Int) {
-            setStaticStatusBarColor(activity::class.java, color)
-        }
-
-        fun setStaticStatusBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int) {
-            oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedStatusBarColorKey(), color)
-        }
-
-        inline fun <reified T : AppCompatActivity> removeStaticStatusBarColor() {
-            removeStaticStatusBarColor(T::class.java)
-        }
-
-        fun removeStaticStatusBarColor(activity: AppCompatActivity) {
-            removeStaticStatusBarColor(activity::class.java)
-        }
-
-        fun removeStaticStatusBarColor(clazz: Class<out AppCompatActivity>) {
-            oops.prefsEditor.remove(clazz.canonicalName.toString().oopsSignedStatusBarColorKey())
-        }
-
-        inline fun <reified T : AppCompatActivity> setStaticNavBarColorRes(@ColorRes colorRes: Int) {
-            setStaticNavBarColorRes(T::class.java, colorRes)
-        }
-
-        fun setStaticNavBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int) {
-            setStaticNavBarColorRes(activity::class.java, colorRes)
-        }
-
-        fun setStaticNavBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int) {
-            oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedNavBarColorKey(), oops.context.colorRes(colorRes))
-        }
-
-        inline fun <reified T : AppCompatActivity> setStaticNavBarColor(@ColorInt color: Int) {
-            setStaticNavBarColor(T::class.java, color)
-        }
-
-        fun setStaticNavBarColor(activity: AppCompatActivity, @ColorInt color: Int) {
-            setStaticNavBarColor(activity::class.java, color)
-        }
-
-        fun setStaticNavBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int) {
-            oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedNavBarColorKey(), color)
-        }
-
-        inline fun <reified T : AppCompatActivity> removeStaticNavBarColor() {
-            removeStaticNavBarColor(T::class.java)
-        }
-
-        fun removeStaticNavBarColor(activity: AppCompatActivity) {
-            removeStaticNavBarColor(activity::class.java)
-        }
-
-        fun removeStaticNavBarColor(clazz: Class<out AppCompatActivity>) {
-            oops.prefsEditor.remove(clazz.canonicalName.toString().oopsSignedNavBarColorKey())
         }
 
         fun setLayoutInflaterFactory(factory: OopsLayoutInflaterFactory?) {
