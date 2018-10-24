@@ -143,7 +143,8 @@ class OopsViewModel : ViewModel() {
             attrName == "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
             attrName == "?android:attr/statusBarColor" -> statusBarColor
             attrName == "?android:attr/navigationBarColor" -> navBarColor
-            else -> fallback ?: customAttrColor(attrName)
+            attrName.contains("attr/") -> customAttrColor(attrName)
+            else -> fallback
         }
     }
 }
