@@ -56,4 +56,14 @@
 
     <color name="md_toast_background_color">#22251c</color>
 
+    <color name="md_color_accent">#FF3F51B5</color>
+    <color name="md_color_primary">#FF3F51B5</color>
+    <color name="md_color_primary_dark">#FF303F9F</color>
+    <color name="md_status_bar_color">#FF303F9F</color>
+    <color name="md_window_background_light">#FFFAFAFA</color>
+    <color name="md_window_background_dark">#FF050505</color>
+    <color name="md_text_color_primary">#DE000000</color>
+    <color name="md_text_color_primary_inverse">#FFFFFFFF</color>
+    <color name="md_text_color_secondary">#8A000000</color>
+    <color name="md_text_color_secondary_inverse">#B3FFFFFF</color>
 </resources>

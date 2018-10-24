@@ -55,6 +55,15 @@ fun Context.resId(@AttrRes attr: Int, fallback: Int = -1): Int {
     }
 }
 
+fun Context.resId2(@AttrRes attr: Int, fallback: Int = -1): Int {
+    val value = TypedValue()
+    return if (theme.resolveAttribute(attr, value, true)) {
+        value.resourceId
+    } else {
+        fallback
+    }
+}
+
 fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
     if (attrs == null) return -1
     val ta = obtainStyledAttributes(attrs, intArrayOf(attrId))
@@ -80,8 +89,8 @@ fun Context.resIds(attrs: AttributeSet?, attrIds: IntArray): SparseIntArray {
 }
 
 fun Context.attrNames(attrs: AttributeSet?, attrIds: IntArray): SparseArray<String> {
+    if (attrs == null || attrs.attributeCount == 0 || attrIds.isEmpty()) return SparseArray(0)
     val names = SparseArray<String>(attrIds.size)
-    if (attrs == null || attrs.attributeCount == 0 || attrIds.isEmpty()) return names
     val name2Id = HashMap<String, Int>()
     val resources = this.resources
     for (attrId in attrIds) {
@@ -94,11 +103,13 @@ fun Context.attrNames(attrs: AttributeSet?, attrIds: IntArray): SparseArray<Stri
             val attrVal = attrs.getAttributeValue(i).run {
                 when {
                     this.startsWith('@') || this.startsWith('?') -> {
-                        val id = this.substring(1).toInt()
-                        if (id == 0) {
-                            return@run ""
+                        val rawValue = this.substring(1)
+                        val id = rawValue.toIntOrNull()
+                        var name = when (id) {
+                            null -> rawValue
+                            0 -> ""
+                            else -> resources.getNonNullResourceName(id)
                         }
-                        var name = resources.getResourceName(id)
                         if (!name.startsWith("android")) {
                             name = name.substring(name.indexOf(':') + 1)
                         }
@@ -124,11 +135,13 @@ fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
             return attrs.getAttributeValue(i).run {
                 when {
                     this.startsWith('@') || this.startsWith('?') -> {
-                        val id = this.substring(1).toInt()
-                        if (id == 0) {
-                            return@run ""
+                        val rawValue = this.substring(1)
+                        val id = rawValue.toIntOrNull()
+                        var name = when (id) {
+                            null -> rawValue
+                            0 -> ""
+                            else -> resources.getNonNullResourceName(id)
                         }
-                        var name = resources.getResourceName(id)
                         if (!name.startsWith("android")) {
                             name = name.substring(name.indexOf(':') + 1)
                         }
@@ -143,7 +156,7 @@ fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
 }
 
 fun Context.attrName(@AttrRes attrId: Int): String {
-    var name = this.resources.getResourceName(attrId)
+    var name = this.resources.getNonNullResourceName(attrId)
     if (!name.startsWith("android")) {
         name = name.substring(name.indexOf(':') + 1)
     }

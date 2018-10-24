@@ -78,6 +78,15 @@ fun AppCompatActivity.translucentStatusBar() {
 
 internal fun AppCompatActivity.attachOops(themeId: Int) {
     val viewModel = ViewModelProviders.of(this).get(OopsViewModel::class.java)
+    viewModel.theme.observe(this, Observer {
+        if (themeId != it) {
+            Oops.oops.cancelRippleAnimation()
+            this.recreate()
+        }
+    })
+    viewModel.windowBackground.observe(this, Observer {
+        this.window.setBackgroundDrawable(ColorDrawable(it))
+    })
     viewModel.statusBarStateColor.observe(this, Observer {
         when (it.statusBarMode) {
             StatusBarMode.AUTO -> {
@@ -102,13 +111,4 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
         this.setNavBarColorCompat(navBarColor)
     })
     viewModel.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
-    viewModel.windowBackground.observe(this, Observer {
-        this.window.setBackgroundDrawable(ColorDrawable(it))
-    })
-    viewModel.theme.observe(this, Observer {
-        if (themeId != it) {
-            Oops.oops.cancelRippleAnimation()
-            this.recreate()
-        }
-    })
 }
