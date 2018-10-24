@@ -95,6 +95,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             toolbarActiveColor = active
             toolbarInactiveColor = inactive
             statusBarColor = primary
+            windowBackground = if (isDark) Color.BLACK else Color.WHITE
             navBarColor = primary
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction

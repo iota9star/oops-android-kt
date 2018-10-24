@@ -84,6 +84,7 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
             this.recreate()
         }
     })
+    viewModel.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
     viewModel.windowBackground.observe(this, Observer {
         this.window.setBackgroundDrawable(ColorDrawable(it))
     })
@@ -110,5 +111,4 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
         val navBarColor = if (Oops.oops.prefs.contains(key)) Oops.oops.prefs.getInt(key, 0) else it
         this.setNavBarColorCompat(navBarColor)
     })
-    viewModel.colorPrimary.observe(this, Observer(this::setTaskDescriptionColor))
 }

@@ -21,7 +21,7 @@ internal object OopsPrefsKey {
     const val KEY_NAV_VIEW_MODE = "nav_view_mode"
     const val KEY_BOTTOM_NAV_BACKGROUND_MODE = "bottom_nav_background_mode"
     const val KEY_BOTTOM_NAV_ICON_TEXT_MODE = "bottom_nav_icon_text_mode"
-    const val KEY_COLLAPSING_TOOLBAR_COLOR = "collapsing_toolbar_color"
+    const val KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR = "collapsing_toolbar_dominant_color"
     const val KEY_SWIPE_REFRESH_LAYOUT_BACKGROUND_COLOR = "swipe_refresh_layout_background_color"
     const val KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS = "swipe_refresh_layout_scheme_colors"
     const val KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR = "toolbar_text_icon_active_color"

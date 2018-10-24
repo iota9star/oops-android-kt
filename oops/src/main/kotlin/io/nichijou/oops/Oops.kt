@@ -88,7 +88,7 @@ class Oops private constructor(val context: Context) {
         if (!transaction) prefsEditor.apply()
     }
 
-    var windowBackground by intPref(0, OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR)
+    var windowBackground by intPref(0xFAFAFA, OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR)
     fun windowBackgroundRes(@ColorRes windowBackgroundRes: Int) {
         prefsEditor.putInt(OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR, context.colorRes(windowBackgroundRes))
         if (!transaction) prefsEditor.apply()
@@ -153,9 +153,9 @@ class Oops private constructor(val context: Context) {
     var tabLayoutIndicatorMode by enumValuePref(TabLayoutIndicatorMode.ACCENT, OopsPrefsKey.KEY_TAB_LAYOUT_INDICATOR_MODE)
     var bottomNavigationViewBackgroundMode by enumValuePref(BottomNavigationViewBackgroundMode.AUTO, OopsPrefsKey.KEY_BOTTOM_NAV_BACKGROUND_MODE)
     var bottomNavigationViewIconTextMode by enumValuePref(BottomNavigationViewIconTextMode.AUTO, OopsPrefsKey.KEY_BOTTOM_NAV_ICON_TEXT_MODE)
-    var collapsingToolbarColor by intPref(0, OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_COLOR)
-    fun collapsingToolbarColorRes(@ColorRes collapsingToolbarColorRes: Int) {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_COLOR, context.colorRes(collapsingToolbarColorRes))
+    var collapsingToolbarDominantColor by intPref(0, OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR)
+    fun collapsingToolbarDominantColorRes(@ColorRes collapsingToolbarDominantColorRes: Int) {
+        prefsEditor.putInt(OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR, context.colorRes(collapsingToolbarDominantColorRes))
         if (!transaction) prefsEditor.apply()
     }
 
@@ -313,14 +313,13 @@ class Oops private constructor(val context: Context) {
     companion object {
 
         lateinit var oops: Oops
-        private var factory: OopsLayoutInflaterFactory? = null
 
         internal fun init(context: Context) {
             oops = Oops(context)
         }
 
         fun attach(activity: AppCompatActivity) {
-            attach(activity, factory)
+            attach(activity, null)
         }
 
         fun attach(activity: AppCompatActivity, factory: OopsLayoutInflaterFactory?) {
@@ -330,10 +329,6 @@ class Oops private constructor(val context: Context) {
                 activity.setTheme(theme)
             }
             activity.attachOops(theme)
-        }
-
-        fun setLayoutInflaterFactory(factory: OopsLayoutInflaterFactory?) {
-            this.factory = factory
         }
 
         fun oops(block: Oops.() -> Unit) {

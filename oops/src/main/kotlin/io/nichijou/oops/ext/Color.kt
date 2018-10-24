@@ -64,10 +64,8 @@ fun Int.bodyColor(): Int {
     return ColorUtils.setAlphaComponent(Color.BLACK, alpha)
 }
 
-fun Int.isColorLight() = when {
-    this == Color.BLACK -> false
-    this == Color.WHITE || this == Color.TRANSPARENT -> true
-    else -> 1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255 < 0.5
-}
+fun Int.isColorLight() = 1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255 < 0.5
+
+fun Int.isColorDark() = !this.isColorLight()
 
 fun Int.isColorLight(@ColorInt bgColor: Int) = if (Color.alpha(this) < 128) bgColor.isColorLight() else this.isColorLight()

@@ -222,7 +222,7 @@ class SecondaryActivity : OopsActivity() {
                 .listener(GlidePalette.with(u)
                         .intoCallBack { p ->
                             p?.dominantSwatch?.rgb?.let {
-                                Oops.oops.collapsingToolbarColor = it
+                                Oops.oops.collapsingToolbarDominantColor = it
                                 setLightStatusBarCompat(it.isColorLight())
                             }
                         }

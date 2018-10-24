@@ -82,8 +82,8 @@ class OopsViewModel : ViewModel() {
     val bottomNavigationViewIconTextMode by lazy {
         OopsDelegateLive(Oops.oops.prefs, Oops.oops::bottomNavigationViewIconTextMode)
     }
-    val collapsingToolbarColor by lazy {
-        OopsDelegateLive(Oops.oops.prefs, Oops.oops::collapsingToolbarColor)
+    val collapsingToolbarDominantColor by lazy {
+        OopsDelegateLive(Oops.oops.prefs, Oops.oops::collapsingToolbarDominantColor)
     }
 
     val toolbarColor by lazy {
@@ -111,15 +111,13 @@ class OopsViewModel : ViewModel() {
     }
 
     fun collapsingToolbarStateColor(bgColor: LiveData<Int>): LiveData<CollapsingToolbarStateColor> {
-        return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarColor, CollapsingToolbarStateColor.live())
+        return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarDominantColor, CollapsingToolbarStateColor.live())
     }
 
-    fun customAttrColor(attrName: String): OopsSharedPreferencesLive<Int>? {
+    fun customAttrColor(attrName: String): LiveData<Int>? {
         val signed = attrName.oopsSignedAttrName()
         return if (Oops.oops.prefs.contains(signed))
-            OopsSharedPreferencesLive(Oops.oops.prefs, signed) {
-                Oops.oops.prefs.getInt(signed, 0)
-            }
+            OopsIntPrefLive(Oops.oops.prefs, signed)
         else {
             null
         }

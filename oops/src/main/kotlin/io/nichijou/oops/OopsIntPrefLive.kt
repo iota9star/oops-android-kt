@@ -1,17 +1,19 @@
 package io.nichijou.oops
 
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 
-class OopsSharedPreferencesLive<T>(private val prefs: SharedPreferences, private val key: String, private val getNewValue: () -> T) : MutableLiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class OopsIntPrefLive(private val prefs: SharedPreferences, private val key: String) : LiveData<Int>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private var lastValue: T
+    private var lastValue: Int
 
 
     init {
         lastValue = getNewValue()
         postValue(lastValue)
     }
+
+    private fun getNewValue() = prefs.getInt(key, 0)
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, changed: String) {
         if (changed == key) {
@@ -28,12 +30,12 @@ class OopsSharedPreferencesLive<T>(private val prefs: SharedPreferences, private
     }
 
     override fun onActive() {
-        this.prefs.registerOnSharedPreferenceChangeListener(this)
+        prefs.registerOnSharedPreferenceChangeListener(this)
         setNewValue()
     }
 
     override fun onInactive() {
-        this.prefs.unregisterOnSharedPreferenceChangeListener(this)
+        prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
 
