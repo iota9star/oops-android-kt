@@ -100,10 +100,10 @@ fun Context.attrNames(attrs: AttributeSet?, attrIds: IntArray): SparseArray<Stri
         val nameResource = attrs.getAttributeNameResource(i)
         val attrName = if (nameResource != 0) resources.getResourceName(nameResource) else ""
         if (name2Id.containsKey(attrName)) {
-            val attrVal = attrs.getAttributeValue(i).run {
+            val attrVal = attrs.getAttributeValue(i).let {
                 when {
-                    this.startsWith('@') || this.startsWith('?') -> {
-                        val rawValue = this.substring(1)
+                    it.startsWith('@') || it.startsWith('?') -> {
+                        val rawValue = it.substring(1)
                         val id = rawValue.toIntOrNull()
                         var name = when (id) {
                             null -> rawValue
@@ -113,9 +113,9 @@ fun Context.attrNames(attrs: AttributeSet?, attrIds: IntArray): SparseArray<Stri
                         if (!name.startsWith("android")) {
                             name = name.substring(name.indexOf(':') + 1)
                         }
-                        "${this[0]}$name"
+                        "${it[0]}$name"
                     }
-                    else -> this
+                    else -> it
                 }
             }
             names.put(name2Id[attrName]!!, attrVal)
@@ -132,10 +132,10 @@ fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
         val attrNameRes = attrs.getAttributeNameResource(i)
         val attrName = if (attrNameRes != 0) resources.getResourceName(attrNameRes) else ""
         if (resName == attrName) {
-            return attrs.getAttributeValue(i).run {
+            return attrs.getAttributeValue(i).let {
                 when {
-                    this.startsWith('@') || this.startsWith('?') -> {
-                        val rawValue = this.substring(1)
+                    it.startsWith('@') || it.startsWith('?') -> {
+                        val rawValue = it.substring(1)
                         val id = rawValue.toIntOrNull()
                         var name = when (id) {
                             null -> rawValue
@@ -145,9 +145,9 @@ fun Context.attrName(attrs: AttributeSet?, @AttrRes attrId: Int): String {
                         if (!name.startsWith("android")) {
                             name = name.substring(name.indexOf(':') + 1)
                         }
-                        "${this[0]}$name"
+                        "${it[0]}$name"
                     }
-                    else -> this
+                    else -> it
                 }
             }
         }
