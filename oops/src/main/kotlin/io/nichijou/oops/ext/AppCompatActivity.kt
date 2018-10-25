@@ -80,7 +80,7 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
     val viewModel = ViewModelProviders.of(this).get(OopsViewModel::class.java)
     viewModel.theme.observe(this, Observer {
         if (themeId != it) {
-            Oops.oops.cancelRippleAnimation()
+            Oops.immed().cancelRippleAnimation()
             this.recreate()
         }
     })
@@ -93,7 +93,7 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
             StatusBarMode.AUTO -> {
                 val rootView = this.getRootView()
                 val key = this::class.java.canonicalName.toString().oopsSignedStatusBarColorKey()
-                val statusBarColor = if (Oops.oops.prefs.contains(key)) Oops.oops.prefs.getInt(key, 0) else it.statusBarColor
+                val statusBarColor = if (Oops.immed().prefs.contains(key)) Oops.immed().prefs.getInt(key, 0) else it.statusBarColor
                 if (rootView is DrawerLayout) {
                     this.setStatusBarColorCompat(Color.TRANSPARENT)
                     rootView.setStatusBarBackgroundColor(statusBarColor)
@@ -108,7 +108,7 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
     })
     viewModel.navBarColor.observe(this, Observer {
         val key = this::class.java.canonicalName.toString().oopsSignedNavBarColorKey()
-        val navBarColor = if (Oops.oops.prefs.contains(key)) Oops.oops.prefs.getInt(key, 0) else it
+        val navBarColor = if (Oops.immed().prefs.contains(key)) Oops.immed().prefs.getInt(key, 0) else it
         this.setNavBarColorCompat(navBarColor)
     })
 }

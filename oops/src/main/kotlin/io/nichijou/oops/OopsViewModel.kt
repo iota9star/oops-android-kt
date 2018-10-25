@@ -8,82 +8,82 @@ import io.nichijou.oops.ext.oopsSignedAttrName
 
 class OopsViewModel : ViewModel() {
     val theme by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::theme)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::theme)
     }
     val isDark by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::isDark)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::isDark)
     }
     val colorAccent by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::colorAccent)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::colorAccent)
     }
     val colorPrimary by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::colorPrimary)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::colorPrimary)
     }
     val colorPrimaryDark by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::colorPrimaryDark)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::colorPrimaryDark)
     }
     val statusBarColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::statusBarColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::statusBarColor)
     }
     val statusBarMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::statusBarMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::statusBarMode)
     }
     val swipeRefreshLayoutBackgroundColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::swipeRefreshLayoutBackgroundColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::swipeRefreshLayoutBackgroundColor)
     }
     val swipeRefreshLayoutSchemeColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::swipeRefreshLayoutSchemeColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::swipeRefreshLayoutSchemeColor)
     }
     val navBarColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::navBarColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::navBarColor)
     }
     val windowBackground by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::windowBackground)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::windowBackground)
     }
     val textColorPrimary by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::textColorPrimary)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::textColorPrimary)
     }
     val textColorPrimaryInverse by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::textColorPrimaryInverse)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::textColorPrimaryInverse)
     }
     val textColorSecondary by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::textColorSecondary)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::textColorSecondary)
     }
     val textColorSecondaryInverse by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::textColorSecondaryInverse)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::textColorSecondaryInverse)
     }
     val toolbarActiveColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::toolbarActiveColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarActiveColor)
     }
     val toolbarInactiveColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::toolbarInactiveColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarInactiveColor)
     }
     val snackBarTextColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::snackBarTextColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarTextColor)
     }
     val snackBarActionColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::snackBarActionColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarActionColor)
     }
     val snackBarBackgroundColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::snackBarBackgroundColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarBackgroundColor)
     }
     val navigationViewMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::navigationViewMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::navigationViewMode)
     }
     val tabLayoutBackgroundMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::tabLayoutBackgroundMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutBackgroundMode)
     }
     val tabLayoutIndicatorMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::tabLayoutIndicatorMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutIndicatorMode)
     }
     val bottomNavigationViewBackgroundMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::bottomNavigationViewBackgroundMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewBackgroundMode)
     }
     val bottomNavigationViewIconTextMode by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::bottomNavigationViewIconTextMode)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewIconTextMode)
     }
     val collapsingToolbarDominantColor by lazy {
-        OopsDelegateLive(Oops.once().prefs, Oops.once()::collapsingToolbarDominantColor)
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::collapsingToolbarDominantColor)
     }
 
     val toolbarColor by lazy {
@@ -116,8 +116,8 @@ class OopsViewModel : ViewModel() {
 
     fun customAttrColor(attrName: String): LiveData<Int>? {
         val signed = attrName.oopsSignedAttrName()
-        return if (Oops.once().prefs.contains(signed))
-            OopsIntPrefLive(Oops.once().prefs, signed)
+        return if (Oops.immed().prefs.contains(signed))
+            OopsIntPrefLive(Oops.immed().prefs, signed)
         else {
             null
         }

@@ -26,16 +26,16 @@ class FragmentBaseView : Fragment() {
     }
 
     private fun initEvent() {
-        switch_dark.isChecked = Oops.oops.isDark
+        switch_dark.isChecked = Oops.immed().isDark
         switch_dark.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                Oops.oops {
+                Oops.bulk {
                     theme = R.style.AppThemeDark
                     isDark = true
                     windowBackground = Color.BLACK
                 }
             } else {
-                Oops.oops {
+                Oops.bulk {
                     theme = R.style.AppTheme
                     isDark = false
                     windowBackground = Color.WHITE

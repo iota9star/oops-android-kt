@@ -25,8 +25,8 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         setSupportActionBar(bar)
         initToolbar()
         initTabLayout()
-        if (Oops.oops.isFirstTime) {
-            Oops.oops.putStaticStatusBarColor<SecondaryActivity>(Color.TRANSPARENT)
+        if (Oops.immed().isFirstTime) {
+            Oops.immed().putStaticStatusBarColor<SecondaryActivity>(Color.TRANSPARENT)
             updateTheme(fab)
         }
         fab.setOnClickListener { view ->
@@ -87,7 +87,7 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
         val inactive = randomColor()
         val snackbarText = randomColor()
         val snackbarAction = randomColor()
-        Oops.oops {
+        Oops.bulk {
             colorAccent = accent
             colorPrimary = primary
             textColorPrimary = textPrimary
@@ -101,8 +101,8 @@ class PrimaryActivity : OopsActivity(), NavigationView.OnNavigationItemSelectedL
             snackBarActionColor = snackbarAction
             snackBarBackgroundColor = randomColor()
             navigationViewMode = NavigationViewTintMode.PRIMARY
-            customAttrColor(this@PrimaryActivity, R.attr.customColor1, randomColor())
-            customAttrColor(this@PrimaryActivity, R.attr.customColor2, randomColor())
+            customAttrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())
+            customAttrColorSet(this@PrimaryActivity, R.attr.customColor2, randomColor())
             rippleView = view
             rippleAnimDuration = 480
         }

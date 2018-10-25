@@ -199,7 +199,7 @@ class SecondaryActivity : OopsActivity() {
 
     private fun changeTheme(view: View) {
         val primary = randomColor()
-        Oops.oops {
+        Oops.bulk {
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
@@ -222,7 +222,7 @@ class SecondaryActivity : OopsActivity() {
                 .listener(GlidePalette.with(u)
                         .intoCallBack { p ->
                             p?.dominantSwatch?.rgb?.let {
-                                Oops.oops.collapsingToolbarDominantColor = it
+                                Oops.immed().collapsingToolbarDominantColor = it
                                 setLightStatusBarCompat(it.isColorLight())
                             }
                         }
