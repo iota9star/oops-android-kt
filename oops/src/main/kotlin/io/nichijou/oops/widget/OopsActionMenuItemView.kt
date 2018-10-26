@@ -19,7 +19,7 @@ import io.nichijou.oops.ext.oopsTintIcon
 import io.nichijou.oops.ext.tint
 
 @SuppressLint("RestrictedApi")
-class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
+internal class OopsActionMenuItemView : ActionMenuItemView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 
