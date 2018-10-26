@@ -18,7 +18,7 @@ import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.oopsTint
 
 
-open class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
+class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 

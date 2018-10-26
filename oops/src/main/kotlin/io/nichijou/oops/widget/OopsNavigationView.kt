@@ -21,7 +21,7 @@ import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.colorRes
 
 @SuppressLint("RestrictedApi")
-open class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
+class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

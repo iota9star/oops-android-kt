@@ -13,7 +13,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 
-open class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
+class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
 
     private val textColorAttrName: String
 

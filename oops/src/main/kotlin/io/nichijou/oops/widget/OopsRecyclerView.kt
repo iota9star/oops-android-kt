@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.utils.EdgeGlowUtil
 
 
-open class OopsRecyclerView : RecyclerView, OopsViewLifeAndLive {
+class OopsRecyclerView : RecyclerView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

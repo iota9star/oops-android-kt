@@ -15,7 +15,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsSwitch : SwitchCompat, OopsViewLifeAndLive {
+class OopsSwitch : SwitchCompat, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 

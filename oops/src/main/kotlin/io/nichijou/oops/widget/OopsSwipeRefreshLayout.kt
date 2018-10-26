@@ -13,7 +13,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.oopsTintCircleBackground
 
 
-open class OopsSwipeRefreshLayout(context: Context, attrs: AttributeSet?) : SwipeRefreshLayout(context, attrs), OopsViewLifeAndLive {
+class OopsSwipeRefreshLayout(context: Context, attrs: AttributeSet?) : SwipeRefreshLayout(context, attrs), OopsViewLifeAndLive {
 
     override fun howToLive() {
         oopsVM.swipeRefreshLayoutBackgroundColor.observe(this, Observer(this::oopsTintCircleBackground))

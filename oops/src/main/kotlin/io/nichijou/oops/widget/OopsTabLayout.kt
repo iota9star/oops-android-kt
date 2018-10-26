@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
 
 
-open class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
+class OopsTabLayout : TabLayout, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

@@ -11,7 +11,7 @@ import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 
-open class OopsImageView : AppCompatImageView, OopsViewLifeAndLive {
+class OopsImageView : AppCompatImageView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

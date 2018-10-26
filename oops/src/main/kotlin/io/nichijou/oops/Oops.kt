@@ -336,8 +336,14 @@ class Oops private constructor(val context: Context) {
         return this
     }
 
-    fun customAttrColorSet(context: Context, @AttrRes attrId: Int, color: Int): Oops {
+    fun customAttrColorSet(context: Context, @AttrRes attrId: Int, @ColorInt color: Int): Oops {
         prefsEditor.putInt(context.attrName(attrId).oopsSignedAttrName(), color)
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
+    fun customAttrColorResSet(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int): Oops {
+        prefsEditor.putInt(context.attrName(attrId).oopsSignedAttrName(), context.colorRes(colorRes))
         if (!transaction) prefsEditor.apply()
         return this
     }
@@ -426,11 +432,25 @@ class Oops private constructor(val context: Context) {
         if (!transaction) prefsEditor.apply()
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     var rippleView: View? = null
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @IntRange(from = 300, to = 1200)
+        get() {
+            throw IllegalStateException("you can't get rippleView...")
+        }
+
+    fun rippleViewSet(view: View): Oops {
+        rippleView = view
+        return this
+    }
+
     var rippleAnimDuration: Long = 480
+        get() {
+            throw IllegalStateException("you can't get rippleAnimDuration...")
+        }
+
+    fun rippleAnimDurationSet(@IntRange(from = 300, to = 1200) duration: Long): Oops {
+        rippleAnimDuration = duration
+        return this
+    }
 
     private var rippleAnimation: RippleAnimation? = null
 
@@ -486,8 +506,9 @@ class Oops private constructor(val context: Context) {
         transaction = false
     }
 
-    private fun cancel() {
+    private fun cancel(): Oops {
         transaction = false
+        return this
     }
 
     companion object Sub {
@@ -499,7 +520,7 @@ class Oops private constructor(val context: Context) {
         }
 
         @JvmStatic
-        fun immed() = oops
+        fun immed() = oops.cancel()
 
         @JvmStatic
         fun bulk() = oops.begin()

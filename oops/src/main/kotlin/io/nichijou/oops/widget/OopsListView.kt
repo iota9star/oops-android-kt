@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.utils.EdgeGlowUtil
 
 
-open class OopsListView : ListView, OopsViewLifeAndLive {
+class OopsListView : ListView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

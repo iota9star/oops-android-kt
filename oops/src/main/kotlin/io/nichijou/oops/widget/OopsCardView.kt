@@ -13,7 +13,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 
-open class OopsCardView : CardView, OopsViewLifeAndLive {
+class OopsCardView : CardView, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

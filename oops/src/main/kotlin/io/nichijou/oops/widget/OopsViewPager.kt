@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.utils.EdgeGlowUtil
 
 
-open class OopsViewPager(context: Context, @Nullable attrs: AttributeSet?) : ViewPager(context, attrs), OopsViewLifeAndLive {
+class OopsViewPager(context: Context, @Nullable attrs: AttributeSet?) : ViewPager(context, attrs), OopsViewLifeAndLive {
 
     override fun howToLive() {
         oopsVM.colorAccent.observe(this, Observer {

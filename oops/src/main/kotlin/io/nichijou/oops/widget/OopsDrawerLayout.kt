@@ -15,7 +15,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 
 
-open class OopsDrawerLayout : DrawerLayout, OopsViewLifeAndLive {
+class OopsDrawerLayout : DrawerLayout, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

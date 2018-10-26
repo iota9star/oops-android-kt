@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsProgressBar : ProgressBar, OopsViewLifeAndLive {
+class OopsProgressBar : ProgressBar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

@@ -16,7 +16,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.tint
 
-open class OopsTabImageView : AppCompatImageView, OopsViewLifeAndLive {
+class OopsTabImageView : AppCompatImageView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

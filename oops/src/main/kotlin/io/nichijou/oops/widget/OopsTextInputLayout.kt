@@ -13,7 +13,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.*
 
 
-open class OopsTextInputLayout : TextInputLayout, OopsViewLifeAndLive {
+class OopsTextInputLayout : TextInputLayout, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

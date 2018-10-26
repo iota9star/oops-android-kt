@@ -1,23 +1,33 @@
-package io.nichijou.oops.widget
+package io.nichijou.oops.simple
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.Nullable
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrName
 
-class OopsConstraintLayout : ConstraintLayout, OopsViewLifeAndLive {
+class CustomTextView : AppCompatTextView, OopsViewLifeAndLive {
 
-    constructor(context: Context) : super(context)
+    private val textColorAttrName: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
+        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
+    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
+    }
+
+    override fun howToLive() {
+        oopsVM.live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
+    }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 

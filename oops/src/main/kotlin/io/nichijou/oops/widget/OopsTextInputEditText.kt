@@ -16,7 +16,7 @@ import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
 
-open class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
+class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

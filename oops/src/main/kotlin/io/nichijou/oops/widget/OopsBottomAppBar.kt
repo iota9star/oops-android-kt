@@ -17,7 +17,7 @@ import io.nichijou.oops.R
 import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.*
 
-open class OopsBottomAppBar : BottomAppBar, OopsViewLifeAndLive {
+class OopsBottomAppBar : BottomAppBar, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 

@@ -22,7 +22,7 @@ import io.nichijou.oops.color.CollapsingToolbarStateColor
 import io.nichijou.oops.ext.*
 
 
-open class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
+class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
 
     private val backgroundAttrName: String
 

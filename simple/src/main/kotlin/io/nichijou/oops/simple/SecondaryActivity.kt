@@ -6,7 +6,6 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.GlidePalette
 import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsActivity
 import io.nichijou.oops.ext.insetStatusBar
 import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.setLightStatusBarCompat
@@ -16,7 +15,7 @@ import io.nichijou.oops.widget.BottomNavigationViewIconTextMode
 import kotlinx.android.synthetic.main.activity_secondary.*
 import java.util.*
 
-class SecondaryActivity : OopsActivity() {
+class SecondaryActivity : BaseActivity() {
     private val url = arrayOf(
             "http://fmn.rrimg.com/fmn077/xiaozhan/20150527/0920/original_Kl67_8140000107ca1e83.jpg",
             "http://fmn.rrimg.com/fmn078/xiaozhan/20150527/0920/original_goQE_87e7000103101e7f.jpg",

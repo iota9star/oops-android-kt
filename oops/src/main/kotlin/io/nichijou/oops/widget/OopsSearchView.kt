@@ -13,7 +13,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsSearchView : SearchView, OopsViewLifeAndLive {
+class OopsSearchView : SearchView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

@@ -17,7 +17,7 @@ import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.oopsTint
 
 
-open class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
+class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 

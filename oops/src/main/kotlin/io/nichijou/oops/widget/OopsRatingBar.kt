@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsRatingBar : AppCompatRatingBar, OopsViewLifeAndLive {
+class OopsRatingBar : AppCompatRatingBar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

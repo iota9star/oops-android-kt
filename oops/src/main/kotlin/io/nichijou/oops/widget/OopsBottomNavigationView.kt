@@ -19,7 +19,7 @@ import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.isColorLight
 
 
-open class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive {
+class OopsBottomNavigationView : BottomNavigationView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

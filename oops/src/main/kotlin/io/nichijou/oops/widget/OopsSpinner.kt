@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsSpinner : AppCompatSpinner, OopsViewLifeAndLive {
+class OopsSpinner : AppCompatSpinner, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

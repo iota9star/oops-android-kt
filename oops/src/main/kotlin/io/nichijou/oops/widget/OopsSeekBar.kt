@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-open class OopsSeekBar : AppCompatSeekBar, OopsViewLifeAndLive {
+class OopsSeekBar : AppCompatSeekBar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

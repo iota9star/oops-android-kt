@@ -16,7 +16,7 @@ import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.*
 
 
-open class OopsToolbar : Toolbar, OopsViewLifeAndLive {
+class OopsToolbar : Toolbar, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

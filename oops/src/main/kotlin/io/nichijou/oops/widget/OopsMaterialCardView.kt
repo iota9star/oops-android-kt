@@ -14,7 +14,7 @@ import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
 
-open class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
+class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 

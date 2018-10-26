@@ -14,7 +14,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.utils.EdgeGlowUtil
 
 
-open class OopsScrollView : ScrollView, OopsViewLifeAndLive {
+class OopsScrollView : ScrollView, OopsViewLifeAndLive {
 
     constructor(context: Context) : super(context)
 

@@ -16,7 +16,7 @@ import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.oopsTintBorderless
 
 
-open class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
+class OopsBorderlessButton : AppCompatButton, OopsViewLifeAndLive {
 
     private val backgroundAttrName: String
 

@@ -20,7 +20,7 @@ import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.tint
 
 
-open class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
+class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
 
     private val attrNames: SparseArray<String>
 
