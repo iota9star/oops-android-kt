@@ -6,7 +6,7 @@
 
 下载示例应用：[simple-release.apk](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/simple-release.apk "simple-release.apk")
 
-![demo](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/demo.png "demo")
+![demo](https://github.com/iota9star/oops-android-kt/blob/master/simple/release/demo.gif "demo")
 
 ----
 ### 基础使用
