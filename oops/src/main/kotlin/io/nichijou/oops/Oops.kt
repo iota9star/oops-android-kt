@@ -433,9 +433,6 @@ class Oops private constructor(val context: Context) {
     }
 
     var rippleView: View? = null
-        get() {
-            throw IllegalStateException("you can't get rippleView...")
-        }
 
     fun rippleViewSet(view: View): Oops {
         rippleView = view
@@ -443,9 +440,6 @@ class Oops private constructor(val context: Context) {
     }
 
     var rippleAnimDuration: Long = 480
-        get() {
-            throw IllegalStateException("you can't get rippleAnimDuration...")
-        }
 
     fun rippleAnimDurationSet(@IntRange(from = 300, to = 1200) duration: Long): Oops {
         rippleAnimDuration = duration
