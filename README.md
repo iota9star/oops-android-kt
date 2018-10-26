@@ -5,7 +5,8 @@
 一个基于**LiveData** & **ViewModel** 的Android **Material** 主题引擎，由**Kotlin**实现。本主题引擎通过简单的方式实现各个**View**的色彩变幻，整个过程除了当您更改了主题时才会触发重启**Activity**外，其余过程均无需重启**Activity**。
 
 下载示例应用：[simple-release.apk](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/simple-release.apk "simple-release.apk")
-![](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/demo.png "demo")
+
+![demo](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/demo.png "demo")
 
 ----
 ### 基础使用
