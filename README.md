@@ -2,7 +2,7 @@
 # Oops
 [![jcenter](https://api.bintray.com/packages/iota9star/nichijou/oops/images/download.svg)](https://bintray.com/iota9star/nichijou/oops/_latestVersion) [![Build Status](https://travis-ci.org/iota9star/oops-android-kt.svg?branch=master)](https://travis-ci.org/iota9star/oops-android-kt) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d36b3333d02491499c8c0b6d1765d42)](https://app.codacy.com/app/iota9star/oops-android-kt?utm_source=github.com&utm_medium=referral&utm_content=iota9star/oops-android-kt&utm_campaign=Badge_Grade_Dashboard)[![License](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0.html) [![API](https://img.shields.io/badge/API-16%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=16)
 ### Oops - Android Material Theme engine, Powered by LiveData & ViewModel.
-一个基于**LiveData** & **ViewModel** 的Android **Material** 主题引擎，由**Kotlin**实现。本主题引擎通过简单的方式实现各个**View**间无缝的色彩变幻。整个过程除了当您更改了主题时才会触发重启**Activity**外，其余过程均无需重启**Activity**。
+一个基于**LiveData** & **ViewModel** 的Android **Material** 主题引擎，由**Kotlin**实现。本主题引擎通过简单的方式实现各个**View**间无缝的色彩切换。整个过程除了当您更改了主题时才会触发重启**Activity**外，其余过程均无需重启**Activity**。
 
 下载示例应用：[simple-release.apk](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/simple-release.apk "simple-release.apk")
 
