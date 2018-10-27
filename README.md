@@ -67,7 +67,7 @@ Oops.bulk().getColorAccent();// 获取colorAccent的颜色值，与immed()无区
 // java
 public void foo(){
 
-	Oops.immed().setColorAccent(Color.WHITE);// 使用set方法设置colorAccent颜色为白色，不可链式调用
+    Oops.immed().setColorAccent(Color.WHITE);// 使用set方法设置colorAccent颜色为白色，不可链式调用
 
     Oops.immed()
             .colorPrimarySet(Color.RED)
@@ -100,7 +100,7 @@ fun foo(){
     }// kotlin 方法，无需调用apply()，修改colorAccent为白色，colorPrimary为红色，中间只调用了一次保存属性
 }
 ```
-#### -> 忽略别修改
+#### -> 忽略不修改颜色
 - 在布局文件
 ``` xml
 <TextView
