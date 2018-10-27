@@ -237,6 +237,10 @@ override fun howToLive() {
 ```
 完整示例可查看：[Oops->Widget](https://github.com/iota9star/oops-android-kt/tree/master/oops/src/main/kotlin/io/nichijou/oops/widget "Oops自定义View")
 - 实现``OopsLayoutInflaterFactory``接口，详细查看：[CustomTextView](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/CustomView.kt "CustomTextView")，[MyFactory](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/MyFactory.kt "MyFactory")，[BaseActivity](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/BaseActivity.kt "BaseActivity")
+### 致谢
+- [@afollestad](https://github.com/afollestad "afollestad")
+- [@chibatching](https://github.com/chibatching "chibatching")
+- [@wuyr](https://github.com/wuyr "wuyr")
 
 ----
 ### Licenses
