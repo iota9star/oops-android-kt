@@ -2,7 +2,6 @@ package io.nichijou.oops.simple
 
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -15,6 +14,7 @@ import io.nichijou.oops.ext.setStatusBarHeightTopMarginInCollapsingToolbarLayout
 import io.nichijou.oops.widget.BottomNavigationViewBackgroundMode
 import io.nichijou.oops.widget.BottomNavigationViewIconTextMode
 import kotlinx.android.synthetic.main.activity_secondary.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class SecondaryActivity : BaseActivity() {
@@ -198,9 +198,13 @@ class SecondaryActivity : BaseActivity() {
         loadImage()
     }
 
+    private val sdf by lazy {
+        SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+    }
+
     private fun changeTheme(view: View) {
         val primary = randomColor()
-        Toast.makeText(view.context, "test message: ${SystemClock.uptimeMillis()}".toUpperCase(), Toast.LENGTH_LONG).show()
+        Toast.makeText(view.context, "current date: ${sdf.format(System.currentTimeMillis())}".toUpperCase(), Toast.LENGTH_LONG).show()
         Oops.bulk {
             colorAccent = randomColor()
             colorPrimary = primary

@@ -26,13 +26,9 @@ internal class OopsToastTextView : AppCompatTextView, OopsViewLifeAndLive {
     override fun howToLive() {
         oopsVM.toastColor.observe(this, Observer {
             setTextColor(it.textColor)
+            this.background?.tint(it.bgColor)
             (this.parent as? ViewGroup?)?.apply {
-                val bg = background
-                if (bg != null) {
-                    bg.tint(it.bgColor)
-                } else {
-                    setBackgroundColor(it.bgColor)
-                }
+                background?.tint(it.bgColor)
             }
         })
     }
