@@ -58,6 +58,12 @@ class OopsViewModel : ViewModel() {
     val toolbarInactiveColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarInactiveColor)
     }
+    val toastTextColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toastTextColor)
+    }
+    val toastBackgroundColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toastBackgroundColor)
+    }
     val snackBarTextColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarTextColor)
     }
@@ -104,6 +110,9 @@ class OopsViewModel : ViewModel() {
 
     val statusBarStateColor by lazy {
         liveMediator(statusBarColor, statusBarMode, StatusBarStateColor.live())
+    }
+    val toastColor by lazy {
+        liveMediator(toastTextColor, toastBackgroundColor, ToastColor.live())
     }
 
     fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkColor> {

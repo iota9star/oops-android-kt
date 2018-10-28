@@ -219,7 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?colorPrimary"
-            android:text="TEXT ICON MATERIAL BUTTON"
+            android:text="MATERIAL BUTTON"
             app:icon="@drawable/ic_menu_send"
             app:strokeColor="?colorAccent"
             app:strokeWidth="4dp" />
@@ -238,7 +238,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BORDERLESS TEXT ICON MATERIAL BUTTON"
+            android:text="BORDERLESS MATERIAL BUTTON"
             app:icon="@drawable/ic_menu_send"
             app:strokeColor="?colorPrimary"
             app:strokeWidth="4dp" />

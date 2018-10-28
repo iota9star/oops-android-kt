@@ -59,6 +59,8 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             navBarColor = primary
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction
+            toastTextColor = snackBarTextColor
+            toastBackgroundColor = randomColor()
             snackBarBackgroundColor = randomColor()
             navigationViewMode = NavigationViewTintMode.PRIMARY
             customAttrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())

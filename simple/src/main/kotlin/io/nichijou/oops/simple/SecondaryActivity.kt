@@ -2,7 +2,9 @@ package io.nichijou.oops.simple
 
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.GlidePalette
 import io.nichijou.oops.Oops
@@ -198,6 +200,7 @@ class SecondaryActivity : BaseActivity() {
 
     private fun changeTheme(view: View) {
         val primary = randomColor()
+        Toast.makeText(view.context, "test message: ${SystemClock.uptimeMillis()}".toUpperCase(), Toast.LENGTH_LONG).show()
         Oops.bulk {
             colorAccent = randomColor()
             colorPrimary = primary
@@ -209,6 +212,8 @@ class SecondaryActivity : BaseActivity() {
             bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
             swipeRefreshLayoutBackgroundColor = randomColor()
             swipeRefreshLayoutSchemeColor = randomColors(3..8)
+            toastTextColor = randomColor()
+            toastBackgroundColor = randomColor()
             rippleAnimDuration = 480
             rippleView = view
         }

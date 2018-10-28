@@ -249,6 +249,32 @@ class Oops private constructor(val context: Context) {
         return this
     }
 
+    var toastTextColor by intPref(Color.BLACK, OopsPrefsKey.KEY_TOAST_TEXT_COLOR)
+    fun toastTextColorSet(@ColorInt toastTextColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOAST_TEXT_COLOR, toastTextColor)
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
+    fun toastTextColorResSet(@ColorRes toastTextColorRes: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOAST_TEXT_COLOR, context.colorRes(toastTextColorRes))
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
+    var toastBackgroundColor by intPref(Color.WHITE, OopsPrefsKey.KEY_TOAST_BACKGROUND_COLOR)
+    fun toastBackgroundColorSet(@ColorInt toastBackgroundColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOAST_BACKGROUND_COLOR, toastBackgroundColor)
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
+    fun toastBackgroundColorResSet(@ColorRes toastBackgroundColorRes: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOAST_BACKGROUND_COLOR, context.colorRes(toastBackgroundColorRes))
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
     var snackBarTextColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR)
     fun snackBarTextColorSet(@ColorInt snackBarTextColor: Int): Oops {
         prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR, snackBarTextColor)

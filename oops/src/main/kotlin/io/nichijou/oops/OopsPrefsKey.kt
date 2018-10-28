@@ -26,6 +26,8 @@ internal object OopsPrefsKey {
     const val KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS = "swipe_refresh_layout_scheme_colors"
     const val KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR = "toolbar_text_icon_active_color"
     const val KEY_TOOLBAR_TEXT_ICON_INACTIVE_COLOR = "toolbar_text_icon_inactive_color"
+    const val KEY_TOAST_TEXT_COLOR = "toast_text_color"
+    const val KEY_TOAST_BACKGROUND_COLOR = "toast_background_color"
     const val KEY_SNACK_BAR_TEXT_COLOR = "snack_bar_text_color"
     const val KEY_SNACK_BAR_ACTION_COLOR = "snack_bar_action_text_color"
     const val KEY_SNACK_BAR_BACKGROUND_COLOR = "snack_bar_background_color"

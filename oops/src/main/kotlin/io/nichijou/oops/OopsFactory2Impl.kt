@@ -104,7 +104,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
     }
 
     private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?): View? {
-        var view: View?
+        val view: View?
         val viewId = context.resId(attrs, android.R.attr.id)
         when (name) {
             "SearchView", "androidx.appcompat.widget.SearchView" -> {
@@ -123,15 +123,19 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                         return null
                     }
                 }
-                view = if (viewId == com.google.android.material.R.id.snackbar_text) {
+                view = if (parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrName(attrs, android.R.attr.id) == "@id/snackbar_text") {
                     OopsSnackBarTextView(context, attrs)
+                } else if (context.attrName(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
+                    OopsToastTextView(context, attrs)
+                } else if (parent is LinearLayout && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
+                    null
                 } else {
                     OopsTextView(context, attrs)
                 }
-                verifyNotNull(view, name, false)
-                if (parent is LinearLayout && view.id == android.R.id.message) {
-                    view = null
-                    logi { "this is a message TextView (dialog or toast) and reset to null." }
+                if (view == null) {
+                    logi { "this is a dialog message TextView, we ignore it." }
+                } else {
+                    verifyNotNull(view, name, false)
                 }
             }
             "CheckBox", "androidx.appcompat.widget.AppCompatCheckBox" -> {
