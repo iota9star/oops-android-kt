@@ -126,6 +126,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 view = if (parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrName(attrs, android.R.attr.id) == "@id/snackbar_text") {
                     OopsSnackBarTextView(context, attrs)
                 } else if (context.attrName(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
+                    if (parent is OopsViewLifeAndLive) {
+                        parent.endOopsLife()// parent maybe leaked
+                    }
                     OopsToastTextView(context, attrs)
                 } else if (parent is LinearLayout && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
                     null

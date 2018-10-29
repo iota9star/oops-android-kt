@@ -15,7 +15,7 @@
 ``` gradle
 dependencies {
   // 其他
-  implementation 'io.nichijou:oops:0.5.0'
+  implementation 'io.nichijou:oops:0.5.1'
 }
 ```
 - Activit直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用
