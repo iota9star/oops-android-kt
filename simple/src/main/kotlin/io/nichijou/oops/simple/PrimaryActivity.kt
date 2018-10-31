@@ -32,7 +32,7 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             updateTheme(view)
         }
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
@@ -59,8 +59,6 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             navBarColor = primary
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction
-            toastTextColor = snackBarTextColor
-            toastBackgroundColor = randomColor()
             snackBarBackgroundColor = randomColor()
             navigationViewMode = NavigationViewTintMode.PRIMARY
             customAttrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())
@@ -69,9 +67,9 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             rippleAnimDuration = 480
         }
         Snackbar.make(coordinatorLayout, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action") {
-                    logi { "do something..." }
-                }.show()
+            .setAction("Action") {
+                logi { "do something..." }
+            }.show()
     }
 
     private fun initTabLayout() {

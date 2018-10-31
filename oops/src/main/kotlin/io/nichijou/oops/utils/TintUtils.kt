@@ -29,14 +29,14 @@ object TintUtils {
         var normal: Int
         if (thumb) {
             disabled = ContextCompat.getColor(context,
-                    if (useDarker) R.color.md_switch_thumb_disabled_dark else R.color.md_switch_thumb_disabled_light)
+                if (useDarker) R.color.md_switch_thumb_disabled_dark else R.color.md_switch_thumb_disabled_light)
             normal = ContextCompat.getColor(context,
-                    if (useDarker) R.color.md_switch_thumb_normal_dark else R.color.md_switch_thumb_normal_light)
+                if (useDarker) R.color.md_switch_thumb_normal_dark else R.color.md_switch_thumb_normal_light)
         } else {
             disabled = ContextCompat.getColor(context,
-                    if (useDarker) R.color.md_switch_track_disabled_dark else R.color.md_switch_track_disabled_light)
+                if (useDarker) R.color.md_switch_track_disabled_dark else R.color.md_switch_track_disabled_light)
             normal = ContextCompat.getColor(context,
-                    if (useDarker) R.color.md_switch_track_normal_dark else R.color.md_switch_track_normal_light)
+                if (useDarker) R.color.md_switch_track_normal_dark else R.color.md_switch_track_normal_light)
         }
 
         // Stock switch includes its own alpha
@@ -45,11 +45,11 @@ object TintUtils {
         }
 
         val sl = ColorStateList(arrayOf(
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked),
-                intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
-                intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
-                intArrayOf(disabled, normal, color, color))
+            intArrayOf(-android.R.attr.state_enabled),
+            intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
+            intArrayOf(disabled, normal, color, color))
         return from.tint(sl)
     }
 

@@ -16,10 +16,10 @@ import io.nichijou.oops.ext.getAbsoluteY
 
 @SuppressLint("ViewConstructor")
 class RippleAnimation private constructor(
-        context: Context,
-        private val mStartX: Float,
-        private val mStartY: Float,
-        private val mStartRadius: Int
+    context: Context,
+    private val mStartX: Float,
+    private val mStartY: Float,
+    private val mStartRadius: Int
 ) : View(context) {
 
     private val mPaint: Paint = Paint()

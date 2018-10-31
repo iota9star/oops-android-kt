@@ -64,8 +64,8 @@ fun AppCompatActivity.insetStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val decorView = this.window.decorView
         decorView.systemUiVisibility = (decorView.systemUiVisibility
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         this.window.statusBarColor = Color.TRANSPARENT
     }
 }

@@ -35,8 +35,8 @@ class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
     override fun howToLive() {
         oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer {
             val textColorSl = ColorStateList(arrayOf(
-                    intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
-                    intArrayOf(it.color, it.color.adjustAlpha(.56f)))
+                intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled)),
+                intArrayOf(it.color, it.color.adjustAlpha(.56f)))
             this.setTextColor(textColorSl)
             this.icon = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.icon?.tint(textColorSl)
@@ -62,13 +62,9 @@ class OopsMaterialBorderlessButton : MaterialButton, OopsViewLifeAndLive {
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val oopsVM by lazy {
-        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-    }
+    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
 
-    private val oopsLife: LifecycleRegistry by lazy {
-        LifecycleRegistry(this)
-    }
+    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = oopsLife
 

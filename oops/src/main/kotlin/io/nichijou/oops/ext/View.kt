@@ -137,10 +137,10 @@ fun ActionMenuItemView.oopsTintIcon(colorStateList: ColorStateList) {
 
 fun CheckBox.oopsTint(color: IsDarkColor) {
     val sl = ColorStateList(arrayOf(
-            intArrayOf(-android.R.attr.state_enabled),
-            intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
-            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
-            intArrayOf(context.colorRes(if (color.isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color))
+        intArrayOf(-android.R.attr.state_enabled),
+        intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
+        intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
+        intArrayOf(context.colorRes(if (color.isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color))
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.buttonTintList = sl
     } else {
@@ -178,8 +178,8 @@ fun SwitchCompat.oopsTint(color: IsDarkColor) {
 
 fun RadioButton.oopsTint(color: IsDarkColor) {
     val sl = ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked), intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
-            intArrayOf(context.colorRes(if (color.isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light).stripAlpha(), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color)
+        arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked), intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)),
+        intArrayOf(context.colorRes(if (color.isDark) R.color.md_control_disabled_dark else R.color.md_control_disabled_light).stripAlpha(), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color)
     )
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.buttonTintList = sl
@@ -236,8 +236,8 @@ fun ProgressBar.oopsTint(@ColorInt color: Int, skipIndeterminate: Boolean) {
 
 fun EditText.oopsTint(color: IsDarkColor) {
     val editTextColorStateList = ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_focused), intArrayOf()),
-            intArrayOf(context.colorRes(if (color.isDark) R.color.md_text_disabled_dark else R.color.md_text_disabled_light), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color)
+        arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_focused), intArrayOf()),
+        intArrayOf(context.colorRes(if (color.isDark) R.color.md_text_disabled_dark else R.color.md_text_disabled_light), context.colorRes(if (color.isDark) R.color.md_control_normal_dark else R.color.md_control_normal_light), color.color)
     )
     if (this is TintableBackgroundView) {
         ViewCompat.setBackgroundTintList(this, editTextColorStateList)
@@ -275,20 +275,20 @@ fun EditText.oopsTintCursor(@ColorInt color: Int) {
 fun TextInputLayout.setHintColor(@ColorInt hintColor: Int) {
     try {
         val defaultHintColorField = TextInputLayout::class.java.findField(
-                "defaultHintTextColor", "mDefaultTextColor"
+            "defaultHintTextColor", "mDefaultTextColor"
         )
         defaultHintColorField.isAccessible = true
         defaultHintColorField.set(this, ColorStateList.valueOf(hintColor))
         defaultHintColorField.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
-                "Failed to set TextInputLayout hint (collapsed) color: " + t.localizedMessage, t
+            "Failed to set TextInputLayout hint (collapsed) color: " + t.localizedMessage, t
         )
     }
 }
@@ -296,20 +296,20 @@ fun TextInputLayout.setHintColor(@ColorInt hintColor: Int) {
 fun TextInputLayout.setAccentColor(@ColorInt accentColor: Int) {
     try {
         val focusedTextColor = TextInputLayout::class.java.findField(
-                "focusedTextColor", "mFocusedTextColor"
+            "focusedTextColor", "mFocusedTextColor"
         )
         focusedTextColor.isAccessible = true
         focusedTextColor.set(this, ColorStateList.valueOf(accentColor))
         focusedTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
-                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+            "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
         )
     }
 }
@@ -321,14 +321,14 @@ fun TextInputLayout.setStrokeColor(@ColorInt accentColor: Int) {
         disabledTextColor.set(this, accentColor)
         disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
-                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+            "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
         )
     }
 }
@@ -340,7 +340,7 @@ fun TextInputLayout.setStrokeColorHover(@ColorInt accentColor: Int) {
         disabledTextColor.set(this, accentColor)
         disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
@@ -357,14 +357,14 @@ fun TextInputLayout.setStrokeColorFocused(@ColorInt accentColor: Int) {
         disabledTextColor.set(this, accentColor)
         disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
-                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+            "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
         )
     }
 }
@@ -376,14 +376,14 @@ fun TextInputLayout.setDisabledColor(@ColorInt accentColor: Int) {
         disabledTextColor.set(this, accentColor)
         disabledTextColor.isAccessible = false
         val updateLabelStateMethod = TextInputLayout::class.java.getDeclaredMethod(
-                "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
+            "updateLabelState", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType
         )
         updateLabelStateMethod.isAccessible = true
         updateLabelStateMethod.invoke(this, false, true)
         updateLabelStateMethod.isAccessible = false
     } catch (t: Throwable) {
         throw IllegalStateException(
-                "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
+            "Failed to set TextInputLayout accent (expanded) color: " + t.localizedMessage, t
         )
     }
 }
@@ -429,8 +429,8 @@ fun FloatingActionButton.oopsTint(@ColorInt color: Int) {
     val isLight = color.isColorLight()
     val pressed = color.shiftColor(if (!isLight) 0.9f else 1.1f)
     val sl = ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_pressed), intArrayOf(android.R.attr.state_pressed)),
-            intArrayOf(color, pressed)
+        arrayOf(intArrayOf(-android.R.attr.state_pressed), intArrayOf(android.R.attr.state_pressed)),
+        intArrayOf(color, pressed)
     )
     val textColor = context.colorRes(if (isLight) R.color.md_primary_text_light else R.color.md_primary_text_dark)
     this.rippleColor = defaultRippleColor(context, isLight)
@@ -457,16 +457,16 @@ fun MaterialButton.oopsTint(@ColorInt color: Int, darker: Boolean, useDarkTheme:
     val activated = color.shiftColor(if (darker) 1.1f else 0.9f)
     val rippleColor = defaultRippleColor(context, darker)
     val textColor = context.colorRes(
-            if (darker) R.color.md_primary_text_light
-            else R.color.md_primary_text_dark
+        if (darker) R.color.md_primary_text_light
+        else R.color.md_primary_text_dark
     )
     val sl = ColorStateList(
-            arrayOf(
-                    intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
-            ), intArrayOf(disabled, color, pressed, activated, activated))
+        arrayOf(
+            intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+        ), intArrayOf(disabled, color, pressed, activated, activated))
     val dsl = disabledColorStateList(textColor, context.colorRes(if (useDarkTheme) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
     this.setTextColor(dsl)
     this.icon = this.icon?.tint(dsl)
@@ -483,16 +483,16 @@ fun Button.oopsTint(@ColorInt color: Int, darker: Boolean, useDarkTheme: Boolean
     val activated = color.shiftColor(if (darker) 1.1f else 0.9f)
     val rippleColor = defaultRippleColor(context, darker)
     val textColor = context.colorRes(
-            if (darker) R.color.md_primary_text_light
-            else R.color.md_primary_text_dark
+        if (darker) R.color.md_primary_text_light
+        else R.color.md_primary_text_dark
     )
     val sl = ColorStateList(
-            arrayOf(
-                    intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
-            ), intArrayOf(disabled, color, pressed, activated, activated))
+        arrayOf(
+            intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_pressed),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+        ), intArrayOf(disabled, color, pressed, activated, activated))
     val dsl = disabledColorStateList(textColor, context.colorRes(if (useDarkTheme) R.color.md_button_text_disabled_dark else R.color.md_button_text_disabled_light))
     this.setTextColor(dsl)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && this.background is RippleDrawable) {
@@ -522,8 +522,8 @@ private fun defaultRippleColor(context: Context, useDarkRipple: Boolean): Int {
 
 private fun disabledColorStateList(@ColorInt normal: Int, @ColorInt disabled: Int): ColorStateList {
     return ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled)),
-            intArrayOf(disabled, normal))
+        arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_enabled)),
+        intArrayOf(disabled, normal))
 }
 
 fun TextInputLayout.tintHint(@ColorInt hintColor: Int) {
@@ -565,13 +565,13 @@ fun AppCompatCheckedTextView.oopsTint(color: IsDarkColor) {
     val disabled = context.colorRes(if (color.isDark) R.color.md_switch_track_disabled_dark else R.color.md_switch_track_disabled_light)
     val normal = context.colorRes(if (color.isDark) R.color.md_switch_track_normal_dark else R.color.md_switch_track_normal_light).stripAlpha()
     val sl = ColorStateList(
-            arrayOf(
-                    intArrayOf(-android.R.attr.state_enabled),
-                    intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
-                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
-            ),
-            intArrayOf(disabled, normal, tint, tint)
+        arrayOf(
+            intArrayOf(-android.R.attr.state_enabled),
+            intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_activated),
+            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+        ),
+        intArrayOf(disabled, normal, tint, tint)
     )
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         compoundDrawableTintList = sl

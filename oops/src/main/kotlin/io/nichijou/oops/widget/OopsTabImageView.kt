@@ -29,7 +29,7 @@ class OopsTabImageView : AppCompatImageView, OopsViewLifeAndLive {
     override fun setImageDrawable(drawable: Drawable?) {
         if (activeColor != 0) {
             val sl = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)),
-                    intArrayOf(activeColor.adjustAlpha(0.7f), activeColor))
+                intArrayOf(activeColor.adjustAlpha(0.7f), activeColor))
             val d = drawable?.tint(sl)
             super.setImageDrawable(d)
         } else {
@@ -46,13 +46,9 @@ class OopsTabImageView : AppCompatImageView, OopsViewLifeAndLive {
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val oopsVM by lazy {
-        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-    }
+    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
 
-    private val oopsLife: LifecycleRegistry by lazy {
-        LifecycleRegistry(this)
-    }
+    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = oopsLife
 

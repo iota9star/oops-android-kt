@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 import io.nichijou.oops.OopsViewLifeAndLive
 import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.color.SnackbarColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
 
@@ -23,31 +24,38 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAn
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    private fun updateColor(color: Int) {
-        setBackgroundColor(color)
-        val parent = this.parent
-        if (parent != null && parent is Snackbar.SnackbarLayout) {
-            if (parent.background != null) {
-                parent.background = parent.background.tint(color)
+    private fun updateColor(color: SnackbarColor) {
+        messageView.setTextColor(color.textColor)
+        actionView.apply {
+            val bg = background
+            if (bg != null) {
+                background = bg.tint(color.bgColor)
             } else {
-                parent.setBackgroundColor(color)
+                setBackgroundColor(color.bgColor)
+            }
+            setTextColor(color.actionColor)
+        }
+        setBackgroundColor(color.bgColor)
+        val parent = this.parent
+        if (parent is Snackbar.SnackbarLayout) {
+            val background = parent.background
+            if (background != null) {
+                parent.background = background.tint(color.bgColor)
+            } else {
+                parent.setBackgroundColor(color.bgColor)
             }
         }
     }
 
     override fun howToLive() {
-        oopsVM.snackBarBackgroundColor.observe(this, Observer(this::updateColor))
+        oopsVM.snackbarColor.observe(this, Observer(this::updateColor))
     }
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val oopsVM by lazy {
-        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-    }
+    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
 
-    private val oopsLife: LifecycleRegistry by lazy {
-        LifecycleRegistry(this)
-    }
+    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = oopsLife
 

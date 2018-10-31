@@ -41,8 +41,8 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 if (thisParent == null) {
                     return true
                 } else if (thisParent === windowDecor
-                        || thisParent !is View
-                        || ViewCompat.isAttachedToWindow((thisParent as View))) {
+                    || thisParent !is View
+                    || ViewCompat.isAttachedToWindow((thisParent as View))) {
                     return false
                 }
                 thisParent = (thisParent as ViewParent).parent
@@ -123,23 +123,22 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                         return null
                     }
                 }
-                view = if (parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrName(attrs, android.R.attr.id) == "@id/snackbar_text") {
-                    OopsSnackBarTextView(context, attrs)
-                } else if (context.attrName(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
-                    if (parent is OopsViewLifeAndLive) {
-                        parent.endOopsLife()// parent maybe leaked
+                view = when {
+                    parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrName(attrs, android.R.attr.id) == "@id/snackbar_text" -> {
+                        logi { "this TextView is the child of SnackBarContentLayout, we ignore it." }
+                        return null
                     }
-                    OopsToastTextView(context, attrs)
-                } else if (parent is LinearLayout && context.attrName(attrs, android.R.attr.id) == "@android:id/message") {
-                    null
-                } else {
-                    OopsTextView(context, attrs)
+                    context.attrName(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrName(attrs, android.R.attr.id) == "@android:id/message" -> {
+                        logi { "this TextView is the child of Toast, we ignore it." }
+                        return null
+                    }
+                    parent is LinearLayout && context.attrName(attrs, android.R.attr.id) == "@android:id/message" -> {
+                        logi { "this is a dialog message TextView, we ignore it." }
+                        return null
+                    }
+                    else -> OopsTextView(context, attrs)
                 }
-                if (view == null) {
-                    logi { "this is a dialog message TextView, we ignore it." }
-                } else {
-                    verifyNotNull(view, name, false)
-                }
+                verifyNotNull(view, name, false)
             }
             "CheckBox", "androidx.appcompat.widget.AppCompatCheckBox" -> {
                 view = OopsCheckBox(context, attrs)
@@ -173,7 +172,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
             "Button", "androidx.appcompat.widget.AppCompatButton" -> {
                 view = when {
                     viewId == android.R.id.button1 || viewId == android.R.id.button2 || viewId == android.R.id.button3 -> OopsDialogButton(context, attrs)
-                    viewId == com.google.android.material.R.id.snackbar_action -> OopsSnackBarButton(context, attrs)
+                    viewId == com.google.android.material.R.id.snackbar_action -> {
+                        logi { "this Button is the child of SnackBarContentLayout, we ignore it." }
+                        return null
+                    }
                     isBorderlessButton(context, attrs) -> OopsBorderlessButton(context, attrs)
                     else -> OopsButton(context, attrs)
                 }
@@ -304,9 +306,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 view = OopsLinearLayoutCompat(context, attrs)
                 verifyNotNull(view, name, false)
             }
-            else -> {
-                view = factory?.onCreateView(parent, name, context, attrs, viewId)
-            }
+            else -> view = factory?.onCreateView(parent, name, context, attrs, viewId)
         }
         return view?.apply {
             if (this !is OopsViewLifeAndLive) return@apply
@@ -321,18 +321,18 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
 
     private fun needlessBackgroundColor(view: View): Boolean {
         return view is CardView
-                || view is Toolbar
-                || view is TabLayout
-                || view is BottomNavigationView
-                || view is Button
+            || view is Toolbar
+            || view is TabLayout
+            || view is BottomNavigationView
+            || view is Button
     }
 
     private fun isSearchIcon(@IdRes id: Int): Boolean {
         return id == androidx.appcompat.R.id.search_button
-                || id == androidx.appcompat.R.id.search_mag_icon
-                || id == androidx.appcompat.R.id.search_close_btn
-                || id == androidx.appcompat.R.id.search_go_btn
-                || id == androidx.appcompat.R.id.search_voice_btn
+            || id == androidx.appcompat.R.id.search_mag_icon
+            || id == androidx.appcompat.R.id.search_close_btn
+            || id == androidx.appcompat.R.id.search_go_btn
+            || id == androidx.appcompat.R.id.search_voice_btn
     }
 
     private fun isBorderlessButton(context: Context, attrs: AttributeSet?): Boolean {
@@ -474,7 +474,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
         return try {
             if (constructor == null) {
                 val clazz = context.classLoader.loadClass(
-                        if (prefix != null) prefix + name else name).asSubclass(View::class.java)
+                    if (prefix != null) prefix + name else name).asSubclass(View::class.java)
 
                 constructor = clazz.getConstructor(*sConstructorSignature)
                 sConstructorMap[name] = constructor
@@ -497,10 +497,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 mResolvedMethod!!.invoke(mResolvedContext, v)
             } catch (e: IllegalAccessException) {
                 throw IllegalStateException(
-                        "Could not execute non-public method for android:onClick", e)
+                    "Could not execute non-public method for android:onClick", e)
             } catch (e: InvocationTargetException) {
                 throw IllegalStateException(
-                        "Could not execute method for android:onClick", e)
+                    "Could not execute method for android:onClick", e)
             }
         }
 
@@ -527,8 +527,8 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
             val id = mHostView.id
             val idText = if (id == View.NO_ID) "" else " with id '" + mHostView.context.resources.getResourceEntryName(id) + "'"
             throw IllegalStateException(("Could not find method " + mMethodName
-                    + "(View) in a parent or ancestor Context for android:onClick "
-                    + "attribute defined on view " + mHostView.javaClass + idText))
+                + "(View) in a parent or ancestor Context for android:onClick "
+                + "attribute defined on view " + mHostView.javaClass + idText))
         }
     }
 

@@ -45,13 +45,9 @@ class OopsMaterialButton : MaterialButton, OopsViewLifeAndLive {
 
     override fun getOopsViewModel(): OopsViewModel = oopsVM
 
-    private val oopsVM by lazy {
-        ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-    }
+    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
 
-    private val oopsLife: LifecycleRegistry by lazy {
-        LifecycleRegistry(this)
-    }
+    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = oopsLife
 

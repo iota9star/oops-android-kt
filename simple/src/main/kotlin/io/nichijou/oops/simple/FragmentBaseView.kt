@@ -47,12 +47,12 @@ class FragmentBaseView : Fragment() {
     private fun initButton() {
         button1.setOnClickListener {
             AlertDialog.Builder(context!!)
-                    .setTitle("This is a test dialog...")
-                    .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt mattis eros. Suspendisse potenti. Nulla vel.")
-                    .setPositiveButton("Positive") { _, _ -> }
-                    .setNegativeButton("Negative") { _, _ -> }
-                    .setNeutralButton("Neutral") { _, _ -> }
-                    .show()
+                .setTitle("This is a test dialog...")
+                .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt mattis eros. Suspendisse potenti. Nulla vel.")
+                .setPositiveButton("Positive") { _, _ -> }
+                .setNegativeButton("Negative") { _, _ -> }
+                .setNeutralButton("Neutral") { _, _ -> }
+                .show()
         }
 
     }

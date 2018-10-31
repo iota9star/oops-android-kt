@@ -136,9 +136,9 @@ internal object EdgeGlowUtil {
 
     private fun invalidateRecyclerViewFields() {
         if (RECYCLER_VIEW_FIELD_EDGE_GLOW_TOP != null
-                && RECYCLER_VIEW_FIELD_EDGE_GLOW_LEFT != null
-                && RECYCLER_VIEW_FIELD_EDGE_GLOW_RIGHT != null
-                && RECYCLER_VIEW_FIELD_EDGE_GLOW_BOTTOM != null
+            && RECYCLER_VIEW_FIELD_EDGE_GLOW_LEFT != null
+            && RECYCLER_VIEW_FIELD_EDGE_GLOW_RIGHT != null
+            && RECYCLER_VIEW_FIELD_EDGE_GLOW_BOTTOM != null
         ) {
             RECYCLER_VIEW_FIELD_EDGE_GLOW_TOP!!.isAccessible = true
             RECYCLER_VIEW_FIELD_EDGE_GLOW_LEFT!!.isAccessible = true
@@ -229,9 +229,9 @@ internal object EdgeGlowUtil {
     }
 
     fun setEdgeGlowColor(
-            scrollView: RecyclerView,
-            @ColorInt color: Int,
-            requestedScrollListener: RecyclerView.OnScrollListener?
+        scrollView: RecyclerView,
+        @ColorInt color: Int,
+        requestedScrollListener: RecyclerView.OnScrollListener?
     ) {
         var scrollListener = requestedScrollListener
         invalidateRecyclerViewFields()
@@ -239,8 +239,8 @@ internal object EdgeGlowUtil {
         if (scrollListener == null) {
             scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(
-                        recyclerView: RecyclerView,
-                        newState: Int
+                    recyclerView: RecyclerView,
+                    newState: Int
                 ) {
                     super.onScrollStateChanged(recyclerView, newState)
                     setEdgeGlowColor(recyclerView, color, this)

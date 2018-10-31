@@ -58,12 +58,6 @@ class OopsViewModel : ViewModel() {
     val toolbarInactiveColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarInactiveColor)
     }
-    val toastTextColor by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toastTextColor)
-    }
-    val toastBackgroundColor by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toastBackgroundColor)
-    }
     val snackBarTextColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarTextColor)
     }
@@ -111,8 +105,9 @@ class OopsViewModel : ViewModel() {
     val statusBarStateColor by lazy {
         liveMediator(statusBarColor, statusBarMode, StatusBarStateColor.live())
     }
-    val toastColor by lazy {
-        liveMediator(toastTextColor, toastBackgroundColor, ToastColor.live())
+
+    val snackbarColor by lazy {
+        liveMediator(snackBarTextColor, snackBarActionColor, snackBarBackgroundColor, SnackbarColor.live())
     }
 
     fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkColor> {
@@ -136,13 +131,13 @@ class OopsViewModel : ViewModel() {
         return when {
             attrName.isNullOrBlank() -> fallback
             attrName == "?attr/colorPrimary"
-                    || attrName == "?android:attr/colorPrimary" -> colorPrimary
+                || attrName == "?android:attr/colorPrimary" -> colorPrimary
             attrName == "?attr/colorPrimaryDark"
-                    || attrName == "?android:attr/colorPrimaryDark" -> colorPrimaryDark
+                || attrName == "?android:attr/colorPrimaryDark" -> colorPrimaryDark
             attrName == "?attr/colorSecondary"
-                    || attrName == "?android:attr/colorSecondary"
-                    || attrName == "?attr/colorAccent"
-                    || attrName == "?android:attr/colorAccent" -> colorAccent
+                || attrName == "?android:attr/colorSecondary"
+                || attrName == "?attr/colorAccent"
+                || attrName == "?android:attr/colorAccent" -> colorAccent
             attrName == "?android:attr/windowBackground" -> windowBackground
             attrName == "?android:attr/textColorPrimary" -> textColorPrimary
             attrName == "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse

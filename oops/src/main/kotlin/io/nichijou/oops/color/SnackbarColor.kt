@@ -1,14 +1,14 @@
 package io.nichijou.oops.color
 
 import androidx.annotation.ColorInt
-import io.nichijou.oops.ext.Live2
+import io.nichijou.oops.ext.Live3
 
 
-class ToastColor(@ColorInt val textColor: Int, @ColorInt val bgColor: Int) {
+class SnackbarColor(@ColorInt val textColor: Int, @ColorInt val actionColor: Int, @ColorInt val bgColor: Int) {
 
     companion object {
-        fun live() = object : Live2<Int, Int, ToastColor> {
-            override fun apply(a: Int, b: Int): ToastColor = ToastColor(a, b)
+        fun live() = object : Live3<Int, Int, Int, SnackbarColor> {
+            override fun apply(a: Int, b: Int, c: Int): SnackbarColor = SnackbarColor(a, b, c)
         }
     }
 
@@ -16,9 +16,10 @@ class ToastColor(@ColorInt val textColor: Int, @ColorInt val bgColor: Int) {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as ToastColor
+        other as SnackbarColor
 
         if (textColor != other.textColor) return false
+        if (actionColor != other.actionColor) return false
         if (bgColor != other.bgColor) return false
 
         return true
@@ -26,8 +27,10 @@ class ToastColor(@ColorInt val textColor: Int, @ColorInt val bgColor: Int) {
 
     override fun hashCode(): Int {
         var result = textColor
+        result = 31 * result + actionColor
         result = 31 * result + bgColor
         return result
     }
+
 
 }
