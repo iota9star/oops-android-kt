@@ -9,15 +9,14 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
 import io.nichijou.oops.ext.oopsTint
 
 
-class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
+class OopsEditText : AppCompatEditText, OopsLifecycleOwner {
 
     private val attrNames: SparseArray<String>
 
@@ -30,32 +29,28 @@ class OopsEditText : AppCompatEditText, OopsViewLifeAndLive {
     }
 
     @SuppressLint("ResourceType")
-    override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(attrNames[android.R.attr.background], oopsVM.colorAccent)!!).observe(this, Observer(this::oopsTint))
-        oopsVM.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
-        oopsVM.live(attrNames[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.isDarkColor(living.live(attrNames[android.R.attr.background], living.colorAccent)!!).observe(this, Observer(this::oopsTint))
+        living.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        living.live(attrNames[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
-
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

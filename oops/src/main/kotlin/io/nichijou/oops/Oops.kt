@@ -11,6 +11,8 @@ import androidx.annotation.*
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.ext.*
 import io.nichijou.oops.pref.BooleanPref
 import io.nichijou.oops.pref.EnumValuePref
@@ -531,6 +533,12 @@ class Oops private constructor(val context: Context) {
                 throw e
             }
         }
+
+        @JvmStatic
+        fun living(activity: AppCompatActivity) = ViewModelProviders.of(activity).get(OopsViewModel::class.java)
+
+        @JvmStatic
+        fun living(fragment: Fragment) = ViewModelProviders.of(fragment).get(OopsViewModel::class.java)
 
         @JvmStatic
         fun attach(activity: AppCompatActivity) {

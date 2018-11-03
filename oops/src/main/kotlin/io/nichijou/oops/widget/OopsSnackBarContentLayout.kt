@@ -8,17 +8,16 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.SnackbarColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
 
 @SuppressLint("RestrictedApi")
-internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAndLive {
+internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifecycleOwner {
 
     constructor(context: Context) : super(context)
 
@@ -47,35 +46,31 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsViewLifeAn
         }
     }
 
-    override fun howToLive() {
-        oopsVM.snackbarColor.observe(this, Observer(this::updateColor))
+    override fun liveInOops() {
+        Oops.living(this.activity()).snackbarColor.observe(this, Observer(this::updateColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onWindowVisibilityChanged(visibility: Int) {
         super.onWindowVisibilityChanged(visibility)
-        resumeOrPauseLife(visibility == View.VISIBLE)
+        handleOopsLifeStartOrStop(visibility == View.VISIBLE)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

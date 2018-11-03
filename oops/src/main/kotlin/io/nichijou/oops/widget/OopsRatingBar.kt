@@ -7,14 +7,13 @@ import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-class OopsRatingBar : AppCompatRatingBar, OopsViewLifeAndLive {
+class OopsRatingBar : AppCompatRatingBar, OopsLifecycleOwner {
 
     private val backgroundAttrName: String
 
@@ -26,30 +25,27 @@ class OopsRatingBar : AppCompatRatingBar, OopsViewLifeAndLive {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer(this::oopsTint))
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.isDarkColor(living.live(backgroundAttrName, living.colorAccent)!!).observe(this, Observer(this::oopsTint))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

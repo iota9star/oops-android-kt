@@ -15,7 +15,7 @@
 ``` gradle
 dependencies {
   // 其他
-  implementation 'io.nichijou:oops:0.6.0'
+  implementation 'io.nichijou:oops:0.6.1'
 }
 ```
 - Activit直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用
@@ -199,44 +199,38 @@ Oops.bulk {
 }// 上面步骤中布局文件中的文字颜色customColor1将会是白色
 ```
 #### -> 自定义View
--	``View``实现``OopsViewLifeAndLive``接口
+-	``View``实现``OopsLifecycleOwner``接口
 ``` kotlin
 // kotlin
-class OopsTextView : AppCompatTextView, OopsViewLifeAndLive
+class OopsTextView : AppCompatTextView, OopsLifecycleOwner
 ```
 在大部分情况下，你只需将下面代码复制到你的``View``中（ java 版本大同小异 ）
 ``` kotlin
 // kotlin
-override fun getOopsViewModel(): OopsViewModel = oopsVM
-private val oopsVM by lazy {
-    ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-}
-private val oopsLife: LifecycleRegistry by lazy {
-    LifecycleRegistry(this)
-}
-override fun getLifecycle(): Lifecycle = oopsLife
+private val lifecycleRegistry = LifecycleRegistry(this)
+override fun getLifecycle(): Lifecycle = lifecycleRegistry
 override fun onAttachedToWindow() {
     super.onAttachedToWindow()
-    startOopsLife()
+    attachOopsLife()
 }
 override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
     super.onWindowFocusChanged(hasWindowFocus)
-    resumeOrPauseLife(hasWindowFocus)
+    handleOopsLifeStartOrStop(hasWindowFocus)
 }
 override fun onDetachedFromWindow() {
-    endOopsLife()
+    detachOopsLife()
     super.onDetachedFromWindow()
 }
 ```
-需个人实现的部分，复写方法``howToLive``，例如``OopsTextView ``
+需个人实现的部分，复写方法``liveInOops``，例如``OopsTextView ``
 ``` kotlin
 // kotlin
-override fun howToLive() {
-    oopsVM.live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
+override fun liveInOops() {
+    Oops.living(this.activity()).live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
 }
 ```
-完整示例可查看：[Oops->Widget](https://github.com/iota9star/oops-android-kt/tree/master/oops/src/main/kotlin/io/nichijou/oops/widget "Oops自定义View")
-- 实现``OopsLayoutInflaterFactory``接口，详细查看：[CustomTextView](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/CustomView.kt "CustomTextView")，[MyFactory](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/MyFactory.kt "MyFactory")，[BaseActivity](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/BaseActivity.kt "BaseActivity")
+完整自定义View示例可查看：[Oops->Widget](https://github.com/iota9star/oops-android-kt/tree/master/oops/src/main/kotlin/io/nichijou/oops/widget "Oops自定义View")
+- 实现``OopsLayoutInflaterFactory``接口，详细自定义过程查看：[CustomTextView](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/CustomView.kt "CustomTextView")，[MyFactory](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/MyFactory.kt "MyFactory")，[BaseActivity](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/BaseActivity.kt "BaseActivity")
 ### 致谢
 - [@afollestad](https://github.com/afollestad "afollestad")
 - [@chibatching](https://github.com/chibatching "chibatching")

@@ -12,17 +12,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.color.CollapsingToolbarStateColor
 import io.nichijou.oops.ext.*
 
 
-class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive, AppBarLayout.OnOffsetChangedListener {
+class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner, AppBarLayout.OnOffsetChangedListener {
 
     private val backgroundAttrName: String
 
@@ -83,7 +82,7 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive
                 for (j in 0 until v.childCount) {
                     val itemView = v.getChildAt(j)
                     if (itemView is OopsActionMenuItemView) {
-                        itemView.endOopsLife()
+                        itemView.detachOopsLife()
                         itemView.setTextColor(color.active)
                         val drawablesCount = itemView.compoundDrawables.size
                         for (k in 0 until drawablesCount) {
@@ -99,8 +98,9 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive
         toolbar.oopsTintMenuItem(toolbar.menu ?: return, color)
     }
 
-    override fun howToLive() {
-        oopsVM.collapsingToolbarStateColor(oopsVM.live(backgroundAttrName, oopsVM.colorPrimary)!!).observe(this, Observer {
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.collapsingToolbarStateColor(living.live(backgroundAttrName, living.colorPrimary)!!).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)
@@ -110,13 +110,9 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -131,24 +127,24 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsViewLifeAndLive
             } else {
                 needLife = true
                 toolbar!!.apply {
-                    endOopsLife()
+                    detachOopsLife()
                     setBackgroundColor(Color.TRANSPARENT)
                     updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
                 }
                 appBarLayout!!.addOnOffsetChangedListener(this)
-                startOopsLife()
+                attachOopsLife()
             }
         }
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        if (needLife) resumeOrPauseLife(hasWindowFocus)
+        if (needLife) handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
         if (needLife) {
-            endOopsLife()
+            detachOopsLife()
             appBarLayout!!.removeOnOffsetChangedListener(this)
             appBarLayout = null
             toolbar = null

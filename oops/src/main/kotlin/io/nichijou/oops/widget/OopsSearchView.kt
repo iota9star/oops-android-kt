@@ -7,13 +7,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.oopsTint
 
-class OopsSearchView : SearchView, OopsViewLifeAndLive {
+class OopsSearchView : SearchView, OopsLifecycleOwner {
 
     constructor(context: Context) : super(context)
 
@@ -21,30 +20,26 @@ class OopsSearchView : SearchView, OopsViewLifeAndLive {
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    override fun howToLive() {
-        oopsVM.toolbarColor.observe(this, Observer(this::oopsTint))
+    override fun liveInOops() {
+        Oops.living(this.activity()).toolbarColor.observe(this, Observer(this::oopsTint))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

@@ -11,17 +11,16 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.colorRes
 
 @SuppressLint("RestrictedApi")
-class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
+class OopsNavigationView : NavigationView, OopsLifecycleOwner {
 
     constructor(context: Context) : super(context)
 
@@ -41,8 +40,8 @@ class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
         }
     }
 
-    override fun howToLive() {
-        oopsVM.navStateColor.observe(this, Observer {
+    override fun liveInOops() {
+        Oops.living(this.activity()).navStateColor.observe(this, Observer {
             when (it.mode) {
                 NavigationViewTintMode.ACCENT -> updateColor(it.accent, it.isDark)
                 NavigationViewTintMode.PRIMARY -> updateColor(it.primary, it.isDark)
@@ -50,26 +49,22 @@ class OopsNavigationView : NavigationView, OopsViewLifeAndLive {
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

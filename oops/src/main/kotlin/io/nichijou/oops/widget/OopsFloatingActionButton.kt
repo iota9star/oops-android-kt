@@ -6,15 +6,14 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
-class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive {
+class OopsFloatingActionButton : FloatingActionButton, OopsLifecycleOwner {
 
     private val backgroundAttrName: String
 
@@ -26,30 +25,26 @@ class OopsFloatingActionButton : FloatingActionButton, OopsViewLifeAndLive {
         backgroundAttrName = context.attrName(attrs, android.R.attr.background)
     }
 
-    override fun howToLive() {
-        oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!.observe(this, Observer(this::oopsTint))
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.live(backgroundAttrName, living.colorAccent)!!.observe(this, Observer(this::oopsTint))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
-
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

@@ -9,13 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 
 
-class OopsDrawerLayout : DrawerLayout, OopsViewLifeAndLive {
+class OopsDrawerLayout : DrawerLayout, OopsLifecycleOwner {
 
     constructor(context: Context) : super(context)
 
@@ -49,33 +48,28 @@ class OopsDrawerLayout : DrawerLayout, OopsViewLifeAndLive {
         }
     }
 
-    override fun howToLive() {
-        oopsVM.toolbarActiveColor.observe(this, Observer {
+    override fun liveInOops() {
+        Oops.living(this.activity()).toolbarActiveColor.observe(this, Observer {
             this.iconColor = it
             updateColor()
         })
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
-
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

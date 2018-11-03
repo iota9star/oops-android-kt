@@ -7,13 +7,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 
-class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
+class OopsTextView : AppCompatTextView, OopsLifecycleOwner {
 
     private val textColorAttrName: String
 
@@ -25,30 +24,26 @@ class OopsTextView : AppCompatTextView, OopsViewLifeAndLive {
         textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
     }
 
-    override fun howToLive() {
-        oopsVM.live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
+    override fun liveInOops() {
+        Oops.living(this.activity()).live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

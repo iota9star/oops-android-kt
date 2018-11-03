@@ -9,15 +9,14 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomappbar.BottomAppBar
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
 import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.ext.*
 
-class OopsBottomAppBar : BottomAppBar, OopsViewLifeAndLive {
+class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
 
     private val attrNames: SparseArray<String>
 
@@ -49,14 +48,15 @@ class OopsBottomAppBar : BottomAppBar, OopsViewLifeAndLive {
         this.oopsTintMenuItem(menu, color)
     }
 
-    override fun howToLive() {
+    override fun liveInOops() {
         val backgroundTint = attrNames[R.attr.backgroundTint]
         val bgAttrName = if (backgroundTint.isNullOrBlank()) {
             attrNames[android.R.attr.background]
         } else {
             backgroundTint
         }
-        oopsVM.live(bgAttrName)?.observe(this, Observer {
+        val living = Oops.living(this.activity())
+        living.live(bgAttrName)?.observe(this, Observer {
             val bg = this.background
             if (bg != null) {
                 this.background = bg.tint(it)
@@ -64,29 +64,25 @@ class OopsBottomAppBar : BottomAppBar, OopsViewLifeAndLive {
                 setBackgroundColor(it)
             }
         })
-        oopsVM.toolbarColor.observe(this, Observer(this::updateColor))
+        living.toolbarColor.observe(this, Observer(this::updateColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

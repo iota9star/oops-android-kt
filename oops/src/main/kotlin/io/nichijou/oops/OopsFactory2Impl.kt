@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
+import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
@@ -259,7 +260,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 verifyNotNull(view, name, false)
             }
             "Spinner", "androidx.appcompat.widget.AppCompatSpinner" -> {
-                view = OopsSeekBar(context, attrs)
+                view = OopsSpinner(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "androidx.viewpager.widget.ViewPager" -> {
@@ -309,9 +310,9 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
             else -> view = factory?.onCreateView(parent, name, context, attrs, viewId)
         }
         return view?.apply {
-            if (this !is OopsViewLifeAndLive) return@apply
+            if (this !is OopsLifecycleOwner) return@apply
             val backgroundAttrName = this.context.attrName(attrs, android.R.attr.background)
-            (this as OopsViewLifeAndLive).getOopsViewModel().live(backgroundAttrName)?.observe(this as OopsViewLifeAndLive, Observer {
+            Oops.living(this.activity()).live(backgroundAttrName)?.observe(this as OopsLifecycleOwner, Observer {
                 if (!needlessBackgroundColor(this)) {
                     this.setBackgroundColor(it)
                 }

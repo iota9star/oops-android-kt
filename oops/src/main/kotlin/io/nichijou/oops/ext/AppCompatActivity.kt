@@ -12,9 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.Oops
-import io.nichijou.oops.OopsViewModel
 import io.nichijou.oops.widget.StatusBarMode
 
 
@@ -77,7 +75,7 @@ fun AppCompatActivity.translucentStatusBar() {
 }
 
 internal fun AppCompatActivity.attachOops(themeId: Int) {
-    val viewModel = ViewModelProviders.of(this).get(OopsViewModel::class.java)
+    val viewModel = Oops.living(this)
     viewModel.theme.observe(this, Observer {
         if (themeId != it) {
             Oops.immed().cancelRippleAnimation()

@@ -7,14 +7,13 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.card.MaterialCardView
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrNames
 
-class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
+class OopsMaterialCardView : MaterialCardView, OopsLifecycleOwner {
 
     private val attrNames: SparseArray<String>
 
@@ -26,31 +25,28 @@ class OopsMaterialCardView : MaterialCardView, OopsViewLifeAndLive {
         attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
-    override fun howToLive() {
-        oopsVM.live(attrNames[com.google.android.material.R.attr.cardBackgroundColor])?.observe(this, Observer(this::setCardBackgroundColor))
-        oopsVM.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer(this::setStrokeColor))
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.live(attrNames[com.google.android.material.R.attr.cardBackgroundColor])?.observe(this, Observer(this::setCardBackgroundColor))
+        living.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer(this::setStrokeColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

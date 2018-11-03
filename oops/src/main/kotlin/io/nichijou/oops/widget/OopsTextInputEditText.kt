@@ -6,17 +6,16 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
-import io.nichijou.oops.OopsViewLifeAndLive
-import io.nichijou.oops.OopsViewModel
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.IsDarkColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrName
 import io.nichijou.oops.ext.oopsTint
 
 
-class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
+class OopsTextInputEditText : TextInputEditText, OopsLifecycleOwner {
 
     private val backgroundAttrName: String
 
@@ -44,32 +43,29 @@ class OopsTextInputEditText : TextInputEditText, OopsViewLifeAndLive {
         }
     }
 
-    override fun howToLive() {
-        oopsVM.isDarkColor(oopsVM.live(backgroundAttrName, oopsVM.colorAccent)!!).observe(this, Observer(this::updateColor))
-        oopsVM.textColorPrimary.observe(this, Observer(this::setTextColor))
-        oopsVM.textColorSecondary.observe(this, Observer(this::setHintTextColor))
+    override fun liveInOops() {
+        val living = Oops.living(this.activity())
+        living.isDarkColor(living.live(backgroundAttrName, living.colorAccent)!!).observe(this, Observer(this::updateColor))
+        living.textColorPrimary.observe(this, Observer(this::setTextColor))
+        living.textColorSecondary.observe(this, Observer(this::setHintTextColor))
     }
 
-    override fun getOopsViewModel(): OopsViewModel = oopsVM
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    private val oopsVM = ViewModelProviders.of(this.activity()).get(OopsViewModel::class.java)
-
-    private val oopsLife: LifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = oopsLife
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startOopsLife()
+        attachOopsLife()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        resumeOrPauseLife(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
     }
 
     override fun onDetachedFromWindow() {
-        endOopsLife()
+        detachOopsLife()
         super.onDetachedFromWindow()
     }
 }

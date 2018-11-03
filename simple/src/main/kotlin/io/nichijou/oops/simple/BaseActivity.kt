@@ -1,12 +1,10 @@
 package io.nichijou.oops.simple
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsActivity
+import io.nichijou.oops.OopsLayoutInflaterFactory
 
-open class BaseActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Oops.attach(this, MyFactory())
-        super.onCreate(savedInstanceState)
+open class BaseActivity : OopsActivity() {
+    override fun getOopsLayoutInflaterFactory(): OopsLayoutInflaterFactory? {
+        return MyFactory()
     }
 }

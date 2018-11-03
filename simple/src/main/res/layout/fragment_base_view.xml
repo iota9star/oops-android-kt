@@ -181,6 +181,17 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/edit_text"
+            android:inputType="text"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="16sp" />
+
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
@@ -262,35 +273,6 @@
             app:icon="@drawable/ic_menu_send"
             app:strokeColor="?colorPrimary"
             app:strokeWidth="4dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/edit_text"
-            android:inputType="text"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:textSize="16sp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="-8dp"
-            android:layout_marginBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:boxBackgroundMode="filled">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_input"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
