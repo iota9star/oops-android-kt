@@ -14,19 +14,19 @@ import io.nichijou.oops.ext.*
 
 class OopsTextInputLayout : TextInputLayout, OopsLifecycleOwner {
 
-    private val backgroundAttrName: String
+    private val backgroundAttrValue: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.live(backgroundAttrName, living.colorAccent)!!.observe(this, Observer(this::setAccentColor))
+        living.live(backgroundAttrValue, living.colorAccent)!!.observe(this, Observer(this::setAccentColor))
         living.textColorSecondary.observe(this, Observer {
             this.setHintColor(it.adjustAlpha(0.7f))
         })

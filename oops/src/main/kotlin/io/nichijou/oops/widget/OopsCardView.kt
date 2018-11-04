@@ -10,22 +10,22 @@ import androidx.lifecycle.Observer
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrName
+import io.nichijou.oops.ext.attrValue
 
 class OopsCardView : CardView, OopsLifecycleOwner {
 
-    private val backgroundAttrName: String
+    private val backgroundAttrValue: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
+        backgroundAttrValue = context.attrValue(attrs, androidx.cardview.R.attr.cardBackgroundColor)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundAttrName = context.attrName(attrs, androidx.cardview.R.attr.cardBackgroundColor)
+        backgroundAttrValue = context.attrValue(attrs, androidx.cardview.R.attr.cardBackgroundColor)
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).live(backgroundAttrName)?.observe(this, Observer(this::setCardBackgroundColor))
+        Oops.living(this.activity()).live(backgroundAttrValue)?.observe(this, Observer(this::setCardBackgroundColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

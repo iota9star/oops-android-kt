@@ -20,11 +20,9 @@ import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.internal.NavigationMenuItemView
 import com.google.android.material.tabs.TabLayout
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrName
-import io.nichijou.oops.ext.logi
-import io.nichijou.oops.ext.resId
+import io.nichijou.oops.ext.*
 import io.nichijou.oops.widget.*
 import org.xmlpull.v1.XmlPullParser
 import java.lang.reflect.Constructor
@@ -81,9 +79,24 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
         if (wrapContext) {
             ctx = TintContextWrapper.wrap(ctx)
         }
-        var view = createOopsView(parent, name, ctx, attrs)
-        if (view != null && ((view.tag != null && view.tag == context.getString(R.string.oops_ignore_view)) || view.getTag(R.string.oops_ignore_view) != null)) {
-            view = createDefaultView(name, ctx, attrs)
+        val viewId = ctx.resId(attrs, android.R.attr.id)
+        val tag = ctx.attrValue(attrs, android.R.attr.tag)
+        val tagId = ctx.resId(attrs, android.R.attr.tag)
+        val tagValue = if (tagId != -1 && tagId != 0) {
+            try {
+                ctx.getString(tagId)
+            } catch (e: Exception) {
+                loge(e) { "resolve tagId($tagId)'s tagValue error" }
+                ""
+            }
+        } else {
+            ""
+        }
+        var view: View? = if (tag == "@string/ignore_oops_view" || tag == "ignore_oops_view" || tagValue == "ignore_oops_view") {
+            createDefaultView(name, ctx, attrs)
+        } else {
+            factory?.onCreateView(parent, name, ctx, attrs, viewId)
+                ?: createOopsView(parent, name, ctx, attrs, viewId)
         }
         if (view == null) {
             try {
@@ -104,9 +117,8 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
         return view
     }
 
-    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?): View? {
+    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int): View? {
         val view: View?
-        val viewId = context.resId(attrs, android.R.attr.id)
         when (name) {
             "SearchView", "androidx.appcompat.widget.SearchView" -> {
                 view = OopsSearchView(context, attrs)
@@ -125,15 +137,15 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                     }
                 }
                 view = when {
-                    parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrName(attrs, android.R.attr.id) == "@id/snackbar_text" -> {
+                    parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrValue(attrs, android.R.attr.id) == "@id/snackbar_text" -> {
                         logi { "this TextView is the child of SnackBarContentLayout, we ignore it." }
                         return null
                     }
-                    context.attrName(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrName(attrs, android.R.attr.id) == "@android:id/message" -> {
+                    context.attrValue(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrValue(attrs, android.R.attr.id) == "@android:id/message" -> {
                         logi { "this TextView is the child of Toast, we ignore it." }
                         return null
                     }
-                    parent is LinearLayout && context.attrName(attrs, android.R.attr.id) == "@android:id/message" -> {
+                    parent is LinearLayout && context.attrValue(attrs, android.R.attr.id) == "@android:id/message" -> {
                         logi { "this is a dialog message TextView, we ignore it." }
                         return null
                     }
@@ -150,7 +162,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 verifyNotNull(view, name, false)
             }
             "CheckedTextView", "androidx.appcompat.widget.AppCompatCheckedTextView" -> {
-                if (parent != null && parent::class.java.canonicalName == "com.google.android.material.internal.NavigationMenuItemView") {
+                if (parent is NavigationMenuItemView) {
                     logi { "this CheckedTextView is the child of com.google.android.material.internal.NavigationMenuItemView, we ignore it." }
                     return null
                 }
@@ -158,11 +170,11 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 verifyNotNull(view, name, false)
             }
             "ImageView", "androidx.appcompat.widget.AppCompatImageView" -> {
-                if (isSearchIcon(context.resId(attrs, android.R.attr.id))) {
+                if (isSearchIcon(viewId)) {
                     logi { "this ImageView is the child of SearchView, we ignore it." }
                     return null
                 }
-                view = if (parent != null && parent.javaClass.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") OopsTabImageView(context, attrs)
+                view = if (parent != null && parent::class.java.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") OopsTabImageView(context, attrs)
                 else OopsImageView(context, attrs)
                 verifyNotNull(view, name, false)
             }
@@ -307,12 +319,12 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 view = OopsLinearLayoutCompat(context, attrs)
                 verifyNotNull(view, name, false)
             }
-            else -> view = factory?.onCreateView(parent, name, context, attrs, viewId)
+            else -> view = null
         }
         return view?.apply {
             if (this !is OopsLifecycleOwner) return@apply
-            val backgroundAttrName = this.context.attrName(attrs, android.R.attr.background)
-            Oops.living(this.activity()).live(backgroundAttrName)?.observe(this as OopsLifecycleOwner, Observer {
+            val backgroundAttrValue = this.context.attrValue(attrs, android.R.attr.background)
+            Oops.living(this.activity()).live(backgroundAttrValue)?.observe(this as OopsLifecycleOwner, Observer {
                 if (!needlessBackgroundColor(this)) {
                     this.setBackgroundColor(it)
                 }
@@ -419,12 +431,10 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
         if (view == null) {
             throw IllegalStateException("${this.javaClass.name} asked to inflate view for <$name>, but returned null")
         }
-        if (BuildConfig.DEBUG) {
-            if (ignore) {
-                logi { "ignore $name & inflate view : $name to ${view::class.java.simpleName}" }
-            } else {
-                logi { "inflate view : $name to ${view::class.java.simpleName}" }
-            }
+        if (ignore) {
+            logi { "ignore $name & inflate view : $name to ${view::class.java.simpleName}" }
+        } else {
+            logi { "inflate view : $name to ${view::class.java.simpleName}" }
         }
     }
 

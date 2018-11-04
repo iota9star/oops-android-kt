@@ -10,24 +10,24 @@ import androidx.lifecycle.Observer
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrName
+import io.nichijou.oops.ext.attrValue
 import io.nichijou.oops.ext.oopsTint
 
 class OopsSpinner : AppCompatSpinner, OopsLifecycleOwner {
 
-    private val backgroundAttrName: String
+    private val backgroundAttrValue: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.live(backgroundAttrName, living.colorAccent)!!.observe(this, Observer(this::oopsTint))
+        living.live(backgroundAttrValue, living.colorAccent)!!.observe(this, Observer(this::oopsTint))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

@@ -18,7 +18,7 @@ import io.nichijou.oops.pref.BooleanPref
 import io.nichijou.oops.pref.EnumValuePref
 import io.nichijou.oops.pref.IntArrayPref
 import io.nichijou.oops.pref.IntPref
-import io.nichijou.oops.widget.*
+import io.nichijou.oops.widget.StatusBarMode
 import kotlin.properties.ReadWriteProperty
 
 
@@ -54,8 +54,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorAccentResSet(@ColorRes colorAccentRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLOR_ACCENT, context.colorRes(colorAccentRes))
-        if (!transaction) prefsEditor.apply()
+        colorAccentSet(context.colorRes(colorAccentRes))
         return this
     }
 
@@ -67,8 +66,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorPrimaryResSet(@ColorRes colorPrimaryRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLOR_PRIMARY, context.colorRes(colorPrimaryRes))
-        if (!transaction) prefsEditor.apply()
+        colorPrimarySet(context.colorRes(colorPrimaryRes))
         return this
     }
 
@@ -80,8 +78,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorPrimaryDarkResSet(@ColorRes colorPrimaryDarkRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLOR_PRIMARY_DARK, context.colorRes(colorPrimaryDarkRes))
-        if (!transaction) prefsEditor.apply()
+        colorPrimaryDarkSet(context.colorRes(colorPrimaryDarkRes))
         return this
     }
 
@@ -93,8 +90,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun statusBarColorResSet(@ColorRes statusBarColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_STATUS_BAR_COLOR, context.colorRes(statusBarColorRes))
-        if (!transaction) prefsEditor.apply()
+        statusBarColorSet(context.colorRes(statusBarColorRes))
         return this
     }
 
@@ -113,8 +109,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun swipeRefreshLayoutBackgroundColorResSet(@ColorRes swipeRefreshLayoutBackgroundColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_BACKGROUND_COLOR, context.colorRes(swipeRefreshLayoutBackgroundColorRes))
-        if (!transaction) prefsEditor.apply()
+        swipeRefreshLayoutBackgroundColorSet(context.colorRes(swipeRefreshLayoutBackgroundColorRes))
         return this
     }
 
@@ -128,22 +123,19 @@ class Oops private constructor(val context: Context) {
 
     fun swipeRefreshLayoutSchemeColorsSet(@ColorInt vararg swipeRefreshLayoutSchemeColor: Int): Oops {
         if (swipeRefreshLayoutSchemeColor.isEmpty()) throw IllegalArgumentException("color res args size = 0")
-        prefsEditor.putString(OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS, swipeRefreshLayoutSchemeColor.joinToString(","))
-        if (!transaction) prefsEditor.apply()
+        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColor)
         return this
     }
 
     fun swipeRefreshLayoutSchemeColorResSet(swipeRefreshLayoutSchemeColorRes: IntArray): Oops {
         if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color array size = 0")
-        prefsEditor.putString(OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS, swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray().joinToString(","))
-        if (!transaction) prefsEditor.apply()
+        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
         return this
     }
 
     fun swipeRefreshLayoutSchemeColorsResSet(@ColorRes vararg swipeRefreshLayoutSchemeColorRes: Int): Oops {
         if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color res args size = 0")
-        prefsEditor.putString(OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS, swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray().joinToString(","))
-        if (!transaction) prefsEditor.apply()
+        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
         return this
     }
 
@@ -155,8 +147,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun navBarColorResSet(@ColorRes navBarColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_NAV_BAR_COLOR, context.colorRes(navBarColorRes))
-        if (!transaction) prefsEditor.apply()
+        navBarColorSet(context.colorRes(navBarColorRes))
         return this
     }
 
@@ -168,8 +159,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun windowBackgroundResSet(@ColorRes windowBackgroundRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR, context.colorRes(windowBackgroundRes))
-        if (!transaction) prefsEditor.apply()
+        windowBackgroundSet(context.colorRes(windowBackgroundRes))
         return this
     }
 
@@ -181,8 +171,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorPrimaryResSet(@ColorRes textColorPrimaryRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_PRIMARY_TEXT_COLOR, context.colorRes(textColorPrimaryRes))
-        if (!transaction) prefsEditor.apply()
+        textColorPrimarySet(context.colorRes(textColorPrimaryRes))
         return this
     }
 
@@ -194,8 +183,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorPrimaryInverseResSet(@ColorRes textColorPrimaryInverseRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_PRIMARY_TEXT_INVERSE_COLOR, context.colorRes(textColorPrimaryInverseRes))
-        if (!transaction) prefsEditor.apply()
+        textColorPrimaryInverseSet(context.colorRes(textColorPrimaryInverseRes))
         return this
     }
 
@@ -207,8 +195,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorSecondaryResSet(@ColorRes textColorSecondaryRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SECONDARY_TEXT_COLOR, context.colorRes(textColorSecondaryRes))
-        if (!transaction) prefsEditor.apply()
+        textColorSecondarySet(context.colorRes(textColorSecondaryRes))
         return this
     }
 
@@ -220,34 +207,43 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorSecondaryInverseResSet(@ColorRes textColorSecondaryInverseRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SECONDARY_TEXT_INVERSE_COLOR, context.colorRes(textColorSecondaryInverseRes))
+        textColorSecondaryInverseSet(context.colorRes(textColorSecondaryInverseRes))
+        return this
+    }
+
+    var toolbarTitleColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TITLE_COLOR)
+    fun toolbarTitleColorSet(@ColorInt toolbarTitleColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_TITLE_COLOR, toolbarTitleColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var toolbarActiveColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR)
-    fun toolbarActiveColorSet(@ColorInt toolbarActiveColor: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR, toolbarActiveColor)
+    fun toolbarTitleColorResSet(@ColorRes toolbarTitleColorRes: Int): Oops {
+        toolbarTitleColorSet(context.colorRes(toolbarTitleColorRes))
+        return this
+    }
+
+    var toolbarSubtitleColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_SUBTITLE_COLOR)
+    fun toolbarSubtitleColorSet(@ColorInt toolbarSubtitleColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_SUBTITLE_COLOR, toolbarSubtitleColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    fun toolbarActiveColorResSet(@ColorRes toolbarActiveColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_ACTIVE_COLOR, context.colorRes(toolbarActiveColorRes))
+    fun toolbarSubtitleColorResSet(@ColorRes toolbarSubtitleColorRes: Int): Oops {
+        toolbarSubtitleColorSet(context.colorRes(toolbarSubtitleColorRes))
+        return this
+    }
+
+    var toolbarIconColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_ICON_COLOR)
+    fun toolbarIconColorSet(@ColorInt toolbarIconColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_ICON_COLOR, toolbarIconColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var toolbarInactiveColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_INACTIVE_COLOR)
-    fun toolbarInactiveColorSet(@ColorInt toolbarInactiveColor: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_INACTIVE_COLOR, toolbarInactiveColor)
-        if (!transaction) prefsEditor.apply()
-        return this
-    }
-
-    fun toolbarInactiveColorResSet(@ColorRes toolbarInactiveColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_TOOLBAR_TEXT_ICON_INACTIVE_COLOR, context.colorRes(toolbarInactiveColorRes))
-        if (!transaction) prefsEditor.apply()
+    fun toolbarIconColorResSet(@ColorRes toolbarIconColorRes: Int): Oops {
+        toolbarIconColorSet(context.colorRes(toolbarIconColorRes))
         return this
     }
 
@@ -259,8 +255,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun snackBarTextColorResSet(@ColorRes snackBarTextColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR, context.colorRes(snackBarTextColorRes))
-        if (!transaction) prefsEditor.apply()
+        snackBarTextColorSet(context.colorRes(snackBarTextColorRes))
         return this
     }
 
@@ -272,8 +267,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun snackBarActionColorResSet(@ColorRes snackBarActionColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_ACTION_COLOR, context.colorRes(snackBarActionColorRes))
-        if (!transaction) prefsEditor.apply()
+        snackBarActionColorSet(context.colorRes(snackBarActionColorRes))
         return this
     }
 
@@ -285,77 +279,119 @@ class Oops private constructor(val context: Context) {
     }
 
     fun snackBarBackgroundColorResSet(@ColorRes snackBarBackgroundColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_BACKGROUND_COLOR, context.colorRes(snackBarBackgroundColorRes))
+        snackBarBackgroundColorSet(context.colorRes(snackBarBackgroundColorRes))
+        return this
+    }
+
+    var tabLayoutTextColor by intPref(0, OopsPrefsKey.KEY_TAB_LAYOUT_TEXT_COLOR)
+    fun tabLayoutTextColorSet(@ColorInt tabLayoutTextColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TAB_LAYOUT_TEXT_COLOR, tabLayoutTextColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var navigationViewMode by enumValuePref(NavigationViewTintMode.PRIMARY, OopsPrefsKey.KEY_NAV_VIEW_MODE)
-    fun navigationViewModeSet(navigationViewMode: NavigationViewTintMode): Oops {
-        prefsEditor.putString(OopsPrefsKey.KEY_NAV_VIEW_MODE, navigationViewMode.name)
+    fun tabLayoutTextColorResSet(@ColorRes tabLayoutTextColorRes: Int): Oops {
+        tabLayoutTextColorSet(context.colorRes(tabLayoutTextColorRes))
+        return this
+    }
+
+    var tabLayoutSelectedTextColor by intPref(0, OopsPrefsKey.KEY_TAB_LAYOUT_SELECTED_TEXT_COLOR)
+    fun tabLayoutSelectedTextColorSet(@ColorInt tabLayoutSelectedTextColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_TAB_LAYOUT_SELECTED_TEXT_COLOR, tabLayoutSelectedTextColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var tabLayoutBackgroundMode by enumValuePref(TabLayoutBackgroundMode.PRIMARY, OopsPrefsKey.KEY_TAB_LAYOUT_BACKGROUND_MODE)
-    fun tabLayoutBackgroundModeSet(tabLayoutBackgroundMode: TabLayoutBackgroundMode): Oops {
-        prefsEditor.putString(OopsPrefsKey.KEY_TAB_LAYOUT_BACKGROUND_MODE, tabLayoutBackgroundMode.name)
+    fun tabLayoutSelectedTextColorResSet(@ColorRes tabLayoutSelectedTextColorRes: Int): Oops {
+        tabLayoutSelectedTextColorSet(context.colorRes(tabLayoutSelectedTextColorRes))
+        return this
+    }
+
+    var bottomNavigationViewNormalColor by intPref(0, OopsPrefsKey.KEY_BOTTOM_NAV_NORMAL_COLOR)
+    fun bottomNavigationViewNormalColorSet(@ColorInt bottomNavigationViewNormalColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_BOTTOM_NAV_NORMAL_COLOR, bottomNavigationViewNormalColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var tabLayoutIndicatorMode by enumValuePref(TabLayoutIndicatorMode.ACCENT, OopsPrefsKey.KEY_TAB_LAYOUT_INDICATOR_MODE)
-    fun tabLayoutIndicatorModeSet(tabLayoutIndicatorMode: TabLayoutIndicatorMode): Oops {
-        prefsEditor.putString(OopsPrefsKey.KEY_TAB_LAYOUT_INDICATOR_MODE, tabLayoutIndicatorMode.name)
+    fun bottomNavigationViewNormalColorResSet(@ColorRes bottomNavigationViewNormalColorRes: Int): Oops {
+        bottomNavigationViewNormalColorSet(context.colorRes(bottomNavigationViewNormalColorRes))
+        return this
+    }
+
+    var bottomNavigationViewSelectedColor by intPref(0, OopsPrefsKey.KEY_BOTTOM_NAV_SELECTED_COLOR)
+    fun bottomNavigationViewSelectedColorSet(@ColorInt bottomNavigationViewSelectedColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_BOTTOM_NAV_SELECTED_COLOR, bottomNavigationViewSelectedColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var bottomNavigationViewBackgroundMode by enumValuePref(BottomNavigationViewBackgroundMode.AUTO, OopsPrefsKey.KEY_BOTTOM_NAV_BACKGROUND_MODE)
-    fun bottomNavigationViewBackgroundModeSet(bottomNavigationViewBackgroundMode: BottomNavigationViewBackgroundMode): Oops {
-        prefsEditor.putString(OopsPrefsKey.KEY_BOTTOM_NAV_BACKGROUND_MODE, bottomNavigationViewBackgroundMode.name)
+    fun bottomNavigationViewSelectedColorResSet(@ColorRes bottomNavigationViewSelectedColorRes: Int): Oops {
+        bottomNavigationViewSelectedColorSet(context.colorRes(bottomNavigationViewSelectedColorRes))
+        return this
+    }
+
+    fun collapsingToolbarDominantColorGet(@NonNull tag: String): Int {
+        return prefs.getInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), 0)
+    }
+
+    fun getCollapsingToolbarDominantColor(@NonNull tag: String): Int {
+        return collapsingToolbarDominantColorGet(tag)
+    }
+
+    fun collapsingToolbarDominantColorSet(@NonNull tag: String, @ColorInt collapsingToolbarDominantColor: Int): Oops {
+        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), collapsingToolbarDominantColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var bottomNavigationViewIconTextMode by enumValuePref(BottomNavigationViewIconTextMode.AUTO, OopsPrefsKey.KEY_BOTTOM_NAV_ICON_TEXT_MODE)
-    fun bottomNavigationViewIconTextModeSet(bottomNavigationViewIconTextMode: BottomNavigationViewIconTextMode): Oops {
-        prefsEditor.putString(OopsPrefsKey.KEY_BOTTOM_NAV_ICON_TEXT_MODE, bottomNavigationViewIconTextMode.name)
+    fun setCollapsingToolbarDominantColor(@NonNull tag: String, @ColorInt collapsingToolbarDominantColor: Int) {
+        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), collapsingToolbarDominantColor).apply()
+    }
+
+    fun collapsingToolbarDominantColorResSet(@NonNull tag: String, @ColorRes collapsingToolbarDominantColorRes: Int): Oops {
+        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes))
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    var collapsingToolbarDominantColor by intPref(0, OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR)
-    fun collapsingToolbarDominantColorSet(@ColorInt collapsingToolbarDominantColor: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR, collapsingToolbarDominantColor)
+    fun setCollapsingToolbarDominantColorRes(@NonNull tag: String, @ColorRes collapsingToolbarDominantColorRes: Int) {
+        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes)).apply()
+    }
+
+    fun attrColorSet(context: Context, @AttrRes attrId: Int, @ColorInt color: Int): Oops {
+        prefsEditor.putInt(context.attrValue(attrId).oopsSignedAttrValue(), color)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    fun collapsingToolbarDominantColorResSet(@ColorRes collapsingToolbarDominantColorRes: Int): Oops {
-        prefsEditor.putInt(OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR, context.colorRes(collapsingToolbarDominantColorRes))
-        if (!transaction) prefsEditor.apply()
+    fun setAttrColor(context: Context, @AttrRes attrId: Int, @ColorInt color: Int) {
+        prefsEditor.putInt(context.attrValue(attrId).oopsSignedAttrValue(), color).apply()
+    }
+
+    fun attrColorResSet(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int): Oops {
+        attrColorSet(context, attrId, context.colorRes(colorRes))
         return this
     }
 
-    fun customAttrColorSet(context: Context, @AttrRes attrId: Int, @ColorInt color: Int): Oops {
-        prefsEditor.putInt(context.attrName(attrId).oopsSignedAttrName(), color)
-        if (!transaction) prefsEditor.apply()
-        return this
+    fun setAttrColorRes(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int) {
+        setAttrColor(context, attrId, context.colorRes(colorRes))
     }
 
-    fun customAttrColorResSet(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int): Oops {
-        prefsEditor.putInt(context.attrName(attrId).oopsSignedAttrName(), context.colorRes(colorRes))
-        if (!transaction) prefsEditor.apply()
-        return this
+    fun attrColorGet(context: Context, @AttrRes attrId: Int): Int {
+        return attrColorGet(context.attrValue(attrId))
     }
 
-    fun customAttrColorGet(context: Context, @AttrRes attrId: Int): Int {
-        return prefs.getInt(context.attrName(attrId).oopsSignedAttrName(), 0)
+    fun attrColorGet(attrValue: String): Int {
+        return prefs.getInt(attrValue.oopsSignedAttrValue(), 0)
     }
 
-    fun customAttrColorGet(attrName: String): Int {
-        return prefs.getInt(attrName.oopsSignedAttrName(), 0)
+    fun getAttrColor(attrValue: String): Int {
+        return attrColorGet(attrValue)
+    }
+
+    fun getAttrColor(context: Context, @AttrRes attrId: Int): Int {
+        return attrColorGet(context.attrValue(attrId))
     }
 
     inline fun <reified T : AppCompatActivity> putStaticStatusBarColorRes(@ColorRes colorRes: Int) {

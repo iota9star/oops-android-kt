@@ -10,10 +10,7 @@ import io.nichijou.oops.ext.insetStatusBar
 import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.setLightStatusBarCompat
 import io.nichijou.oops.ext.setStatusBarHeightTopMarginInCollapsingToolbarLayout
-import io.nichijou.oops.widget.BottomNavigationViewBackgroundMode
-import io.nichijou.oops.widget.BottomNavigationViewIconTextMode
 import kotlinx.android.synthetic.main.activity_secondary.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class SecondaryActivity : BaseActivity() {
@@ -174,8 +171,7 @@ class SecondaryActivity : BaseActivity() {
         "http://fmn.rrimg.com/fmn058/xiaozhan/20140929/0810/original_8ap0_6e890001b41d125f.jpg",
         "http://fmn.rrimg.com/fmn064/xiaozhan/20140929/0810/xlarge_nG3E_5c8300014fdd125d.jpg"
     )
-    private val bgArr = arrayOf(BottomNavigationViewBackgroundMode.AUTO, BottomNavigationViewBackgroundMode.ACCENT, BottomNavigationViewBackgroundMode.PRIMARY, BottomNavigationViewBackgroundMode.PRIMARY_DARK)
-    private val itArr = arrayOf(BottomNavigationViewIconTextMode.AUTO, BottomNavigationViewIconTextMode.ACCENT, BottomNavigationViewIconTextMode.PRIMARY)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_secondary)
@@ -197,21 +193,19 @@ class SecondaryActivity : BaseActivity() {
         loadImage()
     }
 
-    private val sdf by lazy {
-        SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    }
-
     private fun changeTheme(view: View) {
         val primary = randomColor()
+        val toolbar = randomColor()
         Oops.bulk {
             colorAccent = randomColor()
             colorPrimary = primary
             statusBarColor = primary
             navBarColor = primary
-            toolbarActiveColor = randomColor()
-            toolbarInactiveColor = randomColor()
-            bottomNavigationViewBackgroundMode = bgArr[Random().nextInt(bgArr.size)]
-            bottomNavigationViewIconTextMode = itArr[Random().nextInt(itArr.size)]
+            toolbarTitleColor = toolbar
+            toolbarIconColor = toolbar
+            textColorPrimary = toolbar
+            bottomNavigationViewNormalColor = randomColor()
+            bottomNavigationViewSelectedColor = randomColor()
             swipeRefreshLayoutBackgroundColor = randomColor()
             swipeRefreshLayoutSchemeColor = randomColors(3..8)
             rippleAnimDuration = 480
@@ -226,7 +220,7 @@ class SecondaryActivity : BaseActivity() {
             .listener(GlidePalette.with(u)
                 .intoCallBack { p ->
                     p?.dominantSwatch?.rgb?.let {
-                        Oops.immed().collapsingToolbarDominantColor = it
+                        Oops.immed().collapsingToolbarDominantColorSet("testDominantColor", it)
                         setLightStatusBarCompat(it.isColorLight())
                     }
                 }

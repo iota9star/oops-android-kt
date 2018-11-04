@@ -16,21 +16,21 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.color.ActiveColor
 import io.nichijou.oops.color.CollapsingToolbarStateColor
+import io.nichijou.oops.color.PairColor
 import io.nichijou.oops.ext.*
 
 
 class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner, AppBarLayout.OnOffsetChangedListener {
 
-    private val backgroundAttrName: String
+    private val backgroundAttrValue: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        backgroundAttrName = context.attrName(attrs, android.R.attr.background)
+        backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
     }
 
     private var appBarLayout: AppBarLayout? = null
@@ -51,12 +51,12 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
             val tlp = toolbar!!.layoutParams as CollapsingToolbarLayout.LayoutParams
             val maxOffset = appBarLayout!!.measuredHeight - tlp.height - tlp.topMargin - tlp.bottomMargin
             val ratio = lastOffset.toFloat() / maxOffset.toFloat()
-            val blendedColor = collapsingColor.blendWith(bgColor, ratio)
-            val expandedTitleColor = if (collapsingColor.isColorLight()) Color.BLACK else Color.WHITE
-            val blendedTitleColor = expandedTitleColor.blendWith(active, ratio)
-            setCollapsedTitleTextColor(active)
+            val blendedColor = dominantColor.blendWith(bgColor, ratio)
+            val expandedTitleColor = if (dominantColor.isColorLight()) Color.BLACK else Color.WHITE
+            val blendedTitleColor = expandedTitleColor.blendWith(textColor, ratio)
+            setCollapsedTitleTextColor(textColor)
             setExpandedTitleColor(expandedTitleColor)
-            tintMenu(toolbar!!, ActiveColor(blendedTitleColor, blendedColor.adjustAlpha(.64f)))
+            tintMenu(toolbar!!, PairColor(blendedTitleColor, blendedColor.adjustAlpha(.7f)))
         }
     }
 
@@ -70,12 +70,12 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
         }
     }
 
-    private fun tintMenu(toolbar: Toolbar, color: ActiveColor) {
+    private fun tintMenu(toolbar: Toolbar, color: PairColor) {
         val sl = color.toEnabledSl()
         toolbar.oopsTintNavIcon(sl)
         toolbar.oopsTintCollapseIcon(sl)
-        toolbar.oopsTintOverflowIcon(color.active)
-        val colorFilter = PorterDuffColorFilter(color.active, PorterDuff.Mode.SRC_IN)
+        toolbar.oopsTintOverflowIcon(color.first)
+        val colorFilter = PorterDuffColorFilter(color.first, PorterDuff.Mode.SRC_IN)
         for (i in 0 until toolbar.childCount) {
             val v = toolbar.getChildAt(i)
             if (v is ActionMenuView) {
@@ -83,7 +83,7 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
                     val itemView = v.getChildAt(j)
                     if (itemView is OopsActionMenuItemView) {
                         itemView.detachOopsLife()
-                        itemView.setTextColor(color.active)
+                        itemView.setTextColor(color.first)
                         val drawablesCount = itemView.compoundDrawables.size
                         for (k in 0 until drawablesCount) {
                             if (itemView.compoundDrawables[k] != null) {
@@ -100,7 +100,7 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.collapsingToolbarStateColor(living.live(backgroundAttrName, living.colorPrimary)!!).observe(this, Observer {
+        living.collapsingToolbarStateColor(this.tag.toString(), living.live(backgroundAttrValue, living.colorPrimary)!!).observe(this, Observer {
             stateColor = it
             this.setContentScrimColor(it.bgColor)
             this.setStatusBarScrimColor(it.statusBarColor)
@@ -129,7 +129,7 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
                 toolbar!!.apply {
                     detachOopsLife()
                     setBackgroundColor(Color.TRANSPARENT)
-                    updateColor(ActiveColor(Color.WHITE, Color.GRAY.adjustAlpha(.4f)))
+                    updateColor(Color.WHITE)
                 }
                 appBarLayout!!.addOnOffsetChangedListener(this)
                 attachOopsLife()

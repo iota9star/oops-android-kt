@@ -6,11 +6,7 @@ import androidx.annotation.Nullable
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.oopsTint
 
 class OopsSearchView : SearchView, OopsLifecycleOwner {
 
@@ -21,7 +17,7 @@ class OopsSearchView : SearchView, OopsLifecycleOwner {
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun liveInOops() {
-        Oops.living(this.activity()).toolbarColor.observe(this, Observer(this::oopsTint))
+//        Oops.living(this.activity()).toolbarIconColor.observe(this, Observer(this::oopsTint))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

@@ -11,24 +11,24 @@ import com.google.android.material.card.MaterialCardView
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrNames
+import io.nichijou.oops.ext.attrValues
 
 class OopsMaterialCardView : MaterialCardView, OopsLifecycleOwner {
 
-    private val attrNames: SparseArray<String>
+    private val attrValues: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
+        attrValues = context.attrValues(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
+        attrValues = context.attrValues(attrs, intArrayOf(com.google.android.material.R.attr.cardBackgroundColor, com.google.android.material.R.attr.strokeColor))
     }
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.live(attrNames[com.google.android.material.R.attr.cardBackgroundColor])?.observe(this, Observer(this::setCardBackgroundColor))
-        living.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer(this::setStrokeColor))
+        living.live(attrValues[com.google.android.material.R.attr.cardBackgroundColor])?.observe(this, Observer(this::setCardBackgroundColor))
+        living.live(attrValues[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer(this::setStrokeColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

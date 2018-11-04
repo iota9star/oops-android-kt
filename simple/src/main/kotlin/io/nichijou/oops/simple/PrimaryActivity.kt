@@ -12,7 +12,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import io.nichijou.oops.Oops
 import io.nichijou.oops.ext.logi
-import io.nichijou.oops.widget.NavigationViewTintMode
 import kotlinx.android.synthetic.main.activity_primary.*
 import kotlinx.android.synthetic.main.activity_primary_content.*
 
@@ -41,28 +40,25 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private fun updateTheme(view: View) {
         val accent = randomColor()
         val primary = randomColor()
-        val textPrimary = randomColor()
         val textSecondary = randomColor()
         val active = randomColor()
-        val inactive = randomColor()
         val snackbarText = randomColor()
         val snackbarAction = randomColor()
         Oops.bulk {
             colorAccent = accent
             colorPrimary = primary
-            textColorPrimary = textPrimary
+            toolbarTitleColor = active
+            toolbarIconColor = active
+            textColorPrimary = active
             textColorSecondary = textSecondary
-            toolbarActiveColor = active
-            toolbarInactiveColor = inactive
             statusBarColor = primary
             windowBackground = if (isDark) Color.BLACK else Color.WHITE
             navBarColor = primary
             snackBarTextColor = snackbarText
             snackBarActionColor = snackbarAction
             snackBarBackgroundColor = randomColor()
-            navigationViewMode = NavigationViewTintMode.PRIMARY
-            customAttrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())
-            customAttrColorSet(this@PrimaryActivity, R.attr.customColor2, randomColor())
+            attrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())
+            attrColorSet(this@PrimaryActivity, R.attr.customColor2, randomColor())
             rippleView = view
             rippleAnimDuration = 480
         }

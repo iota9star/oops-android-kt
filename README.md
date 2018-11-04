@@ -2,7 +2,8 @@
 # Oops
 [![jcenter](https://api.bintray.com/packages/iota9star/nichijou/oops/images/download.svg)](https://bintray.com/iota9star/nichijou/oops/_latestVersion) [![Build Status](https://travis-ci.org/iota9star/oops-android-kt.svg?branch=master)](https://travis-ci.org/iota9star/oops-android-kt) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d36b3333d02491499c8c0b6d1765d42)](https://app.codacy.com/app/iota9star/oops-android-kt?utm_source=github.com&utm_medium=referral&utm_content=iota9star/oops-android-kt&utm_campaign=Badge_Grade_Dashboard)[![License](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0.html) [![API](https://img.shields.io/badge/API-16%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=16)
 ### Oops - Android Material Theme engine, Powered by LiveData & ViewModel.
-一个基于**LiveData** & **ViewModel** 的Android **Material** 主题引擎，由**Kotlin**实现。本主题引擎通过简单的方式实现各个**View**间无缝的色彩切换。整个过程除了当您更改了主题时才会触发重启**Activity**外，其余过程均无需重启**Activity**。
+一个基于**LiveData** & **ViewModel** 的Android **Material** 主题引擎，由**Kotlin**实现。本主题引擎通过简单的方式实现各个**View**间无缝的色彩切换。整个过程除了当您更改了主题时才会触发重启**Activity**外，其余过程均无需重启**Activity**。当前版本处于`alpha`阶段，所有`API`均可能变动
+
 
 下载示例应用：[simple-release.apk](https://github.com/iota9star/oops-android-kt/raw/master/simple/release/simple-release.apk "simple-release.apk")
 
@@ -15,7 +16,7 @@
 ``` gradle
 dependencies {
   // 其他
-  implementation 'io.nichijou:oops:0.6.1'
+  implementation 'io.nichijou:oops:0.7.0'
 }
 ```
 - Activit直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用
@@ -113,10 +114,6 @@ fun foo(){
     android:tag="@string/oops_ignore_view" // Oops 提供的string资源，或者直接设置android:tag="oops_ignore_view"，字符串 'oops_ignore_view'
     android:textStyle="bold" />
 ```
-或在代码中动态设置tag的值为``oops_ignore_view``，如果你需要给``tag``设置其他的值，你也可以使用setTag方法设置特殊的值达到同样的效果
-``` kotlin
-view.setTag(R.string.oops_ignore_view,"any value but not null")// 第一个参数你必须设置为R.string.oops_ignore_view，后面的值你可以随意设置一个不为null的值
-```
 #### -> Oops切换动画，仅支持LOLLIPOP以上机型
 ``` java
 // java
@@ -182,20 +179,20 @@ fun foo(){
 - 给属性赋值
 ``` java
 // java
-Oops.immed().customAttrColorSet(context, R.attr.customColor1, Color.WHITE);// 上面步骤中布局文件中的文字颜色将会更改为白色
+Oops.immed().setAttrColor(context, R.attr.customColor1, Color.WHITE);// 上面步骤中布局文件中的文字颜色将会更改为白色
 Oops.bulk()
-        .customAttrColorSet(context, R.attr.customColor1, Color.WHITE)
-        .customAttrColorResSet(context, R.attr.customColor2, R.color.colorAccent)
+        .attrColorSet(context, R.attr.customColor1, Color.WHITE)
+        .attrColorResSet(context, R.attr.customColor2, R.color.colorAccent)
         .apply();// 上面步骤中布局文件中的文字颜色customColor1将会是白色，customColor1将会是R.color.colorAccent的颜色
 ```
 ``` kotlin
-Oops.immed().customAttrColorSet(context, R.attr.customColor1, Color.WHITE)// 上面步骤中布局文件中的文字颜色将会更改为白色
+Oops.immed().setAttrColor(context, R.attr.customColor1, Color.WHITE)// 上面步骤中布局文件中的文字颜色将会更改为白色
 Oops.bulk()
-        .customAttrColorSet(context, R.attr.customColor1, Color.WHITE)
-        .customAttrColorResSet(context, R.attr.customColor2, R.color.colorAccent)
+        .attrColorSet(context, R.attr.customColor1, Color.WHITE)
+        .attrColorResSet(context, R.attr.customColor2, R.color.colorAccent)
         .apply()// 上面步骤中布局文件中的文字颜色customColor1将会是白色，customColor1将会是R.color.colorAccent的颜色
 Oops.bulk {
-    customAttrColorSet(context, R.attr.customColor1, Color.WHITE)
+    attrColorSet(context, R.attr.customColor1, Color.WHITE)
 }// 上面步骤中布局文件中的文字颜色customColor1将会是白色
 ```
 #### -> 自定义View
@@ -226,7 +223,7 @@ override fun onDetachedFromWindow() {
 ``` kotlin
 // kotlin
 override fun liveInOops() {
-    Oops.living(this.activity()).live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
+    Oops.living(this.activity()).live(textColorAttrValue)?.observe(this, Observer(this::setTextColor))
 }
 ```
 完整自定义View示例可查看：[Oops->Widget](https://github.com/iota9star/oops-android-kt/tree/master/oops/src/main/kotlin/io/nichijou/oops/widget "Oops自定义View")

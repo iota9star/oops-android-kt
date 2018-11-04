@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.color.SnackbarColor
+import io.nichijou.oops.color.SnackBarColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
 
@@ -23,7 +23,7 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifecycleO
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
 
-    private fun updateColor(color: SnackbarColor) {
+    private fun updateColor(color: SnackBarColor) {
         messageView.setTextColor(color.textColor)
         actionView.apply {
             val bg = background
@@ -47,7 +47,7 @@ internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifecycleO
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).snackbarColor.observe(this, Observer(this::updateColor))
+        Oops.living(this.activity()).snackBarColor.observe(this, Observer(this::updateColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

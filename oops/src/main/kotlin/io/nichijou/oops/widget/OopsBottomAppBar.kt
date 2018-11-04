@@ -13,19 +13,19 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
-import io.nichijou.oops.color.ActiveColor
+import io.nichijou.oops.color.PairColor
 import io.nichijou.oops.ext.*
 
 class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
 
-    private val attrNames: SparseArray<String>
+    private val attrValues: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.backgroundTint))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.backgroundTint, R.attr.titleTextColor, R.attr.subtitleTextColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.backgroundTint))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.backgroundTint, R.attr.titleTextColor, R.attr.subtitleTextColor))
     }
 
     private var colorStateList: ColorStateList? = null
@@ -38,25 +38,24 @@ class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
         }
     }
 
-    private fun updateColor(color: ActiveColor) {
-        this.setTitleTextColor(color.active)
-        this.oopsTintOverflowIcon(color.active)
-        val sl = color.toEnabledSl()
-        colorStateList = sl
-        this.oopsTintCollapseIcon(sl)
-        this.oopsTintNavIcon(sl)
-        this.oopsTintMenuItem(menu, color)
+    private fun updateColor(color: Int) {
+        this.oopsTintOverflowIcon(color)
+        val active = PairColor(color)
+        colorStateList = active.toEnabledSl()
+        this.oopsTintCollapseIcon(colorStateList!!)
+        this.oopsTintNavIcon(colorStateList!!)
+        this.oopsTintMenuItem(menu, active)
     }
 
     override fun liveInOops() {
-        val backgroundTint = attrNames[R.attr.backgroundTint]
-        val bgAttrName = if (backgroundTint.isNullOrBlank()) {
-            attrNames[android.R.attr.background]
+        val backgroundTint = attrValues[R.attr.backgroundTint]
+        val bgAttrValue = if (backgroundTint.isNullOrBlank()) {
+            attrValues[android.R.attr.background]
         } else {
             backgroundTint
         }
         val living = Oops.living(this.activity())
-        living.live(bgAttrName)?.observe(this, Observer {
+        living.live(bgAttrValue, living.colorPrimary)!!.observe(this, Observer {
             val bg = this.background
             if (bg != null) {
                 this.background = bg.tint(it)
@@ -64,7 +63,10 @@ class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
                 setBackgroundColor(it)
             }
         })
-        living.toolbarColor.observe(this, Observer(this::updateColor))
+        living.live(attrValues[androidx.appcompat.R.attr.titleTextColor], living.toolbarTitleColor)!!.observe(this, Observer(this::setTitleTextColor))
+        living.live(attrValues[androidx.appcompat.R.attr.subtitleTextColor], living.toolbarSubtitleColor)!!.observe(this, Observer(this::setSubtitleTextColor))
+
+        living.toolbarIconColor.observe(this, Observer(this::updateColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

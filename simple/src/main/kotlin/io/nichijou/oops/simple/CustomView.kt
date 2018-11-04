@@ -10,22 +10,22 @@ import androidx.lifecycle.Observer
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrName
+import io.nichijou.oops.ext.attrValue
 
 class CustomTextView : AppCompatTextView, OopsLifecycleOwner {
 
-    private val textColorAttrName: String
+    private val textColorAttrValue: String
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
+        textColorAttrValue = context.attrValue(attrs, android.R.attr.textColor)
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        textColorAttrName = context.attrName(attrs, android.R.attr.textColor)
+        textColorAttrValue = context.attrValue(attrs, android.R.attr.textColor)
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).live(textColorAttrName)?.observe(this, Observer(this::setTextColor))
+        Oops.living(this.activity()).live(textColorAttrValue)?.observe(this, Observer(this::setTextColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

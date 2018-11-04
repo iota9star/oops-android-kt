@@ -1,10 +1,13 @@
 package io.nichijou.oops
 
+import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import io.nichijou.oops.color.*
 import io.nichijou.oops.ext.liveMediator
-import io.nichijou.oops.ext.oopsSignedAttrName
+import io.nichijou.oops.ext.oopsSignedAttrValue
+import io.nichijou.oops.ext.oopsSignedCollapsingToolbarDominantColorKey
 
 class OopsViewModel : ViewModel() {
     val theme by lazy {
@@ -52,11 +55,14 @@ class OopsViewModel : ViewModel() {
     val textColorSecondaryInverse by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::textColorSecondaryInverse)
     }
-    val toolbarActiveColor by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarActiveColor)
+    val toolbarTitleColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarTitleColor)
     }
-    val toolbarInactiveColor by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarInactiveColor)
+    val toolbarSubtitleColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarSubtitleColor)
+    }
+    val toolbarIconColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::toolbarIconColor)
     }
     val snackBarTextColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarTextColor)
@@ -67,59 +73,49 @@ class OopsViewModel : ViewModel() {
     val snackBarBackgroundColor by lazy {
         OopsDelegateLive(Oops.immed().prefs, Oops.immed()::snackBarBackgroundColor)
     }
-    val navigationViewMode by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::navigationViewMode)
+    val tabLayoutTextColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutTextColor)
     }
-    val tabLayoutBackgroundMode by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutBackgroundMode)
+    val tabLayoutSelectedTextColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutSelectedTextColor)
     }
-    val tabLayoutIndicatorMode by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::tabLayoutIndicatorMode)
+    val bottomNavigationViewNormalColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewNormalColor)
     }
-    val bottomNavigationViewBackgroundMode by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewBackgroundMode)
-    }
-    val bottomNavigationViewIconTextMode by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewIconTextMode)
-    }
-    val collapsingToolbarDominantColor by lazy {
-        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::collapsingToolbarDominantColor)
+    val bottomNavigationViewSelectedColor by lazy {
+        OopsDelegateLive(Oops.immed().prefs, Oops.immed()::bottomNavigationViewSelectedColor)
     }
 
-    val toolbarColor by lazy {
-        liveMediator(toolbarActiveColor, toolbarInactiveColor, ActiveColor.live())
+    fun collapsingToolbarDominantColor(@NonNull tag: String): OopsIntPrefLive {
+        return OopsIntPrefLive(Oops.immed().prefs, tag.oopsSignedCollapsingToolbarDominantColorKey())
     }
 
     val bottomNavStateColor by lazy {
-        liveMediator(colorAccent, colorPrimary, colorPrimaryDark, isDark, bottomNavigationViewIconTextMode, bottomNavigationViewBackgroundMode, BottomNavStateColor.live())
+        liveMediator(bottomNavigationViewNormalColor, bottomNavigationViewSelectedColor, PairColor.live())
     }
 
-    val navStateColor by lazy {
-        liveMediator(colorAccent, colorPrimary, isDark, navigationViewMode, NavStateColor.live())
-    }
-
-    val tabStateColor by lazy {
-        liveMediator(colorAccent, colorPrimary, windowBackground, tabLayoutIndicatorMode, tabLayoutBackgroundMode, TabStateColor.live())
+    fun tabTextIconColor(tabTextColor: LiveData<Int>, tabSelectedTextColor: LiveData<Int>): MediatorLiveData<PairColor> {
+        return liveMediator(tabTextColor, tabSelectedTextColor, PairColor.live())
     }
 
     val statusBarStateColor by lazy {
         liveMediator(statusBarColor, statusBarMode, StatusBarStateColor.live())
     }
 
-    val snackbarColor by lazy {
-        liveMediator(snackBarTextColor, snackBarActionColor, snackBarBackgroundColor, SnackbarColor.live())
+    val snackBarColor by lazy {
+        liveMediator(snackBarTextColor, snackBarActionColor, snackBarBackgroundColor, SnackBarColor.live())
     }
 
-    fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkColor> {
-        return liveMediator(color, isDark, IsDarkColor.live())
+    fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkWithColor> {
+        return liveMediator(color, isDark, IsDarkWithColor.live())
     }
 
-    fun collapsingToolbarStateColor(bgColor: LiveData<Int>): LiveData<CollapsingToolbarStateColor> {
-        return liveMediator(toolbarActiveColor, bgColor, statusBarColor, collapsingToolbarDominantColor, CollapsingToolbarStateColor.live())
+    fun collapsingToolbarStateColor(@NonNull domainColorTag: String, bgColor: LiveData<Int>): LiveData<CollapsingToolbarStateColor> {
+        return liveMediator(toolbarTitleColor, bgColor, statusBarColor, collapsingToolbarDominantColor(domainColorTag), CollapsingToolbarStateColor.live())
     }
 
-    fun customAttrColor(attrName: String): LiveData<Int>? {
-        val signed = attrName.oopsSignedAttrName()
+    fun attrColor(attrValue: String): LiveData<Int>? {
+        val signed = attrValue.oopsSignedAttrValue()
         return if (Oops.immed().prefs.contains(signed))
             OopsIntPrefLive(Oops.immed().prefs, signed)
         else {
@@ -127,25 +123,23 @@ class OopsViewModel : ViewModel() {
         }
     }
 
-    fun live(attrName: String?, fallback: LiveData<Int>? = null): LiveData<Int>? {
+    fun live(attrValue: String?, fallback: LiveData<Int>? = null): LiveData<Int>? {
         return when {
-            attrName.isNullOrBlank() -> fallback
-            attrName == "?attr/colorPrimary"
-                || attrName == "?android:attr/colorPrimary" -> colorPrimary
-            attrName == "?attr/colorPrimaryDark"
-                || attrName == "?android:attr/colorPrimaryDark" -> colorPrimaryDark
-            attrName == "?attr/colorSecondary"
-                || attrName == "?android:attr/colorSecondary"
-                || attrName == "?attr/colorAccent"
-                || attrName == "?android:attr/colorAccent" -> colorAccent
-            attrName == "?android:attr/windowBackground" -> windowBackground
-            attrName == "?android:attr/textColorPrimary" -> textColorPrimary
-            attrName == "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse
-            attrName == "?android:attr/textColorSecondary" -> textColorSecondary
-            attrName == "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
-            attrName == "?android:attr/statusBarColor" -> statusBarColor
-            attrName == "?android:attr/navigationBarColor" -> navBarColor
-            attrName.contains("attr/") -> customAttrColor(attrName) ?: fallback
+            attrValue.isNullOrBlank() -> fallback
+            attrValue == "?attr/colorPrimary"
+                || attrValue == "?android:attr/colorPrimary" -> colorPrimary
+            attrValue == "?attr/colorPrimaryDark"
+                || attrValue == "?android:attr/colorPrimaryDark" -> colorPrimaryDark
+            attrValue == "?attr/colorAccent"
+                || attrValue == "?android:attr/colorAccent" -> colorAccent
+            attrValue == "?android:attr/windowBackground" -> windowBackground
+            attrValue == "?android:attr/textColorPrimary" -> textColorPrimary
+            attrValue == "?android:attr/textColorPrimaryInverse" -> textColorPrimaryInverse
+            attrValue == "?android:attr/textColorSecondary" -> textColorSecondary
+            attrValue == "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse
+            attrValue == "?android:attr/statusBarColor" -> statusBarColor
+            attrValue == "?android:attr/navigationBarColor" -> navBarColor
+            attrValue.contains("attr/") -> attrColor(attrValue) ?: fallback
             else -> fallback
         }
     }

@@ -15,38 +15,40 @@ import com.google.android.material.navigation.NavigationView
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
+import io.nichijou.oops.color.IsDarkWithColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.attrValue
 import io.nichijou.oops.ext.colorRes
 
 @SuppressLint("RestrictedApi")
 class OopsNavigationView : NavigationView, OopsLifecycleOwner {
 
-    constructor(context: Context) : super(context)
+    private val itemTextColorValue: String
 
-    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
+        itemTextColorValue = context.attrValue(attrs, R.attr.itemTextColor)
+    }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        itemTextColorValue = context.attrValue(attrs, R.attr.itemTextColor)
+    }
 
-    private fun updateColor(selectedColor: Int, isDark: Boolean) {
-        val baseColor = if (isDark) Color.WHITE else Color.BLACK
+    private fun updateColor(color: IsDarkWithColor) {
+        val baseColor = if (color.isDark) Color.WHITE else Color.BLACK
         val unselectedIconColor = baseColor.adjustAlpha(.54f)
         val unselectedTextColor = baseColor.adjustAlpha(.87f)
-        val selectedItemBgColor = context.colorRes(if (isDark) R.color.md_navigation_drawer_selected_dark else R.color.md_navigation_drawer_selected_light)
-        this.itemTextColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedTextColor, selectedColor))
-        this.itemIconTintList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconColor, selectedColor))
+        val selectedItemBgColor = context.colorRes(if (color.isDark) R.color.md_navigation_drawer_selected_dark else R.color.md_navigation_drawer_selected_light)
+        this.itemTextColor = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedTextColor, color.color))
+        this.itemIconTintList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)), intArrayOf(unselectedIconColor, color.color))
         this.itemBackground = StateListDrawable().apply {
             addState(intArrayOf(android.R.attr.state_checked), ColorDrawable(selectedItemBgColor))
         }
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).navStateColor.observe(this, Observer {
-            when (it.mode) {
-                NavigationViewTintMode.ACCENT -> updateColor(it.accent, it.isDark)
-                NavigationViewTintMode.PRIMARY -> updateColor(it.primary, it.isDark)
-            }
-        })
+        val living = Oops.living(this.activity())
+        living.isDarkColor(living.live(itemTextColorValue, living.colorPrimary)!!).observe(this, Observer(this::updateColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)
@@ -67,8 +69,4 @@ class OopsNavigationView : NavigationView, OopsLifecycleOwner {
         detachOopsLife()
         super.onDetachedFromWindow()
     }
-}
-
-enum class NavigationViewTintMode {
-    ACCENT, PRIMARY
 }

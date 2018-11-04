@@ -12,28 +12,28 @@ import androidx.lifecycle.Observer
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrNames
+import io.nichijou.oops.ext.attrValues
 import io.nichijou.oops.ext.oopsTint
 
 
 class OopsEditText : AppCompatEditText, OopsLifecycleOwner {
 
-    private val attrNames: SparseArray<String>
+    private val attrValues: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor, android.R.attr.textColorHint))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, android.R.attr.textColor))
     }
 
     @SuppressLint("ResourceType")
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.isDarkColor(living.live(attrNames[android.R.attr.background], living.colorAccent)!!).observe(this, Observer(this::oopsTint))
-        living.live(attrNames[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
-        living.live(attrNames[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
+        living.isDarkColor(living.live(attrValues[android.R.attr.background], living.colorAccent)!!).observe(this, Observer(this::oopsTint))
+        living.live(attrValues[android.R.attr.textColor])?.observe(this, Observer(this::setTextColor))
+        living.live(attrValues[android.R.attr.textColorHint])?.observe(this, Observer(this::setHighlightColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

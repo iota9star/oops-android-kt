@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="oops_ignore_view">oops_ignore_view</string>
+    <string name="ignore_oops_view">ignore_oops_view</string>
 </resources>

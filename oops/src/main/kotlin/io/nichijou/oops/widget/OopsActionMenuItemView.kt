@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.color.ActiveColor
+import io.nichijou.oops.color.PairColor
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.oopsTintIcon
 import io.nichijou.oops.ext.tint
@@ -28,11 +28,10 @@ internal class OopsActionMenuItemView : ActionMenuItemView, OopsLifecycleOwner {
 
     private var colorStateList: ColorStateList? = null
 
-    private fun updateColor(lastActive: ActiveColor) {
-        this.setTextColor(lastActive.active)
-        val sl = lastActive.toEnabledSl()
-        this.oopsTintIcon(sl)
-        colorStateList = sl
+    private fun updateColor(color: Int) {
+        this.setTextColor(color)
+        colorStateList = PairColor(color).toEnabledSl()
+        this.oopsTintIcon(colorStateList!!)
     }
 
     override fun setIcon(icon: Drawable?) {
@@ -44,7 +43,7 @@ internal class OopsActionMenuItemView : ActionMenuItemView, OopsLifecycleOwner {
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).toolbarColor.observe(this, Observer(this::updateColor))
+        Oops.living(this.activity()).toolbarIconColor.observe(this, Observer(this::updateColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

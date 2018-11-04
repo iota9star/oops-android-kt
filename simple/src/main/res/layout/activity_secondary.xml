@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="@string/app_name"
+            android:tag="testDominantColor"
             app:toolbarId="@id/toolbar">
 
             <ImageView

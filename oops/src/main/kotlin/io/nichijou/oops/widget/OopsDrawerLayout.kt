@@ -49,7 +49,7 @@ class OopsDrawerLayout : DrawerLayout, OopsLifecycleOwner {
     }
 
     override fun liveInOops() {
-        Oops.living(this.activity()).toolbarActiveColor.observe(this, Observer {
+        Oops.living(this.activity()).toolbarIconColor.observe(this, Observer {
             this.iconColor = it
             updateColor()
         })

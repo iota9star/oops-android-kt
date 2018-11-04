@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import io.nichijou.oops.R
-import io.nichijou.oops.color.ActiveColor
+import io.nichijou.oops.color.PairColor
 import io.nichijou.oops.ext.adjustAlpha
 import io.nichijou.oops.ext.shiftColor
 import io.nichijou.oops.ext.stripAlpha
@@ -54,7 +54,7 @@ object TintUtils {
     }
 
     @Throws(Exception::class)
-    fun tintImageViewDrawable(target: Any, field: Field, color: ActiveColor) {
+    fun tintImageViewDrawable(target: Any, field: Field, color: PairColor) {
         field.isAccessible = true
         val imageView = field.get(target) as ImageView
         if (imageView.drawable != null) {

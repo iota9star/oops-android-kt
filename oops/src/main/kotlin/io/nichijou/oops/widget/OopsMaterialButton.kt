@@ -12,31 +12,31 @@ import com.google.android.material.button.MaterialButton
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrNames
+import io.nichijou.oops.ext.attrValues
 import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.oopsTint
 
 
 class OopsMaterialButton : MaterialButton, OopsLifecycleOwner {
 
-    private val attrNames: SparseArray<String>
+    private val attrValues: SparseArray<String>
 
     constructor(context: Context, @Nullable attrs: AttributeSet?) : super(context, attrs) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attrNames = context.attrNames(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
+        attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, com.google.android.material.R.attr.strokeColor))
     }
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.isDarkColor(living.live(attrNames[android.R.attr.background], living.colorAccent)!!).observe(this, Observer {
+        living.isDarkColor(living.live(attrValues[android.R.attr.background], living.colorAccent)!!).observe(this, Observer {
             this.oopsTint(it.color, !it.color.isColorLight(), it.isDark)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
         })
-        living.live(attrNames[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer {
+        living.live(attrValues[com.google.android.material.R.attr.strokeColor])?.observe(this, Observer {
             strokeColor = ColorStateList.valueOf(it)
             isEnabled = !isEnabled
             isEnabled = !isEnabled
