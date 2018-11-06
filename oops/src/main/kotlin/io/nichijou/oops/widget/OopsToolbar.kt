@@ -32,11 +32,7 @@ class OopsToolbar : Toolbar, OopsLifecycleOwner {
     private var colorStateList: ColorStateList? = null
 
     override fun setNavigationIcon(icon: Drawable?) {
-        if (icon == null) {
-            super.setNavigationIcon(icon)
-        } else {
-            super.setNavigationIcon(icon.tint(colorStateList))
-        }
+        super.setNavigationIcon(icon?.tint(colorStateList))
     }
 
     override fun liveInOops() {
@@ -49,12 +45,15 @@ class OopsToolbar : Toolbar, OopsLifecycleOwner {
     }
 
     fun updateColor(color: Int) {
-        this.oopsTintOverflowIcon(color)
         val active = PairColor(color)
         colorStateList = active.toEnabledSl()
+        this.oopsTintOverflowIcon(color)
         this.oopsTintCollapseIcon(colorStateList!!)
-        this.oopsTintNavIcon(colorStateList!!)
         this.oopsTintMenuItem(menu, active)
+        val navigationIcon = this.navigationIcon
+        if (navigationIcon != null) {
+            this.navigationIcon = navigationIcon.tint(colorStateList)
+        }
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

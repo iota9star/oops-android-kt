@@ -3,7 +3,7 @@ package io.nichijou.oops
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 
-class OopsIntPrefLive(private val prefs: SharedPreferences, private val key: String) : LiveData<Int>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class IntPrefLive(private val prefs: SharedPreferences, private val key: String) : LiveData<Int>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var lastValue: Int
 

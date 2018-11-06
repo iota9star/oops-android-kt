@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 @SuppressLint("RestrictedApi")
-class OopsFactory2Impl(private val activity: AppCompatActivity, private val factory: OopsLayoutInflaterFactory?) : LayoutInflater.Factory2 {
+internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivity, private val factory: LayoutInflaterFactory?) : LayoutInflater.Factory2 {
 
     private fun shouldInheritContext(context: Context, parent: ViewParent?): Boolean {
         var thisParent: ViewParent? = parent ?: return false
@@ -96,6 +96,7 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
             createDefaultView(name, ctx, attrs)
         } else {
             factory?.onCreateView(parent, name, ctx, attrs, viewId)
+                ?: Oops.getDefaultLayoutInflaterFactory()?.onCreateView(parent, name, context, attrs, viewId)
                 ?: createOopsView(parent, name, ctx, attrs, viewId)
         }
         if (view == null) {
@@ -104,8 +105,15 @@ class OopsFactory2Impl(private val activity: AppCompatActivity, private val fact
                 if (view == null) {
                     view = activity.onCreateView(name, ctx, attrs)
                 }
-            } catch (e: Throwable) {
-                throw IllegalStateException("Unable to inflate $name by ${activity.javaClass.canonicalName}", e)
+            } catch (e: Exception) {
+                loge(e) { "${activity::class.java.canonicalName}: can't create $name." }
+            }
+        }
+        if (view == null && attrs != null) {
+            try {
+                view = activity.delegate.createView(parent, name, context, attrs)
+            } catch (e: Exception) {
+                loge(e) { "${activity.delegate::class.java.canonicalName}: can't create $name." }
             }
         }
         if (view == null && originalContext !== ctx) {

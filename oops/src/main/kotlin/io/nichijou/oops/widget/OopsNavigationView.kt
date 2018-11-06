@@ -48,7 +48,7 @@ class OopsNavigationView : NavigationView, OopsLifecycleOwner {
 
     override fun liveInOops() {
         val living = Oops.living(this.activity())
-        living.isDarkColor(living.live(itemTextColorValue, living.colorPrimary)!!).observe(this, Observer(this::updateColor))
+        living.isDarkColor(living.live(itemTextColorValue, living.navViewSelectedColor)!!).observe(this, Observer(this::updateColor))
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

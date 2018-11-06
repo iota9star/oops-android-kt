@@ -77,21 +77,17 @@ fun Toolbar.setStatusBarHeightTopMarginInCollapsingToolbarLayout() {
 }
 
 fun Toolbar.oopsTintOverflowIcon(@ColorInt color: Int) {
-    val overflowDrawable = overflowIcon
-    if (overflowDrawable != null) {
-        overflowIcon = overflowDrawable.tint(color)
-    }
+    overflowIcon = overflowIcon?.tint(color) ?: return
 }
 
 fun Toolbar.oopsTintMenuItem(menu: Menu, activeColor: PairColor) {
     for (i in 0 until menu.size()) {
         val item = menu.getItem(i)
-        if (item.icon != null) {
-            item.icon = item.icon.tint(activeColor.toEnabledSl())
+        val actionView = item.actionView
+        if (actionView is SearchView) {
+            actionView.oopsTint(activeColor)
         }
-        if (item.actionView is SearchView) {
-            (item.actionView as? SearchView?)?.oopsTint(activeColor)
-        }
+        item.icon = item.icon?.tint(activeColor.toEnabledSl()) ?: return
     }
 }
 
@@ -103,18 +99,6 @@ fun Toolbar.oopsTintCollapseIcon(colorStateList: ColorStateList) {
         if (collapseIcon != null) {
             field.set(this, collapseIcon.tint(colorStateList))
         }
-        field.isAccessible = false
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
-
-fun Toolbar.oopsTintNavIcon(colorStateList: ColorStateList) {
-    try {
-        val field = Toolbar::class.java.getDeclaredField("mNavButtonView")
-        field.isAccessible = true
-        val nav = field.get(this) as? ImageButton?
-        nav?.setImageDrawable(nav.drawable?.tint(colorStateList))
         field.isAccessible = false
     } catch (e: Exception) {
         e.printStackTrace()

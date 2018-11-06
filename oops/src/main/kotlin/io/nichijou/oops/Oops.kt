@@ -24,6 +24,9 @@ import kotlin.properties.ReadWriteProperty
 
 @SuppressLint("CommitPrefEdits")
 class Oops private constructor(val context: Context) {
+
+    private var layoutInflaterFactory: LayoutInflaterFactory? = null
+
     val isFirstTime: Boolean
         get() {
             val isFirst = prefs.getBoolean(OopsPrefsKey.KEY_IS_FIRST_TIME, true)
@@ -280,6 +283,18 @@ class Oops private constructor(val context: Context) {
 
     fun snackBarBackgroundColorResSet(@ColorRes snackBarBackgroundColorRes: Int): Oops {
         snackBarBackgroundColorSet(context.colorRes(snackBarBackgroundColorRes))
+        return this
+    }
+
+    var navViewSelectedColor by intPref(0, OopsPrefsKey.KEY_NAV_VIEW_SELECTED_COLOR)
+    fun navViewSelectedColorSet(@ColorInt navViewSelectedColor: Int): Oops {
+        prefsEditor.putInt(OopsPrefsKey.KEY_NAV_VIEW_SELECTED_COLOR, navViewSelectedColor)
+        if (!transaction) prefsEditor.apply()
+        return this
+    }
+
+    fun navViewSelectedColorResSet(@ColorRes navViewSelectedColorRes: Int): Oops {
+        navViewSelectedColorSet(context.colorRes(navViewSelectedColorRes))
         return this
     }
 
@@ -577,18 +592,22 @@ class Oops private constructor(val context: Context) {
         fun living(fragment: Fragment) = ViewModelProviders.of(fragment).get(OopsViewModel::class.java)
 
         @JvmStatic
-        fun attach(activity: AppCompatActivity) {
-            attach(activity, null)
-        }
-
-        @JvmStatic
-        fun attach(activity: AppCompatActivity, factory: OopsLayoutInflaterFactory?) {
-            LayoutInflaterCompat.setFactory2(activity.layoutInflater, OopsFactory2Impl(activity, factory))
+        @JvmOverloads
+        fun attach(activity: AppCompatActivity, factory: LayoutInflaterFactory? = null) {
+            LayoutInflaterCompat.setFactory2(activity.layoutInflater, LayoutInflaterFactory2Impl(activity, factory))
             val theme = oops.theme
             if (theme != 0) {
                 activity.setTheme(theme)
             }
             activity.attachOops(theme)
         }
+
+        @JvmStatic
+        fun setDefaultLayoutInflaterFactory(layoutInflaterFactory: LayoutInflaterFactory?) {
+            oops.layoutInflaterFactory = layoutInflaterFactory
+        }
+
+        @JvmStatic
+        fun getDefaultLayoutInflaterFactory() = oops.layoutInflaterFactory
     }
 }

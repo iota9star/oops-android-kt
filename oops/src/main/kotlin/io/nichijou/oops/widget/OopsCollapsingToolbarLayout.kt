@@ -72,7 +72,10 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
 
     private fun tintMenu(toolbar: Toolbar, color: PairColor) {
         val sl = color.toEnabledSl()
-        toolbar.oopsTintNavIcon(sl)
+        val navigationIcon = toolbar.navigationIcon
+        if (navigationIcon != null) {
+            toolbar.navigationIcon = navigationIcon.tint(sl)
+        }
         toolbar.oopsTintCollapseIcon(sl)
         toolbar.oopsTintOverflowIcon(color.first)
         val colorFilter = PorterDuffColorFilter(color.first, PorterDuff.Mode.SRC_IN)

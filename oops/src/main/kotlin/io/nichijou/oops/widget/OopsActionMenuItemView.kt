@@ -35,11 +35,7 @@ internal class OopsActionMenuItemView : ActionMenuItemView, OopsLifecycleOwner {
     }
 
     override fun setIcon(icon: Drawable?) {
-        if (icon == null) {
-            super.setIcon(icon)
-        } else {
-            super.setIcon(icon.tint(colorStateList))
-        }
+        super.setIcon(icon?.tint(colorStateList))
     }
 
     override fun liveInOops() {

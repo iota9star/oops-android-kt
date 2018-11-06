@@ -16,6 +16,7 @@ internal object OopsPrefsKey {
     const val KEY_STATUS_BAR_MODE = "status_bar_mode"
     const val KEY_STATUS_BAR_COLOR = "status_bar_color"
     const val KEY_NAV_BAR_COLOR = "nav_bar_color"
+    const val KEY_NAV_VIEW_SELECTED_COLOR = "nav_view_selected_color"
     const val KEY_TAB_LAYOUT_TEXT_COLOR = "tab_layout_text_color"
     const val KEY_TAB_LAYOUT_SELECTED_TEXT_COLOR = "tab_layout_selected_text_color"
     const val KEY_BOTTOM_NAV_NORMAL_COLOR = "bottom_nav_normal_color"

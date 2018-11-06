@@ -39,12 +39,15 @@ class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
     }
 
     private fun updateColor(color: Int) {
-        this.oopsTintOverflowIcon(color)
         val active = PairColor(color)
         colorStateList = active.toEnabledSl()
+        this.oopsTintOverflowIcon(color)
         this.oopsTintCollapseIcon(colorStateList!!)
-        this.oopsTintNavIcon(colorStateList!!)
         this.oopsTintMenuItem(menu, active)
+        val navigationIcon = this.navigationIcon
+        if (navigationIcon != null) {
+            this.navigationIcon = navigationIcon.tint(colorStateList)
+        }
     }
 
     override fun liveInOops() {
