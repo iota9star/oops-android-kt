@@ -57,8 +57,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorAccentResSet(@ColorRes colorAccentRes: Int): Oops {
-        colorAccentSet(context.colorRes(colorAccentRes))
-        return this
+        return colorAccentSet(context.colorRes(colorAccentRes))
     }
 
     var colorPrimary by intPref(0, OopsPrefsKey.KEY_COLOR_PRIMARY)
@@ -69,8 +68,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorPrimaryResSet(@ColorRes colorPrimaryRes: Int): Oops {
-        colorPrimarySet(context.colorRes(colorPrimaryRes))
-        return this
+        return colorPrimarySet(context.colorRes(colorPrimaryRes))
     }
 
     var colorPrimaryDark by intPref(0, OopsPrefsKey.KEY_COLOR_PRIMARY_DARK)
@@ -81,8 +79,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun colorPrimaryDarkResSet(@ColorRes colorPrimaryDarkRes: Int): Oops {
-        colorPrimaryDarkSet(context.colorRes(colorPrimaryDarkRes))
-        return this
+        return colorPrimaryDarkSet(context.colorRes(colorPrimaryDarkRes))
     }
 
     var statusBarColor by intPref(0, OopsPrefsKey.KEY_STATUS_BAR_COLOR)
@@ -93,8 +90,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun statusBarColorResSet(@ColorRes statusBarColorRes: Int): Oops {
-        statusBarColorSet(context.colorRes(statusBarColorRes))
-        return this
+        return statusBarColorSet(context.colorRes(statusBarColorRes))
     }
 
     var statusBarMode by enumValuePref(StatusBarMode.AUTO, OopsPrefsKey.KEY_STATUS_BAR_MODE)
@@ -112,8 +108,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun swipeRefreshLayoutBackgroundColorResSet(@ColorRes swipeRefreshLayoutBackgroundColorRes: Int): Oops {
-        swipeRefreshLayoutBackgroundColorSet(context.colorRes(swipeRefreshLayoutBackgroundColorRes))
-        return this
+        return swipeRefreshLayoutBackgroundColorSet(context.colorRes(swipeRefreshLayoutBackgroundColorRes))
     }
 
     var swipeRefreshLayoutSchemeColor by intArrayPref(intArrayOf(0x3cba54, 0xf4c20d, 0xdb3236, 0x4885ed), OopsPrefsKey.KEY_SWIPE_REFRESH_LAYOUT_SCHEME_COLORS)
@@ -126,20 +121,17 @@ class Oops private constructor(val context: Context) {
 
     fun swipeRefreshLayoutSchemeColorsSet(@ColorInt vararg swipeRefreshLayoutSchemeColor: Int): Oops {
         if (swipeRefreshLayoutSchemeColor.isEmpty()) throw IllegalArgumentException("color res args size = 0")
-        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColor)
-        return this
+        return swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColor)
     }
 
     fun swipeRefreshLayoutSchemeColorResSet(swipeRefreshLayoutSchemeColorRes: IntArray): Oops {
         if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color array size = 0")
-        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
-        return this
+        return swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
     }
 
     fun swipeRefreshLayoutSchemeColorsResSet(@ColorRes vararg swipeRefreshLayoutSchemeColorRes: Int): Oops {
         if (swipeRefreshLayoutSchemeColorRes.isEmpty()) throw IllegalArgumentException("color res args size = 0")
-        swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
-        return this
+        return swipeRefreshLayoutSchemeColorSet(swipeRefreshLayoutSchemeColorRes.map { context.colorRes(it) }.toIntArray())
     }
 
     var navBarColor by intPref(0, OopsPrefsKey.KEY_NAV_BAR_COLOR)
@@ -150,8 +142,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun navBarColorResSet(@ColorRes navBarColorRes: Int): Oops {
-        navBarColorSet(context.colorRes(navBarColorRes))
-        return this
+        return navBarColorSet(context.colorRes(navBarColorRes))
     }
 
     var windowBackground by intPref(0xFAFAFA, OopsPrefsKey.KEY_WINDOW_BACKGROUND_COLOR)
@@ -162,8 +153,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun windowBackgroundResSet(@ColorRes windowBackgroundRes: Int): Oops {
-        windowBackgroundSet(context.colorRes(windowBackgroundRes))
-        return this
+        return windowBackgroundSet(context.colorRes(windowBackgroundRes))
     }
 
     var textColorPrimary by intPref(0, OopsPrefsKey.KEY_PRIMARY_TEXT_COLOR)
@@ -174,8 +164,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorPrimaryResSet(@ColorRes textColorPrimaryRes: Int): Oops {
-        textColorPrimarySet(context.colorRes(textColorPrimaryRes))
-        return this
+        return textColorPrimarySet(context.colorRes(textColorPrimaryRes))
     }
 
     var textColorPrimaryInverse by intPref(0, OopsPrefsKey.KEY_PRIMARY_TEXT_INVERSE_COLOR)
@@ -186,8 +175,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorPrimaryInverseResSet(@ColorRes textColorPrimaryInverseRes: Int): Oops {
-        textColorPrimaryInverseSet(context.colorRes(textColorPrimaryInverseRes))
-        return this
+        return textColorPrimaryInverseSet(context.colorRes(textColorPrimaryInverseRes))
     }
 
     var textColorSecondary by intPref(0, OopsPrefsKey.KEY_SECONDARY_TEXT_COLOR)
@@ -198,8 +186,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorSecondaryResSet(@ColorRes textColorSecondaryRes: Int): Oops {
-        textColorSecondarySet(context.colorRes(textColorSecondaryRes))
-        return this
+        return textColorSecondarySet(context.colorRes(textColorSecondaryRes))
     }
 
     var textColorSecondaryInverse by intPref(0, OopsPrefsKey.KEY_SECONDARY_TEXT_INVERSE_COLOR)
@@ -210,8 +197,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun textColorSecondaryInverseResSet(@ColorRes textColorSecondaryInverseRes: Int): Oops {
-        textColorSecondaryInverseSet(context.colorRes(textColorSecondaryInverseRes))
-        return this
+        return textColorSecondaryInverseSet(context.colorRes(textColorSecondaryInverseRes))
     }
 
     var toolbarTitleColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_TITLE_COLOR)
@@ -222,8 +208,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun toolbarTitleColorResSet(@ColorRes toolbarTitleColorRes: Int): Oops {
-        toolbarTitleColorSet(context.colorRes(toolbarTitleColorRes))
-        return this
+        return toolbarTitleColorSet(context.colorRes(toolbarTitleColorRes))
     }
 
     var toolbarSubtitleColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_SUBTITLE_COLOR)
@@ -234,8 +219,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun toolbarSubtitleColorResSet(@ColorRes toolbarSubtitleColorRes: Int): Oops {
-        toolbarSubtitleColorSet(context.colorRes(toolbarSubtitleColorRes))
-        return this
+        return toolbarSubtitleColorSet(context.colorRes(toolbarSubtitleColorRes))
     }
 
     var toolbarIconColor by intPref(0, OopsPrefsKey.KEY_TOOLBAR_ICON_COLOR)
@@ -246,44 +230,40 @@ class Oops private constructor(val context: Context) {
     }
 
     fun toolbarIconColorResSet(@ColorRes toolbarIconColorRes: Int): Oops {
-        toolbarIconColorSet(context.colorRes(toolbarIconColorRes))
-        return this
+        return toolbarIconColorSet(context.colorRes(toolbarIconColorRes))
     }
 
-    var snackBarTextColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR)
-    fun snackBarTextColorSet(@ColorInt snackBarTextColor: Int): Oops {
+    var snackbarTextColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR)
+    fun snackbarTextColorSet(@ColorInt snackBarTextColor: Int): Oops {
         prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_TEXT_COLOR, snackBarTextColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    fun snackBarTextColorResSet(@ColorRes snackBarTextColorRes: Int): Oops {
-        snackBarTextColorSet(context.colorRes(snackBarTextColorRes))
-        return this
+    fun snackbarTextColorResSet(@ColorRes snackBarTextColorRes: Int): Oops {
+        return snackbarTextColorSet(context.colorRes(snackBarTextColorRes))
     }
 
-    var snackBarActionColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_ACTION_COLOR)
-    fun snackBarActionColorSet(@ColorInt snackBarActionColor: Int): Oops {
+    var snackbarActionColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_ACTION_COLOR)
+    fun snackbarActionColorSet(@ColorInt snackBarActionColor: Int): Oops {
         prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_ACTION_COLOR, snackBarActionColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    fun snackBarActionColorResSet(@ColorRes snackBarActionColorRes: Int): Oops {
-        snackBarActionColorSet(context.colorRes(snackBarActionColorRes))
-        return this
+    fun snackbarActionColorResSet(@ColorRes snackBarActionColorRes: Int): Oops {
+        return snackbarActionColorSet(context.colorRes(snackBarActionColorRes))
     }
 
-    var snackBarBackgroundColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_BACKGROUND_COLOR)
-    fun snackBarBackgroundColorSet(@ColorInt snackBarBackgroundColor: Int): Oops {
+    var snackbarBackgroundColor by intPref(0, OopsPrefsKey.KEY_SNACK_BAR_BACKGROUND_COLOR)
+    fun snackbarBackgroundColorSet(@ColorInt snackBarBackgroundColor: Int): Oops {
         prefsEditor.putInt(OopsPrefsKey.KEY_SNACK_BAR_BACKGROUND_COLOR, snackBarBackgroundColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    fun snackBarBackgroundColorResSet(@ColorRes snackBarBackgroundColorRes: Int): Oops {
-        snackBarBackgroundColorSet(context.colorRes(snackBarBackgroundColorRes))
-        return this
+    fun snackbarBackgroundColorResSet(@ColorRes snackBarBackgroundColorRes: Int): Oops {
+        return snackbarBackgroundColorSet(context.colorRes(snackBarBackgroundColorRes))
     }
 
     var navViewSelectedColor by intPref(0, OopsPrefsKey.KEY_NAV_VIEW_SELECTED_COLOR)
@@ -294,8 +274,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun navViewSelectedColorResSet(@ColorRes navViewSelectedColorRes: Int): Oops {
-        navViewSelectedColorSet(context.colorRes(navViewSelectedColorRes))
-        return this
+        return navViewSelectedColorSet(context.colorRes(navViewSelectedColorRes))
     }
 
     var tabLayoutTextColor by intPref(0, OopsPrefsKey.KEY_TAB_LAYOUT_TEXT_COLOR)
@@ -306,8 +285,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun tabLayoutTextColorResSet(@ColorRes tabLayoutTextColorRes: Int): Oops {
-        tabLayoutTextColorSet(context.colorRes(tabLayoutTextColorRes))
-        return this
+        return tabLayoutTextColorSet(context.colorRes(tabLayoutTextColorRes))
     }
 
     var tabLayoutSelectedTextColor by intPref(0, OopsPrefsKey.KEY_TAB_LAYOUT_SELECTED_TEXT_COLOR)
@@ -318,8 +296,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun tabLayoutSelectedTextColorResSet(@ColorRes tabLayoutSelectedTextColorRes: Int): Oops {
-        tabLayoutSelectedTextColorSet(context.colorRes(tabLayoutSelectedTextColorRes))
-        return this
+        return tabLayoutSelectedTextColorSet(context.colorRes(tabLayoutSelectedTextColorRes))
     }
 
     var bottomNavigationViewNormalColor by intPref(0, OopsPrefsKey.KEY_BOTTOM_NAV_NORMAL_COLOR)
@@ -330,8 +307,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun bottomNavigationViewNormalColorResSet(@ColorRes bottomNavigationViewNormalColorRes: Int): Oops {
-        bottomNavigationViewNormalColorSet(context.colorRes(bottomNavigationViewNormalColorRes))
-        return this
+        return bottomNavigationViewNormalColorSet(context.colorRes(bottomNavigationViewNormalColorRes))
     }
 
     var bottomNavigationViewSelectedColor by intPref(0, OopsPrefsKey.KEY_BOTTOM_NAV_SELECTED_COLOR)
@@ -342,8 +318,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun bottomNavigationViewSelectedColorResSet(@ColorRes bottomNavigationViewSelectedColorRes: Int): Oops {
-        bottomNavigationViewSelectedColorSet(context.colorRes(bottomNavigationViewSelectedColorRes))
-        return this
+        return bottomNavigationViewSelectedColorSet(context.colorRes(bottomNavigationViewSelectedColorRes))
     }
 
     fun collapsingToolbarDominantColorGet(@NonNull tag: String): Int {
@@ -385,8 +360,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun attrColorResSet(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int): Oops {
-        attrColorSet(context, attrId, context.colorRes(colorRes))
-        return this
+        return attrColorSet(context, attrId, context.colorRes(colorRes))
     }
 
     fun setAttrColorRes(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int) {

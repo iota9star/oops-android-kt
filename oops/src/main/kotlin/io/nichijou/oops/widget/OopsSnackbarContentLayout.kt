@@ -17,7 +17,7 @@ import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.tint
 
 @SuppressLint("RestrictedApi")
-internal class OopsSnackBarContentLayout : SnackbarContentLayout, OopsLifecycleOwner {
+internal class OopsSnackbarContentLayout : SnackbarContentLayout, OopsLifecycleOwner {
 
     constructor(context: Context) : super(context)
 

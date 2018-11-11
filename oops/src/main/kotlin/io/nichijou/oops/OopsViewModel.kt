@@ -65,13 +65,13 @@ class OopsViewModel : ViewModel() {
         DelegatePrefLive(Oops.immed().prefs, Oops.immed()::toolbarIconColor)
     }
     val snackBarTextColor by lazy {
-        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackBarTextColor)
+        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackbarTextColor)
     }
     val snackBarActionColor by lazy {
-        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackBarActionColor)
+        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackbarActionColor)
     }
     val snackBarBackgroundColor by lazy {
-        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackBarBackgroundColor)
+        DelegatePrefLive(Oops.immed().prefs, Oops.immed()::snackbarBackgroundColor)
     }
     val navViewSelectedColor by lazy {
         DelegatePrefLive(Oops.immed().prefs, Oops.immed()::navViewSelectedColor)

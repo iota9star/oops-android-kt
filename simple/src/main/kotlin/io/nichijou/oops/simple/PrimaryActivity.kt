@@ -54,9 +54,9 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             statusBarColor = primary
             windowBackground = if (isDark) Color.BLACK else Color.WHITE
             navBarColor = primary
-            snackBarTextColor = snackbarText
-            snackBarActionColor = snackbarAction
-            snackBarBackgroundColor = randomColor()
+            snackbarTextColor = snackbarText
+            snackbarActionColor = snackbarAction
+            snackbarBackgroundColor = randomColor()
             attrColorSet(this@PrimaryActivity, R.attr.customColor1, randomColor())
             attrColorSet(this@PrimaryActivity, R.attr.customColor2, randomColor())
             rippleView = view

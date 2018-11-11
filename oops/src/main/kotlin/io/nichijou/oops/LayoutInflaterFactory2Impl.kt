@@ -133,7 +133,7 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
                 verifyNotNull(view, name, false)
             }
             "com.google.android.material.snackbar.SnackbarContentLayout" -> {
-                view = OopsSnackBarContentLayout(context, attrs)
+                view = OopsSnackbarContentLayout(context, attrs)
                 verifyNotNull(view, name, false)
             }
             "TextView", "androidx.appcompat.widget.AppCompatTextView" -> {

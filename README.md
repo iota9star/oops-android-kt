@@ -64,12 +64,12 @@ Oops.bulk()
         .swipeRefreshLayoutSchemeColorsResSet(...)
         .swipeRefreshLayoutBackgroundColorSet(...)// 设置SwipeRefreshLayout 圆形背景色
         .swipeRefreshLayoutBackgroundColorResSet(...)
-        .snackBarTextColorSet(...)// 设置snackbar 文本的颜色
-        .snackBarTextColorResSet(...)
-        .snackBarActionColorSet(...)// 设置snackbar 按钮颜色
-        .snackBarActionColorResSet(...)
-        .snackBarBackgroundColorSet(...)// 设置snackbar 背景色
-        .snackBarBackgroundColorResSet(...)
+        .snackbarTextColorSet(...)// 设置snackbar 文本的颜色
+        .snackbarTextColorResSet(...)
+        .snackbarActionColorSet(...)// 设置snackbar 按钮颜色
+        .snackbarActionColorResSet(...)
+        .snackbarBackgroundColorSet(...)// 设置snackbar 背景色
+        .snackbarBackgroundColorResSet(...)
         .collapsingToolbarDominantColorSet(...)// 设置CollapsingToolbar 的主色调，以便于标题在展开时文本和图标显示黑色还是白色
         .collapsingToolbarDominantColorResSet(...)
         .attrColorSet(...)// 设置自定义attr的颜色
