@@ -297,7 +297,7 @@ override fun liveInOops() {
 }
 ```
 完整自定义View示例可查看：[Oops->Widget](https://github.com/iota9star/oops-android-kt/tree/master/oops/src/main/kotlin/io/nichijou/oops/widget "Oops自定义View")
-- 实现``OopsLayoutInflaterFactory``接口，详细自定义过程查看：[CustomTextView](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/CustomView.kt "CustomTextView")，[MyFactory](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/MyFactory.kt "MyFactory")，[BaseActivity](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/BaseActivity.kt "BaseActivity")
+- 实现``LayoutInflaterFactory``接口，详细自定义过程查看：[CustomTextView](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/CustomView.kt "CustomTextView")，[MyFactory](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/MyFactory.kt "MyFactory")，[BaseActivity](https://github.com/iota9star/oops-android-kt/blob/master/simple/src/main/kotlin/io/nichijou/oops/simple/BaseActivity.kt "BaseActivity")
 ### 致谢
 - [@afollestad](https://github.com/afollestad "afollestad")
 - [@chibatching](https://github.com/chibatching "chibatching")

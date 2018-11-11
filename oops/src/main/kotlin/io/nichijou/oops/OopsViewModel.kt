@@ -106,7 +106,7 @@ class OopsViewModel : ViewModel() {
     }
 
     val snackBarColor by lazy {
-        liveMediator(snackBarTextColor, snackBarActionColor, snackBarBackgroundColor, SnackBarColor.live())
+        liveMediator(snackBarTextColor, snackBarActionColor, snackBarBackgroundColor, SnackbarColor.live())
     }
 
     fun isDarkColor(color: LiveData<Int>): LiveData<IsDarkWithColor> {
