@@ -83,11 +83,24 @@ fun Toolbar.oopsTintOverflowIcon(@ColorInt color: Int) {
 fun Toolbar.oopsTintMenuItem(menu: Menu, activeColor: PairColor) {
     for (i in 0 until menu.size()) {
         val item = menu.getItem(i)
-        val actionView = item.actionView
-        if (actionView is SearchView) {
-            actionView.oopsTint(activeColor)
+        if (item.icon != null) {
+            item.icon = item.icon.tint(activeColor.toEnabledSl())
         }
-        item.icon = item.icon?.tint(activeColor.toEnabledSl()) ?: return
+        if (item.actionView is SearchView) {
+            (item.actionView as? SearchView?)?.oopsTint(activeColor)
+        }
+    }
+}
+
+fun Toolbar.oopsTintNavIcon(colorStateList: ColorStateList) {
+    try {
+        val field = Toolbar::class.java.getDeclaredField("mNavButtonView")
+        field.isAccessible = true
+        val nav = field.get(this) as? ImageButton?
+        nav?.setImageDrawable(nav.drawable?.tint(colorStateList))
+        field.isAccessible = false
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 }
 

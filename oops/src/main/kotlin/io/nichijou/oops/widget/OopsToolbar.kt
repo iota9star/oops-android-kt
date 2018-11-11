@@ -46,14 +46,12 @@ class OopsToolbar : Toolbar, OopsLifecycleOwner {
 
     fun updateColor(color: Int) {
         val active = PairColor(color)
-        colorStateList = active.toEnabledSl()
-        this.oopsTintOverflowIcon(color)
-        this.oopsTintCollapseIcon(colorStateList!!)
-        this.oopsTintMenuItem(menu, active)
-        val navigationIcon = this.navigationIcon
-        if (navigationIcon != null) {
-            this.navigationIcon = navigationIcon.tint(colorStateList)
+        colorStateList = active.toEnabledSl().also {
+            this.oopsTintCollapseIcon(it)
+            this.oopsTintNavIcon(it)
         }
+        this.oopsTintOverflowIcon(color)
+        this.oopsTintMenuItem(menu, active)
     }
 
     private val lifecycleRegistry = LifecycleRegistry(this)

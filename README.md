@@ -10,16 +10,86 @@
 ![demo](https://github.com/iota9star/oops-android-kt/blob/master/simple/release/demo.gif "demo")
 
 ----
+### API
+``` java
+// java
+Oops.immed().isFirstTime()// 用于判断是否是第一次配置，初始化需要用到配置的颜色
+Oops.bulk()
+        .themeSet(...) // 设置当前的主题，设置主题会导致activity重启
+        .isDarkSet(...)// 设置当前主题是否为黑色主题
+        .windowBackgroundSet(...)// 设置当前主题的背景色
+        .windowBackgroundResSet(...)
+        .colorAccentSet(...)// 设置Android 自带属性的基本颜色
+        .colorAccentResSet(...)
+        .colorPrimarySet(...)
+        .colorPrimaryResSet(...)
+        .colorPrimaryDarkSet(...)
+        .colorPrimaryDarkResSet(...)
+        .textColorPrimarySet(...)
+        .textColorPrimaryResSet(...)
+        .textColorPrimaryInverseSet(...)
+        .textColorPrimaryInverseResSet(...)
+        .textColorSecondarySet(...)
+        .textColorSecondaryResSet(...)
+        .textColorSecondaryInverseSet(...)
+        .textColorSecondaryInverseResSet(...)
+        .statusBarColorSet(...)// 设置状态栏颜色
+        .statusBarColorResSet(...)
+        .statusBarModeSet(...)// 设置状态栏文本图标的显示模式
+        .navBarColorSet(...)// 设置导航栏颜色
+        .navBarColorResSet(...)
+        .putStaticStatusBarColor(...) // 设置指定activity的状态栏颜色
+        .putStaticStatusBarColorRes(...)
+        .putStaticNavBarColor(...) // 设置指定activity的导航栏颜色
+        .putStaticNavBarColorRes(...)
+        .toolbarTitleColorSet(...)// 设置toolbar相关颜色
+        .toolbarTitleColorResSet(...)
+        .toolbarSubtitleColorSet(...)
+        .toolbarSubtitleColorResSet(...)
+        .toolbarIconColorSet(...)
+        .toolbarIconColorResSet(...)
+        .navViewSelectedColorSet(...)// 设置NavigationView未选中时文本和图标的颜色
+        .navViewSelectedColorResSet(...)
+        .bottomNavigationViewNormalColorSet(...)// 设置BottomNavigationView未选中时文本和图标的颜色
+        .bottomNavigationViewNormalColorResSet(...)
+        .bottomNavigationViewSelectedColorSet(...)// 设置BottomNavigationView选中时文本和图标的颜色
+        .bottomNavigationViewSelectedColorResSet(...)
+        .tabLayoutTextColorSet(...)// 设置TabLayout未选中时文本和图标的颜色
+        .tabLayoutTextColorResSet(...)
+        .tabLayoutSelectedTextColorSet(...)// 设置TabLayout选中时文本和图标的颜色
+        .tabLayoutSelectedTextColorResSet(...)
+        .swipeRefreshLayoutSchemeColorSet(...)// 设置SwipeRefreshLayout SchemeColor
+        .swipeRefreshLayoutSchemeColorResSet(...)
+        .swipeRefreshLayoutSchemeColorsSet(...)
+        .swipeRefreshLayoutSchemeColorsResSet(...)
+        .swipeRefreshLayoutBackgroundColorSet(...)// 设置SwipeRefreshLayout 圆形背景色
+        .swipeRefreshLayoutBackgroundColorResSet(...)
+        .snackBarTextColorSet(...)// 设置snackbar 文本的颜色
+        .snackBarTextColorResSet(...)
+        .snackBarActionColorSet(...)// 设置snackbar 按钮颜色
+        .snackBarActionColorResSet(...)
+        .snackBarBackgroundColorSet(...)// 设置snackbar 背景色
+        .snackBarBackgroundColorResSet(...)
+        .collapsingToolbarDominantColorSet(...)// 设置CollapsingToolbar 的主色调，以便于标题在展开时文本和图标显示黑色还是白色
+        .collapsingToolbarDominantColorResSet(...)
+        .attrColorSet(...)// 设置自定义attr的颜色
+        .attrColorResSet(...)
+        .rippleViewSet(...)// 设置动画开始的view
+        .rippleAnimDurationSet(...)// 设置动画的时长
+        .apply(...)// 应用上面的设置
+Oops.immed().removeStaticStatusBarColor()// 移除之前设置的指定activity状态栏的颜色
+Oops.immed().removeStaticNavBarColor()// 移除之前设置的指定activity导航栏的颜色
+```
 ### 基础使用
 #### -> 在应用中使用
 - 在你应用的``module``的``build.gradle``中添加
 ``` gradle
 dependencies {
   // 其他
-  implementation 'io.nichijou:oops:0.7.0'
+  implementation 'io.nichijou:oops:0.8.0'
 }
 ```
-- Activit直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用
+- Activity直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用
 ``` kotlin
 // kotlin
 class PrimaryActivity : OopsActivity()

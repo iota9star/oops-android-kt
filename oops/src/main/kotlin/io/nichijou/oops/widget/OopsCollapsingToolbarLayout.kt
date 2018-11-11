@@ -71,34 +71,33 @@ class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner,
     }
 
     private fun tintMenu(toolbar: Toolbar, color: PairColor) {
-        val sl = color.toEnabledSl()
-        val navigationIcon = toolbar.navigationIcon
-        if (navigationIcon != null) {
-            toolbar.navigationIcon = navigationIcon.tint(sl)
-        }
-        toolbar.oopsTintCollapseIcon(sl)
-        toolbar.oopsTintOverflowIcon(color.first)
-        val colorFilter = PorterDuffColorFilter(color.first, PorterDuff.Mode.SRC_IN)
-        for (i in 0 until toolbar.childCount) {
-            val v = toolbar.getChildAt(i)
-            if (v is ActionMenuView) {
-                for (j in 0 until v.childCount) {
-                    val itemView = v.getChildAt(j)
-                    if (itemView is OopsActionMenuItemView) {
-                        itemView.detachOopsLife()
-                        itemView.setTextColor(color.first)
-                        val drawablesCount = itemView.compoundDrawables.size
-                        for (k in 0 until drawablesCount) {
-                            if (itemView.compoundDrawables[k] != null) {
-                                itemView.compoundDrawables[k].colorFilter = colorFilter
+        toolbar.apply {
+            val sl = color.toEnabledSl()
+            oopsTintNavIcon(sl)
+            oopsTintCollapseIcon(sl)
+            oopsTintOverflowIcon(color.first)
+            val colorFilter = PorterDuffColorFilter(color.first, PorterDuff.Mode.SRC_IN)
+            for (i in 0 until this.childCount) {
+                val v = getChildAt(i)
+                if (v is ActionMenuView) {
+                    for (j in 0 until v.childCount) {
+                        val itemView = v.getChildAt(j)
+                        if (itemView is OopsActionMenuItemView) {
+                            itemView.detachOopsLife()
+                            itemView.setTextColor(color.first)
+                            val drawablesCount = itemView.compoundDrawables.size
+                            for (k in 0 until drawablesCount) {
+                                if (itemView.compoundDrawables[k] != null) {
+                                    itemView.compoundDrawables[k].colorFilter = colorFilter
+                                }
                             }
+                            itemView.oopsTintIcon(sl)
                         }
-                        itemView.oopsTintIcon(sl)
                     }
                 }
             }
+            oopsTintMenuItem(this.menu ?: return, color)
         }
-        toolbar.oopsTintMenuItem(toolbar.menu ?: return, color)
     }
 
     override fun liveInOops() {
