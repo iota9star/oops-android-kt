@@ -18,7 +18,16 @@ import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.CollapsingToolbarStateColor
 import io.nichijou.oops.color.PairColor
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.attrValue
+import io.nichijou.oops.ext.blendWith
+import io.nichijou.oops.ext.isColorLight
+import io.nichijou.oops.ext.oopsTintCollapseIcon
+import io.nichijou.oops.ext.oopsTintIcon
+import io.nichijou.oops.ext.oopsTintMenuItem
+import io.nichijou.oops.ext.oopsTintNavIcon
+import io.nichijou.oops.ext.oopsTintOverflowIcon
 
 
 class OopsCollapsingToolbarLayout : CollapsingToolbarLayout, OopsLifecycleOwner, AppBarLayout.OnOffsetChangedListener {

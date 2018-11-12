@@ -9,7 +9,11 @@ import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.adjustAlpha
+import io.nichijou.oops.ext.attrValue
+import io.nichijou.oops.ext.setAccentColor
+import io.nichijou.oops.ext.setHintColor
 
 
 class OopsTextInputLayout : TextInputLayout, OopsLifecycleOwner {

@@ -14,7 +14,13 @@ import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
 import io.nichijou.oops.color.PairColor
-import io.nichijou.oops.ext.*
+import io.nichijou.oops.ext.activity
+import io.nichijou.oops.ext.attrValues
+import io.nichijou.oops.ext.oopsTintCollapseIcon
+import io.nichijou.oops.ext.oopsTintMenuItem
+import io.nichijou.oops.ext.oopsTintNavIcon
+import io.nichijou.oops.ext.oopsTintOverflowIcon
+import io.nichijou.oops.ext.tint
 
 class OopsBottomAppBar : BottomAppBar, OopsLifecycleOwner {
 
