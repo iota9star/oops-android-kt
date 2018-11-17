@@ -27,13 +27,12 @@ fun AppCompatActivity.setStatusBarColorCompat(@ColorInt color: Int) {
 fun AppCompatActivity.setLightStatusBarCompat(isLight: Boolean) {
     val view = this.window.decorView
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        var flags = view.systemUiVisibility
-        flags = if (isLight) {
+        val flags = view.systemUiVisibility
+        view.systemUiVisibility = if (isLight) {
             flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         } else {
             flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
-        view.systemUiVisibility = flags
     }
 }
 

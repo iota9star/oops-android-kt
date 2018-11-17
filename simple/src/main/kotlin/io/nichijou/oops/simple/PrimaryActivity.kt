@@ -24,7 +24,7 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         initToolbar()
         initTabLayout()
         if (Oops.immed().isFirstTime) {
-            Oops.immed().putStaticStatusBarColor<SecondaryActivity>(Color.TRANSPARENT)
+            Oops.immed().addStaticStatusBarColor<SecondaryActivity>(Color.TRANSPARENT)
             updateTheme(fab)
         }
         fab.setOnClickListener { view ->

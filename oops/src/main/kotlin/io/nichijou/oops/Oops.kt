@@ -394,30 +394,30 @@ class Oops private constructor(val context: Context) {
         return attrColorGet(context.attrValue(attrId))
     }
 
-    inline fun <reified T : AppCompatActivity> putStaticStatusBarColor(@ColorInt color: Int): Oops {
-        return putStaticStatusBarColor(T::class.java, color)
+    inline fun <reified T : AppCompatActivity> addStaticStatusBarColor(@ColorInt color: Int): Oops {
+        return addStaticStatusBarColor(T::class.java, color)
     }
 
-    fun putStaticStatusBarColor(activity: AppCompatActivity, @ColorInt color: Int): Oops {
-        return putStaticStatusBarColor(activity::class.java, color)
+    fun addStaticStatusBarColor(activity: AppCompatActivity, @ColorInt color: Int): Oops {
+        return addStaticStatusBarColor(activity::class.java, color)
     }
 
-    fun putStaticStatusBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
+    fun addStaticStatusBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
         oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedStatusBarColorKey(), color)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
-    inline fun <reified T : AppCompatActivity> putStaticStatusBarColorRes(@ColorRes colorRes: Int): Oops {
-        return putStaticStatusBarColorRes(T::class.java, colorRes)
+    inline fun <reified T : AppCompatActivity> addStaticStatusBarColorRes(@ColorRes colorRes: Int): Oops {
+        return addStaticStatusBarColorRes(T::class.java, colorRes)
     }
 
-    fun putStaticStatusBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int): Oops {
-        return putStaticStatusBarColorRes(activity::class.java, colorRes)
+    fun addStaticStatusBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int): Oops {
+        return addStaticStatusBarColorRes(activity::class.java, colorRes)
     }
 
-    fun putStaticStatusBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int): Oops {
-        return putStaticStatusBarColor(clazz, context.colorRes(colorRes))
+    fun addStaticStatusBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int): Oops {
+        return addStaticStatusBarColor(clazz, context.colorRes(colorRes))
     }
 
     inline fun <reified T : AppCompatActivity> removeStaticStatusBarColor() {
@@ -433,27 +433,27 @@ class Oops private constructor(val context: Context) {
         if (!transaction) prefsEditor.apply()
     }
 
-    inline fun <reified T : AppCompatActivity> putStaticNavBarColorRes(@ColorRes colorRes: Int): Oops {
-        return putStaticNavBarColorRes(T::class.java, colorRes)
+    inline fun <reified T : AppCompatActivity> addStaticNavBarColorRes(@ColorRes colorRes: Int): Oops {
+        return addStaticNavBarColorRes(T::class.java, colorRes)
     }
 
-    fun putStaticNavBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int): Oops {
-        return putStaticNavBarColorRes(activity::class.java, colorRes)
+    fun addStaticNavBarColorRes(activity: AppCompatActivity, @ColorRes colorRes: Int): Oops {
+        return addStaticNavBarColorRes(activity::class.java, colorRes)
     }
 
-    fun putStaticNavBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int): Oops {
-        return putStaticNavBarColor(clazz, context.colorRes(colorRes))
+    fun addStaticNavBarColorRes(clazz: Class<out AppCompatActivity>, @ColorRes colorRes: Int): Oops {
+        return addStaticNavBarColor(clazz, context.colorRes(colorRes))
     }
 
-    inline fun <reified T : AppCompatActivity> putStaticNavBarColor(@ColorInt color: Int): Oops {
-        return putStaticNavBarColor(T::class.java, color)
+    inline fun <reified T : AppCompatActivity> addStaticNavBarColor(@ColorInt color: Int): Oops {
+        return addStaticNavBarColor(T::class.java, color)
     }
 
-    fun putStaticNavBarColor(activity: AppCompatActivity, @ColorInt color: Int): Oops {
-        return putStaticNavBarColor(activity::class.java, color)
+    fun addStaticNavBarColor(activity: AppCompatActivity, @ColorInt color: Int): Oops {
+        return addStaticNavBarColor(activity::class.java, color)
     }
 
-    fun putStaticNavBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
+    fun addStaticNavBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
         prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedNavBarColorKey(), color)
         if (!transaction) prefsEditor.apply()
         return this

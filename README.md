@@ -38,10 +38,10 @@ Oops.bulk()
         .statusBarModeSet(...)// 设置状态栏文本图标的显示模式
         .navBarColorSet(...)// 设置导航栏颜色
         .navBarColorResSet(...)
-        .putStaticStatusBarColor(...) // 设置指定activity的状态栏颜色
-        .putStaticStatusBarColorRes(...)
-        .putStaticNavBarColor(...) // 设置指定activity的导航栏颜色
-        .putStaticNavBarColorRes(...)
+        .addStaticStatusBarColor(...) // 设置指定activity的状态栏颜色
+        .addStaticStatusBarColorRes(...)
+        .addStaticNavBarColor(...) // 设置指定activity的导航栏颜色
+        .addStaticNavBarColorRes(...)
         .toolbarTitleColorSet(...)// 设置toolbar相关颜色
         .toolbarTitleColorResSet(...)
         .toolbarSubtitleColorSet(...)
@@ -86,7 +86,7 @@ Oops.immed().removeStaticNavBarColor()// 移除之前设置的指定activity导�
 ``` gradle
 dependencies {
   // 其他
-  implementation 'io.nichijou:oops:0.8.0'
+  implementation 'io.nichijou:oops:0.8.2'
 }
 ```
 - Activity直接继承OopsActivity，或在activity的`onCreate`方法中调用`Oops.attach(this)`，在`setContentView`之前调用

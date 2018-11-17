@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.GlidePalette
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.nichijou.oops.Oops
 import io.nichijou.oops.ext.insetStatusBar
 import io.nichijou.oops.ext.isColorLight
 import io.nichijou.oops.ext.setLightStatusBarCompat
-import io.nichijou.oops.ext.setStatusBarHeightTopMarginInCollapsingToolbarLayout
+import io.nichijou.oops.ext.setMarginTopUseStatusBarHeight
 import kotlinx.android.synthetic.main.activity_secondary.*
 import java.util.*
 
@@ -177,7 +178,7 @@ class SecondaryActivity : BaseActivity() {
         setContentView(R.layout.activity_secondary)
         insetStatusBar()
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-            toolbar.setStatusBarHeightTopMarginInCollapsingToolbarLayout()
+            toolbar.setMarginTopUseStatusBarHeight<CollapsingToolbarLayout.LayoutParams>()
         }
         collapsingToolbar.title = "Secondary"
         toolbar.inflateMenu(R.menu.menu_secondary)

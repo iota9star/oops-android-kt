@@ -10,6 +10,7 @@ import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AbsSeekBar
 import android.widget.Button
 import android.widget.CheckBox
@@ -33,7 +34,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.TintableBackgroundView
 import androidx.core.view.ViewCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
@@ -80,8 +80,8 @@ fun View.setBackgroundCompat(@Nullable drawable: Drawable?) {
     }
 }
 
-fun Toolbar.setStatusBarHeightTopMarginInCollapsingToolbarLayout() {
-    val lp = this.layoutParams as CollapsingToolbarLayout.LayoutParams
+inline fun <reified T : ViewGroup.MarginLayoutParams> Toolbar.setMarginTopUseStatusBarHeight() {
+    val lp = this.layoutParams as T
     lp.topMargin = context.activity().getStatusBarHeight()
     this.layoutParams = lp
 }

@@ -43,7 +43,7 @@ fun Context.activity(): AppCompatActivity {
         }
         ctx = ctx.baseContext
     }
-    throw IllegalStateException("no context ...")
+    throw IllegalStateException("no AppCompatActivity ...")
 }
 
 fun Context.resId(@AttrRes attr: Int, fallback: Int = -1): Int {

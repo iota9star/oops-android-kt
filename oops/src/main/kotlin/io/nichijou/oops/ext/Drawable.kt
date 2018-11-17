@@ -9,8 +9,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 @CheckResult
 fun Drawable.tint(@ColorInt color: Int): Drawable {
-    var d: Drawable = this
-    d = DrawableCompat.wrap(d.mutate())
+    val d = DrawableCompat.wrap(this.mutate())
     DrawableCompat.setTintMode(d, PorterDuff.Mode.SRC_IN)
     DrawableCompat.setTint(d, color)
     return d
@@ -19,8 +18,7 @@ fun Drawable.tint(@ColorInt color: Int): Drawable {
 @CheckResult
 fun Drawable.tint(sl: ColorStateList?): Drawable {
     if (sl == null) return this
-    var d: Drawable = this
-    d = DrawableCompat.wrap(d.mutate())
+    val d = DrawableCompat.wrap(this.mutate())
     DrawableCompat.setTintList(d, sl)
     return d
 }
