@@ -1,0 +1,72 @@
+package io.nichijou.oops.widget
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.AttributeSet
+import androidx.annotation.Nullable
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
+import io.nichijou.oops.Oops
+import io.nichijou.oops.OopsLifecycleOwner
+import io.nichijou.oops.ext.activity
+
+
+@SuppressLint("ViewConstructor")
+class DrawerLayout(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : DrawerLayout(context, attrs), OopsLifecycleOwner {
+
+    private var iconColor = 0
+    private var arrowDrawable: DrawerArrowDrawable? = null
+
+    private fun updateColor() {
+        if (iconColor == 0) return
+        this.arrowDrawable?.let {
+            it.color = iconColor
+        }
+    }
+
+    override fun addDrawerListener(listener: DrawerListener) {
+        super.addDrawerListener(listener)
+        if (listener is ActionBarDrawerToggle) {
+            this.arrowDrawable = listener.drawerArrowDrawable
+            updateColor()
+        }
+    }
+
+    override fun setDrawerListener(listener: DrawerListener) {
+        super.setDrawerListener(listener)
+        if (listener is ActionBarDrawerToggle) {
+            this.arrowDrawable = listener.drawerArrowDrawable
+            updateColor()
+        }
+    }
+
+    override fun liveInOops() {
+        Oops.living(this.activity()).toolbarIconColor.observe(this, Observer {
+            this.iconColor = it
+            updateColor()
+        })
+    }
+
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (enabledLiveNow) liveInOops()
+        handleOopsLifeStart()
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        handleOopsLifeStartOrStop(hasWindowFocus)
+    }
+
+    override fun onDetachedFromWindow() {
+        handleOopsLifeDestroy()
+        super.onDetachedFromWindow()
+    }
+}

@@ -201,11 +201,6 @@
             android:text="@string/button_show_dialog" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/appcompat_button" />
-
-        <Button
             style="?borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

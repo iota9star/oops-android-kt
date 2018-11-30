@@ -9,9 +9,9 @@ import io.nichijou.oops.color.IsDarkWithColor
 import io.nichijou.oops.color.PairColor
 import io.nichijou.oops.color.SnackbarColor
 import io.nichijou.oops.color.StatusBarStateColor
+import io.nichijou.oops.ext.attrValueKey
+import io.nichijou.oops.ext.collapsingToolbarDominantColorKey
 import io.nichijou.oops.ext.liveMediator
-import io.nichijou.oops.ext.oopsSignedAttrValue
-import io.nichijou.oops.ext.oopsSignedCollapsingToolbarDominantColorKey
 
 class OopsViewModel : ViewModel() {
     val theme by lazy {
@@ -94,7 +94,7 @@ class OopsViewModel : ViewModel() {
     }
 
     fun collapsingToolbarDominantColor(@NonNull tag: String): IntPrefLive {
-        return IntPrefLive(Oops.immed().prefs, tag.oopsSignedCollapsingToolbarDominantColorKey())
+        return IntPrefLive(Oops.immed().prefs, tag.collapsingToolbarDominantColorKey())
     }
 
     val bottomNavStateColor by lazy {
@@ -122,7 +122,7 @@ class OopsViewModel : ViewModel() {
     }
 
     fun attrColor(attrValue: String): LiveData<Int>? {
-        val signed = attrValue.oopsSignedAttrValue()
+        val signed = attrValue.attrValueKey()
         return if (Oops.immed().prefs.contains(signed))
             IntPrefLive(Oops.immed().prefs, signed)
         else {

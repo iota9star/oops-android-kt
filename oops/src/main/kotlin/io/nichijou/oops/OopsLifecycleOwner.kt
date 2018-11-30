@@ -8,15 +8,6 @@ interface OopsLifecycleOwner : LifecycleOwner {
 
     fun liveInOops() {}
 
-    fun attachOopsLife() {
-        liveInOops()
-        handleOopsLifeStart()
-    }
-
-    fun detachOopsLife() {
-        handleOopsLifeDestroy()
-    }
-
     fun handleOopsLifeStart() {
         (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
@@ -36,4 +27,7 @@ interface OopsLifecycleOwner : LifecycleOwner {
             handleOopsLifeStop()
         }
     }
+
+    fun isLiveDestroyed() = lifecycle.currentState == Lifecycle.State.DESTROYED
+    fun isLiveStarted() = lifecycle.currentState == Lifecycle.State.STARTED
 }

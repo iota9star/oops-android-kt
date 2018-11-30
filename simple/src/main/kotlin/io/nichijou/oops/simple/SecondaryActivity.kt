@@ -186,6 +186,10 @@ class SecondaryActivity : BaseActivity() {
             loadImage()
             true
         }
+        toolbar.menu.findItem(R.id.action_next).setOnMenuItemClickListener {
+            changeFont()
+            true
+        }
         toolbar.setNavigationOnClickListener { onBackPressed() }
         fab.setOnClickListener {
             changeTheme(it)

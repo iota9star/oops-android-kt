@@ -14,9 +14,9 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="testDominantColor"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="@string/app_name"
-            android:tag="testDominantColor"
             app:toolbarId="@id/toolbar">
 
             <ImageView
@@ -52,12 +52,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:lineSpacingMultiplier="1.5"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:lineSpacingMultiplier="2.0"
-            android:tag="text_size|body"
-            android:text="hello world"
-            android:textSize="28sp"
+            android:padding="36dp"
+            android:text="@string/chinese"
+            android:textSize="24sp"
             android:textStyle="bold"
             tools:ignore="UnusedAttribute" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

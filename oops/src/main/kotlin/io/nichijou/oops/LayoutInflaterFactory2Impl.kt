@@ -9,90 +9,74 @@ import android.view.InflateException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewParent
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.AppCompatCheckedTextView
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
-import androidx.appcompat.widget.AppCompatRadioButton
-import androidx.appcompat.widget.AppCompatRatingBar
-import androidx.appcompat.widget.AppCompatSeekBar
-import androidx.appcompat.widget.AppCompatSpinner
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.TintContextWrapper
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.VectorEnabledTintResources
-import androidx.cardview.widget.CardView
 import androidx.collection.ArrayMap
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.NavigationMenuItemView
-import com.google.android.material.tabs.TabLayout
 import io.nichijou.oops.ext.activity
 import io.nichijou.oops.ext.attrValue
 import io.nichijou.oops.ext.loge
 import io.nichijou.oops.ext.logi
 import io.nichijou.oops.ext.resId
-import io.nichijou.oops.widget.OopsActionMenuItemView
-import io.nichijou.oops.widget.OopsBorderlessButton
-import io.nichijou.oops.widget.OopsBottomAppBar
-import io.nichijou.oops.widget.OopsBottomNavigationView
-import io.nichijou.oops.widget.OopsButton
-import io.nichijou.oops.widget.OopsCardView
-import io.nichijou.oops.widget.OopsCheckBox
-import io.nichijou.oops.widget.OopsCheckedTextView
-import io.nichijou.oops.widget.OopsCollapsingToolbarLayout
-import io.nichijou.oops.widget.OopsConstraintLayout
-import io.nichijou.oops.widget.OopsDialogButton
-import io.nichijou.oops.widget.OopsDrawerLayout
-import io.nichijou.oops.widget.OopsEditText
-import io.nichijou.oops.widget.OopsFloatingActionButton
-import io.nichijou.oops.widget.OopsFrameLayout
-import io.nichijou.oops.widget.OopsImageButton
-import io.nichijou.oops.widget.OopsImageView
-import io.nichijou.oops.widget.OopsLinearLayout
-import io.nichijou.oops.widget.OopsLinearLayoutCompat
-import io.nichijou.oops.widget.OopsListView
-import io.nichijou.oops.widget.OopsMaterialBorderlessButton
-import io.nichijou.oops.widget.OopsMaterialButton
-import io.nichijou.oops.widget.OopsMaterialCardView
-import io.nichijou.oops.widget.OopsNavigationView
-import io.nichijou.oops.widget.OopsNestedScrollView
-import io.nichijou.oops.widget.OopsProgressBar
-import io.nichijou.oops.widget.OopsRadioButton
-import io.nichijou.oops.widget.OopsRatingBar
-import io.nichijou.oops.widget.OopsRecyclerView
-import io.nichijou.oops.widget.OopsRelativeLayout
-import io.nichijou.oops.widget.OopsScrollView
-import io.nichijou.oops.widget.OopsSearchView
-import io.nichijou.oops.widget.OopsSeekBar
-import io.nichijou.oops.widget.OopsSnackbarContentLayout
-import io.nichijou.oops.widget.OopsSpinner
-import io.nichijou.oops.widget.OopsSwipeRefreshLayout
-import io.nichijou.oops.widget.OopsSwitch
-import io.nichijou.oops.widget.OopsTabImageView
-import io.nichijou.oops.widget.OopsTabLayout
-import io.nichijou.oops.widget.OopsTextInputEditText
-import io.nichijou.oops.widget.OopsTextInputLayout
-import io.nichijou.oops.widget.OopsTextView
-import io.nichijou.oops.widget.OopsToolbar
-import io.nichijou.oops.widget.OopsViewPager
+import io.nichijou.oops.widget.ActionMenuItemView
+import io.nichijou.oops.widget.AutoCompleteTextView
+import io.nichijou.oops.widget.BorderlessButton
+import io.nichijou.oops.widget.BottomAppBar
+import io.nichijou.oops.widget.BottomNavigationView
+import io.nichijou.oops.widget.Button
+import io.nichijou.oops.widget.CardView
+import io.nichijou.oops.widget.CheckBox
+import io.nichijou.oops.widget.CheckedTextView
+import io.nichijou.oops.widget.CollapsingToolbarLayout
+import io.nichijou.oops.widget.ConstraintLayout
+import io.nichijou.oops.widget.DialogButton
+import io.nichijou.oops.widget.DialogTitle
+import io.nichijou.oops.widget.DrawerLayout
+import io.nichijou.oops.widget.EditText
+import io.nichijou.oops.widget.FloatingActionButton
+import io.nichijou.oops.widget.FrameLayout
+import io.nichijou.oops.widget.ImageButton
+import io.nichijou.oops.widget.ImageView
+import io.nichijou.oops.widget.LinearLayout
+import io.nichijou.oops.widget.LinearLayoutCompat
+import io.nichijou.oops.widget.ListView
+import io.nichijou.oops.widget.MaterialBorderlessButton
+import io.nichijou.oops.widget.MaterialButton
+import io.nichijou.oops.widget.MaterialCardView
+import io.nichijou.oops.widget.MultiAutoCompleteTextView
+import io.nichijou.oops.widget.NavigationView
+import io.nichijou.oops.widget.NestedScrollView
+import io.nichijou.oops.widget.ProgressBar
+import io.nichijou.oops.widget.RadioButton
+import io.nichijou.oops.widget.RatingBar
+import io.nichijou.oops.widget.RecyclerView
+import io.nichijou.oops.widget.RelativeLayout
+import io.nichijou.oops.widget.ScrollView
+import io.nichijou.oops.widget.SearchView
+import io.nichijou.oops.widget.SeekBar
+import io.nichijou.oops.widget.SnackbarContentLayout
+import io.nichijou.oops.widget.Spinner
+import io.nichijou.oops.widget.SwipeRefreshLayout
+import io.nichijou.oops.widget.Switch
+import io.nichijou.oops.widget.TabImageView
+import io.nichijou.oops.widget.TabLayout
+import io.nichijou.oops.widget.TextInputEditText
+import io.nichijou.oops.widget.TextInputLayout
+import io.nichijou.oops.widget.TextView
+import io.nichijou.oops.widget.Toolbar
+import io.nichijou.oops.widget.ViewPager
 import org.xmlpull.v1.XmlPullParser
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 @SuppressLint("RestrictedApi")
-internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivity, private val factory: LayoutInflaterFactory?) : LayoutInflater.Factory2 {
+internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivity, private val factory: LayoutInflaterFactory?, private val processor: PostProcessor?) : LayoutInflater.Factory2 {
 
     private fun shouldInheritContext(context: Context, parent: ViewParent?): Boolean {
         var thisParent: ViewParent? = parent ?: return false
@@ -154,13 +138,10 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
         } else {
             ""
         }
-        var view: View? = if (tag == "@string/ignore_oops_view" || tag == "ignore_oops_view" || tagValue == "ignore_oops_view") {
-            createDefaultView(name, ctx, attrs)
-        } else {
-            factory?.onCreateView(parent, name, ctx, attrs, viewId)
-                ?: Oops.getDefaultLayoutInflaterFactory()?.onCreateView(parent, name, context, attrs, viewId)
-                ?: createOopsView(parent, name, ctx, attrs, viewId)
-        }
+        val enabledLiveNow = tag != "@string/ignore_oops_view" && tag != "ignore_oops_view" && tagValue != "ignore_oops_view"
+        var view = factory?.onCreateView(parent, name, ctx, attrs, viewId, enabledLiveNow)
+            ?: Oops.getDefaultLayoutInflaterFactory()?.onCreateView(parent, name, context, attrs, viewId, enabledLiveNow)
+            ?: createOopsView(parent, name, ctx, attrs, viewId, enabledLiveNow)
         if (view == null) {
             try {
                 view = activity.onCreateView(parent, name, ctx, attrs)
@@ -184,215 +165,239 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
         if (view != null) {
             checkOnClickListener(view, attrs)
         }
-        return view
+        return view.apply {
+            processor?.onFinishInflate(context, parent, name, tag, tagValue, attrs, viewId, this)
+        }
     }
 
-    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int): View? {
+    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int, enabledLiveNow: Boolean): View? {
         val view: View?
+        var isEnableLive = enabledLiveNow
         when (name) {
+            "androidx.appcompat.widget.DialogTitle" -> {
+                view = DialogTitle(context, attrs)
+                verifyNotNull(view, name)
+            }
             "SearchView", "androidx.appcompat.widget.SearchView" -> {
-                view = OopsSearchView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = SearchView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.snackbar.SnackbarContentLayout" -> {
-                view = OopsSnackbarContentLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = SnackbarContentLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "TextView", "androidx.appcompat.widget.AppCompatTextView" -> {
-                if (parent != null) {
-                    val parentName = parent::class.java.canonicalName
-                    if (parentName == "com.google.android.material.tabs.TabLayout.TabView" || parentName == "com.google.android.material.internal.NavigationMenuView") {
-                        logi { "this TextView is the child of $parentName, we ignore it." }
-                        return null
-                    }
-                }
+                val parentName = if (parent == null) "" else parent::class.java.toString()
                 view = when {
-                    parent != null && parent::class.java.toString().endsWith("SnackBarContentLayout") && context.attrValue(attrs, android.R.attr.id) == "@id/snackbar_text" -> {
-                        logi { "this TextView is the child of SnackBarContentLayout, we ignore it." }
-                        return null
+                    parentName == "com.google.android.material.tabs.TabLayout.TabView"
+                        || parentName == "com.google.android.material.internal.NavigationMenuView"
+                        || (parentName.endsWith("SnackBarContentLayout") && context.attrValue(attrs, android.R.attr.id) == "@id/snackbar_text")
+                    -> {
+                        logi { "this TextView is the child of $parentName, disable live." }
+                        isEnableLive = false
+                        TextView(context, attrs, false)
                     }
                     context.attrValue(attrs, android.R.attr.textAppearance) == "@android:style/TextAppearance.Toast" && context.attrValue(attrs, android.R.attr.id) == "@android:id/message" -> {
-                        logi { "this TextView is the child of Toast, we ignore it." }
-                        return null
+                        logi { "this TextView is the child of Toast, disable live." }
+                        isEnableLive = false
+                        TextView(context, attrs, false)
                     }
-                    parent is LinearLayout && context.attrValue(attrs, android.R.attr.id) == "@android:id/message" -> {
-                        logi { "this is a dialog message TextView, we ignore it." }
-                        return null
+                    parent is android.widget.LinearLayout && context.attrValue(attrs, android.R.attr.id) == "@android:id/message" -> {
+                        logi { "this is a dialog message TextView, disable live." }
+                        isEnableLive = false
+                        TextView(context, attrs, false)
                     }
-                    else -> OopsTextView(context, attrs)
+                    else -> TextView(context, attrs, enabledLiveNow)
                 }
-                verifyNotNull(view, name, false)
+                verifyNotNull(view, name)
             }
             "CheckBox", "androidx.appcompat.widget.AppCompatCheckBox" -> {
-                view = OopsCheckBox(context, attrs)
-                verifyNotNull(view, name, false)
+                view = CheckBox(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "RadioButton", "androidx.appcompat.widget.AppCompatRadioButton" -> {
-                view = OopsRadioButton(context, attrs)
-                verifyNotNull(view, name, false)
+                view = RadioButton(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "CheckedTextView", "androidx.appcompat.widget.AppCompatCheckedTextView" -> {
-                if (parent is NavigationMenuItemView) {
-                    logi { "this CheckedTextView is the child of com.google.android.material.internal.NavigationMenuItemView, we ignore it." }
-                    return null
+                view = if (parent is NavigationMenuItemView) {
+                    logi { "this CheckedTextView is the child of com.google.android.material.internal.NavigationMenuItemView, disable live." }
+                    isEnableLive = false
+                    CheckedTextView(context, attrs, false)
+                } else {
+                    CheckedTextView(context, attrs, enabledLiveNow)
                 }
-                view = OopsCheckedTextView(context, attrs)
-                verifyNotNull(view, name, false)
+                verifyNotNull(view, name)
             }
             "ImageView", "androidx.appcompat.widget.AppCompatImageView" -> {
-                if (isSearchIcon(viewId)) {
-                    logi { "this ImageView is the child of SearchView, we ignore it." }
-                    return null
+                view = when {
+                    isSearchIcon(viewId) -> {
+                        logi { "this ImageView is the child of SearchView, disable live." }
+                        isEnableLive = false
+                        ImageView(context, attrs, false)
+                    }
+                    parent != null && parent::class.java.canonicalName == "com.google.android.material.tabs.TabLayout.TabView" -> TabImageView(context, attrs)
+                    else -> ImageView(context, attrs, enabledLiveNow)
                 }
-                view = if (parent != null && parent::class.java.canonicalName == "com.google.android.material.tabs.TabLayout.TabView") OopsTabImageView(context, attrs)
-                else OopsImageView(context, attrs)
-                verifyNotNull(view, name, false)
+                verifyNotNull(view, name)
             }
             "ImageButton", "androidx.appcompat.widget.AppCompatImageButton" -> {
-                view = OopsImageButton(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ImageButton(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "Button", "androidx.appcompat.widget.AppCompatButton" -> {
                 view = when {
-                    viewId == android.R.id.button1 || viewId == android.R.id.button2 || viewId == android.R.id.button3 -> OopsDialogButton(context, attrs)
+                    viewId == android.R.id.button1
+                        || viewId == android.R.id.button2
+                        || viewId == android.R.id.button3
+                    -> DialogButton(context, attrs, enabledLiveNow)
                     viewId == com.google.android.material.R.id.snackbar_action -> {
-                        logi { "this Button is the child of SnackBarContentLayout, we ignore it." }
-                        return null
+                        logi { "this Button is the child of SnackBarContentLayout, disable live." }
+                        isEnableLive = false
+                        BorderlessButton(context, attrs, false)
                     }
-                    isBorderlessButton(context, attrs) -> OopsBorderlessButton(context, attrs)
-                    else -> OopsButton(context, attrs)
+                    isBorderlessButton(context, attrs) -> BorderlessButton(context, attrs, enabledLiveNow)
+                    else -> Button(context, attrs, enabledLiveNow)
                 }
-                verifyNotNull(view, name, false)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.button.MaterialButton" -> {
-                view = if (isBorderlessButton(context, attrs)) OopsMaterialBorderlessButton(context, attrs)
-                else OopsMaterialButton(context, attrs)
-                verifyNotNull(view, name, false)
+                view = if (isBorderlessButton(context, attrs)) MaterialBorderlessButton(context, attrs, enabledLiveNow)
+                else MaterialButton(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "Toolbar", "androidx.appcompat.widget.Toolbar" -> {
-                view = OopsToolbar(context, attrs)
-                verifyNotNull(view, name, false)
+                view = Toolbar(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.floatingactionbutton.FloatingActionButton" -> {
-                view = OopsFloatingActionButton(context, attrs)
-                verifyNotNull(view, name, false)
+                view = FloatingActionButton(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.bottomappbar.BottomAppBar" -> {
-                view = OopsBottomAppBar(context, attrs)
-                verifyNotNull(view, name, false)
+                view = BottomAppBar(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.drawerlayout.widget.DrawerLayout" -> {
-                view = OopsDrawerLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = DrawerLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "Switch", "androidx.appcompat.widget.SwitchCompat" -> {
-                view = OopsSwitch(context, attrs)
-                verifyNotNull(view, name, false)
+                view = Switch(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.appcompat.view.menu.ActionMenuItemView" -> {
-                view = OopsActionMenuItemView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ActionMenuItemView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.tabs.TabLayout" -> {
-                view = OopsTabLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = TabLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "ProgressBar" -> {
-                view = OopsProgressBar(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ProgressBar(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "EditText", "androidx.appcompat.widget.AppCompatEditText" -> {
-                view = OopsEditText(context, attrs)
-                verifyNotNull(view, name, false)
+                view = EditText(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.navigation.NavigationView" -> {
-                view = OopsNavigationView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = NavigationView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.cardview.widget.CardView" -> {
-                view = OopsCardView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = CardView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.card.MaterialCardView" -> {
-                view = OopsMaterialCardView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = MaterialCardView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.bottomnavigation.BottomNavigationView" -> {
-                view = OopsBottomNavigationView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = BottomNavigationView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.appbar.CollapsingToolbarLayout" -> {
-                view = OopsCollapsingToolbarLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = CollapsingToolbarLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.textfield.TextInputEditText" -> {
-                view = OopsTextInputEditText(context, attrs)
-                verifyNotNull(view, name, false)
+                view = TextInputEditText(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "com.google.android.material.textfield.TextInputLayout" -> {
-                view = OopsTextInputLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = TextInputLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "SeekBar", "androidx.appcompat.widget.AppCompatSeekBar" -> {
-                view = OopsSeekBar(context, attrs)
-                verifyNotNull(view, name, false)
+                view = SeekBar(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "RatingBar", "androidx.appcompat.widget.AppCompatRatingBar" -> {
-                view = OopsRatingBar(context, attrs)
-                verifyNotNull(view, name, false)
+                view = RatingBar(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "Spinner", "androidx.appcompat.widget.AppCompatSpinner" -> {
-                view = OopsSpinner(context, attrs)
-                verifyNotNull(view, name, false)
+                view = Spinner(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.viewpager.widget.ViewPager" -> {
-                view = OopsViewPager(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ViewPager(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.core.widget.NestedScrollView" -> {
-                view = OopsNestedScrollView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = NestedScrollView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.recyclerview.widget.RecyclerView" -> {
-                view = OopsRecyclerView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = RecyclerView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "ListView" -> {
-                view = OopsListView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ListView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "ScrollView" -> {
-                view = OopsScrollView(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ScrollView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.swiperefreshlayout.widget.SwipeRefreshLayout" -> {
-                view = OopsSwipeRefreshLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = SwipeRefreshLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "LinearLayout" -> {
-                view = OopsLinearLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = LinearLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "RelativeLayout" -> {
-                view = OopsRelativeLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = RelativeLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "FrameLayout" -> {
-                view = OopsFrameLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = FrameLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.constraintlayout.widget.ConstraintLayout" -> {
-                view = OopsConstraintLayout(context, attrs)
-                verifyNotNull(view, name, false)
+                view = ConstraintLayout(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             "androidx.appcompat.widget.LinearLayoutCompat" -> {
-                view = OopsLinearLayoutCompat(context, attrs)
-                verifyNotNull(view, name, false)
+                view = LinearLayoutCompat(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
+            }
+            "AutoCompleteTextView", "androidx.appcompat.widget.AppCompatAutoCompleteTextView" -> {
+                view = AutoCompleteTextView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
+            }
+            "MultiAutoCompleteTextView", "androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView" -> {
+                view = MultiAutoCompleteTextView(context, attrs, enabledLiveNow)
+                verifyNotNull(view, name)
             }
             else -> view = null
         }
         return view?.apply {
-            if (this !is OopsLifecycleOwner) return@apply
+            if (!isEnableLive) return@apply
             val backgroundAttrValue = this.context.attrValue(attrs, android.R.attr.background)
             Oops.living(this.activity()).live(backgroundAttrValue)?.observe(this as OopsLifecycleOwner, Observer {
                 if (!needlessBackgroundColor(this)) {
@@ -403,11 +408,11 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
     }
 
     private fun needlessBackgroundColor(view: View): Boolean {
-        return view is CardView
-            || view is Toolbar
-            || view is TabLayout
-            || view is BottomNavigationView
-            || view is Button
+        return view is androidx.cardview.widget.CardView
+            || view is androidx.appcompat.widget.Toolbar
+            || view is com.google.android.material.tabs.TabLayout
+            || view is com.google.android.material.bottomnavigation.BottomNavigationView
+            || view is android.widget.Button
     }
 
     private fun isSearchIcon(@IdRes id: Int): Boolean {
@@ -436,76 +441,11 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
         }
     }
 
-    private fun createDefaultView(name: String, context: Context, attrs: AttributeSet?): View? {
-        val view: View?
-        when (name) {
-            "TextView" -> {
-                view = AppCompatTextView(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "ImageView" -> {
-                view = AppCompatImageView(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "Button" -> {
-                view = AppCompatButton(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "EditText" -> {
-                view = AppCompatEditText(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "Spinner" -> {
-                view = AppCompatSpinner(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "ImageButton" -> {
-                view = AppCompatImageButton(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "CheckBox" -> {
-                view = AppCompatCheckBox(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "RadioButton" -> {
-                view = AppCompatRadioButton(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "CheckedTextView" -> {
-                view = AppCompatCheckedTextView(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "AutoCompleteTextView" -> {
-                view = AppCompatAutoCompleteTextView(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "MultiAutoCompleteTextView" -> {
-                view = AppCompatMultiAutoCompleteTextView(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "RatingBar" -> {
-                view = AppCompatRatingBar(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            "SeekBar" -> {
-                view = AppCompatSeekBar(context, attrs)
-                verifyNotNull(view, name, true)
-            }
-            else ->
-                view = null
-        }
-        return view
-    }
-
-    private fun verifyNotNull(view: View?, name: String, ignore: Boolean) {
+    private fun verifyNotNull(view: View?, name: String) {
         if (view == null) {
             throw IllegalStateException("${this.javaClass.name} asked to inflate view for <$name>, but returned null")
         }
-        if (ignore) {
-            logi { "ignore $name & inflate view : $name to ${view::class.java.simpleName}" }
-        } else {
-            logi { "inflate view : $name to ${view::class.java.simpleName}" }
-        }
+        logi { "$name => ${view::class.java.canonicalName}" }
     }
 
     private fun createViewFromTag(context: Context, name: String, attrs: AttributeSet?): View? {

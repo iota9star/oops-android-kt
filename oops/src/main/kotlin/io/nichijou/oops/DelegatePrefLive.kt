@@ -8,7 +8,7 @@ import kotlin.reflect.jvm.isAccessible
 
 class DelegatePrefLive<T>(private val prefs: SharedPreferences, private val property: KProperty0<T>) : LiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private var lastValue: T
+    private var lastValue: T?
 
     private val key: String
 

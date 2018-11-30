@@ -6,5 +6,5 @@ import android.view.View
 import androidx.annotation.IdRes
 
 interface LayoutInflaterFactory {
-    fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int): View?
+    fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int, enableNow: Boolean): View?
 }

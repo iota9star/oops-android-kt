@@ -7,7 +7,6 @@ class IntPrefLive(private val prefs: SharedPreferences, private val key: String)
 
     private var lastValue: Int
 
-
     init {
         lastValue = getNewValue()
         postValue(lastValue)

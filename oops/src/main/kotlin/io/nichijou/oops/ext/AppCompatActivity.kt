@@ -16,7 +16,7 @@ import io.nichijou.oops.Oops
 import io.nichijou.oops.widget.StatusBarMode
 
 
-fun AppCompatActivity.getRootView() = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
+fun AppCompatActivity.getContentView(): ViewGroup = findViewById(android.R.id.content)
 
 fun AppCompatActivity.setStatusBarColorCompat(@ColorInt color: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -88,8 +88,8 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
     viewModel.statusBarStateColor.observe(this, Observer {
         when (it.statusBarMode) {
             StatusBarMode.AUTO -> {
-                val rootView = this.getRootView()
-                val key = this::class.java.canonicalName.toString().oopsSignedStatusBarColorKey()
+                val rootView = this.getContentView().getChildAt(0)
+                val key = this::class.java.canonicalName.toString().statusBarColorKey()
                 val statusBarColor = if (Oops.immed().prefs.contains(key)) Oops.immed().prefs.getInt(key, 0) else it.statusBarColor
                 if (rootView is DrawerLayout) {
                     this.setStatusBarColorCompat(Color.TRANSPARENT)
@@ -104,7 +104,7 @@ internal fun AppCompatActivity.attachOops(themeId: Int) {
         }
     })
     viewModel.navBarColor.observe(this, Observer {
-        val key = this::class.java.canonicalName.toString().oopsSignedNavBarColorKey()
+        val key = this::class.java.canonicalName.toString().navBarColorKey()
         val navBarColor = if (Oops.immed().prefs.contains(key)) Oops.immed().prefs.getInt(key, 0) else it
         this.setNavBarColorCompat(navBarColor)
     })

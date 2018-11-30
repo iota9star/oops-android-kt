@@ -6,10 +6,8 @@ import android.view.View
 import io.nichijou.oops.LayoutInflaterFactory
 
 class MyFactory : LayoutInflaterFactory {
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?, viewId: Int): View? {
-        return when (name) {
-//            "TextView" -> CustomTextView(context, attrs)
-            else -> null
-        }
+    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?, viewId: Int, enableNow: Boolean): View? {
+        return null
     }
+
 }

@@ -70,9 +70,10 @@ class PrimaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun initTabLayout() {
         tab_layout.setupWithViewPager(view_pager)
-        view_pager.adapter = ViewPagerAdapter(supportFragmentManager, arrayOf("BaseView", "ListView"), arrayOf(FragmentBaseView.newInstance(), FragmentScrollView.newInstance()))
+        view_pager.adapter = ViewPagerAdapter(supportFragmentManager, arrayOf("BaseView", "ListView", "Font"), arrayOf(FragmentBaseView.newInstance(), FragmentScrollView.newInstance(), FragmentFont.newInstance()))
         tab_layout.getTabAt(0)?.setIcon(R.drawable.ic_menu_send)
         tab_layout.getTabAt(1)?.setIcon(R.drawable.ic_menu_manage)
+        tab_layout.getTabAt(2)?.setIcon(R.drawable.ic_menu_slideshow)
     }
 
     private fun initToolbar() {

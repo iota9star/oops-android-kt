@@ -19,24 +19,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import io.nichijou.oops.ext.attachOops
 import io.nichijou.oops.ext.attrValue
+import io.nichijou.oops.ext.attrValueKey
+import io.nichijou.oops.ext.collapsingToolbarDominantColorKey
 import io.nichijou.oops.ext.colorRes
 import io.nichijou.oops.ext.loge
-import io.nichijou.oops.ext.oopsSignedAttrValue
-import io.nichijou.oops.ext.oopsSignedCollapsingToolbarDominantColorKey
-import io.nichijou.oops.ext.oopsSignedNavBarColorKey
-import io.nichijou.oops.ext.oopsSignedStatusBarColorKey
+import io.nichijou.oops.ext.navBarColorKey
+import io.nichijou.oops.ext.statusBarColorKey
 import io.nichijou.oops.pref.BooleanPref
 import io.nichijou.oops.pref.EnumValuePref
 import io.nichijou.oops.pref.IntArrayPref
 import io.nichijou.oops.pref.IntPref
+import io.nichijou.oops.pref.Pref
 import io.nichijou.oops.widget.StatusBarMode
 import kotlin.properties.ReadWriteProperty
 
 
 @SuppressLint("CommitPrefEdits")
-class Oops private constructor(val context: Context) {
+class Oops private constructor(val context: Context) : Pref() {
 
     private var layoutInflaterFactory: LayoutInflaterFactory? = null
+    private var postProcessor: PostProcessor? = null
 
     val isFirstTime: Boolean
         get() {
@@ -333,7 +335,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun collapsingToolbarDominantColorGet(@NonNull tag: String): Int {
-        return prefs.getInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), 0)
+        return prefs.getInt(tag.collapsingToolbarDominantColorKey(), 0)
     }
 
     fun getCollapsingToolbarDominantColor(@NonNull tag: String): Int {
@@ -341,33 +343,33 @@ class Oops private constructor(val context: Context) {
     }
 
     fun collapsingToolbarDominantColorSet(@NonNull tag: String, @ColorInt collapsingToolbarDominantColor: Int): Oops {
-        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), collapsingToolbarDominantColor)
+        prefsEditor.putInt(tag.collapsingToolbarDominantColorKey(), collapsingToolbarDominantColor)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
     fun setCollapsingToolbarDominantColor(@NonNull tag: String, @ColorInt collapsingToolbarDominantColor: Int) {
-        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), collapsingToolbarDominantColor).apply()
+        prefsEditor.putInt(tag.collapsingToolbarDominantColorKey(), collapsingToolbarDominantColor).apply()
     }
 
     fun collapsingToolbarDominantColorResSet(@NonNull tag: String, @ColorRes collapsingToolbarDominantColorRes: Int): Oops {
-        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes))
+        prefsEditor.putInt(tag.collapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes))
         if (!transaction) prefsEditor.apply()
         return this
     }
 
     fun setCollapsingToolbarDominantColorRes(@NonNull tag: String, @ColorRes collapsingToolbarDominantColorRes: Int) {
-        prefsEditor.putInt(tag.oopsSignedCollapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes)).apply()
+        prefsEditor.putInt(tag.collapsingToolbarDominantColorKey(), context.colorRes(collapsingToolbarDominantColorRes)).apply()
     }
 
     fun attrColorSet(context: Context, @AttrRes attrId: Int, @ColorInt color: Int): Oops {
-        prefsEditor.putInt(context.attrValue(attrId).oopsSignedAttrValue(), color)
+        prefsEditor.putInt(context.attrValue(attrId).attrValueKey(), color)
         if (!transaction) prefsEditor.apply()
         return this
     }
 
     fun setAttrColor(context: Context, @AttrRes attrId: Int, @ColorInt color: Int) {
-        prefsEditor.putInt(context.attrValue(attrId).oopsSignedAttrValue(), color).apply()
+        prefsEditor.putInt(context.attrValue(attrId).attrValueKey(), color).apply()
     }
 
     fun attrColorResSet(context: Context, @AttrRes attrId: Int, @ColorRes colorRes: Int): Oops {
@@ -383,7 +385,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun attrColorGet(attrValue: String): Int {
-        return prefs.getInt(attrValue.oopsSignedAttrValue(), 0)
+        return prefs.getInt(attrValue.attrValueKey(), 0)
     }
 
     fun getAttrColor(attrValue: String): Int {
@@ -403,7 +405,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun addStaticStatusBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
-        oops.prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedStatusBarColorKey(), color)
+        oops.prefsEditor.putInt(clazz.canonicalName.toString().statusBarColorKey(), color)
         if (!transaction) prefsEditor.apply()
         return this
     }
@@ -429,7 +431,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun removeStaticStatusBarColor(clazz: Class<out AppCompatActivity>) {
-        oops.prefsEditor.remove(clazz.canonicalName.toString().oopsSignedStatusBarColorKey())
+        oops.prefsEditor.remove(clazz.canonicalName.toString().statusBarColorKey())
         if (!transaction) prefsEditor.apply()
     }
 
@@ -454,7 +456,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun addStaticNavBarColor(clazz: Class<out AppCompatActivity>, @ColorInt color: Int): Oops {
-        prefsEditor.putInt(clazz.canonicalName.toString().oopsSignedNavBarColorKey(), color)
+        prefsEditor.putInt(clazz.canonicalName.toString().navBarColorKey(), color)
         if (!transaction) prefsEditor.apply()
         return this
     }
@@ -468,7 +470,7 @@ class Oops private constructor(val context: Context) {
     }
 
     fun removeStaticNavBarColor(clazz: Class<out AppCompatActivity>) {
-        prefsEditor.remove(clazz.canonicalName.toString().oopsSignedNavBarColorKey())
+        prefsEditor.remove(clazz.canonicalName.toString().navBarColorKey())
         if (!transaction) prefsEditor.apply()
     }
 
@@ -511,14 +513,14 @@ class Oops private constructor(val context: Context) {
 
     }
 
-    internal var transaction = false
-    internal var transactionStartTime: Long = 0
+    override var transaction = false
+    override var transactionTime: Long = 0
 
-    internal val prefs: SharedPreferences by lazy {
+    override val prefs: SharedPreferences by lazy {
         context.getSharedPreferences(OopsPrefsKey.PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    internal val prefsEditor: SharedPreferences.Editor by lazy {
+    override val prefsEditor: SharedPreferences.Editor by lazy {
         prefs.edit()
     }
 
@@ -530,7 +532,7 @@ class Oops private constructor(val context: Context) {
 
     private fun begin(): Oops {
         transaction = true
-        transactionStartTime = SystemClock.uptimeMillis()
+        transactionTime = SystemClock.uptimeMillis()
         return this
     }
 
@@ -580,8 +582,9 @@ class Oops private constructor(val context: Context) {
 
         @JvmStatic
         @JvmOverloads
-        fun attach(activity: AppCompatActivity, factory: LayoutInflaterFactory? = null) {
-            LayoutInflaterCompat.setFactory2(activity.layoutInflater, LayoutInflaterFactory2Impl(activity, factory))
+        fun attach(activity: AppCompatActivity, factory: LayoutInflaterFactory? = null, postProcessor: PostProcessor? = null) {
+            oops.postProcessor = postProcessor
+            LayoutInflaterCompat.setFactory2(activity.layoutInflater, LayoutInflaterFactory2Impl(activity, factory, oops.postProcessor))
             val theme = oops.theme
             if (theme != 0) {
                 activity.setTheme(theme)
@@ -592,6 +595,11 @@ class Oops private constructor(val context: Context) {
         @JvmStatic
         fun setDefaultLayoutInflaterFactory(layoutInflaterFactory: LayoutInflaterFactory?) {
             oops.layoutInflaterFactory = layoutInflaterFactory
+        }
+
+        @JvmStatic
+        fun setPostProcessor(processor: PostProcessor?) {
+            oops.postProcessor = processor
         }
 
         @JvmStatic

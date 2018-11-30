@@ -34,7 +34,7 @@ class CustomTextView : AppCompatTextView, OopsLifecycleOwner {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        attachOopsLife()
+        handleOopsLifeStart()
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
@@ -43,7 +43,7 @@ class CustomTextView : AppCompatTextView, OopsLifecycleOwner {
     }
 
     override fun onDetachedFromWindow() {
-        detachOopsLife()
+        handleOopsLifeDestroy()
         super.onDetachedFromWindow()
     }
 }

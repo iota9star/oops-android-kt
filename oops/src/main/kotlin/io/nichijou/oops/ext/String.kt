@@ -2,21 +2,13 @@ package io.nichijou.oops.ext
 
 import io.nichijou.oops.OopsPrefsKey
 
-// eg: ?android:attr/textColorPrimary to OOPS_SIGNED__QM_android_COLON_attr_SLASH_textColorPrimary
-internal fun String.oopsSignedAttrValue(): String {
-    return "OOPS_SIGNED_" + this.replace("?", "_QM_")
-        .replace("/", "_SLASH_")
-        .replace(":", "_COLON_")
-}
+internal fun String.attrValueKey(): String = "oops_signed." + this.replace("?", "..q..").replace("/", "..s..")
 
-internal fun String.oopsSignedStatusBarColorKey(): String {
-    return this.replace(".", "_P_") + "_" + OopsPrefsKey.KEY_STATUS_BAR_COLOR
-}
 
-internal fun String.oopsSignedNavBarColorKey(): String {
-    return this.replace(".", "_P_") + "_" + OopsPrefsKey.KEY_NAV_BAR_COLOR
-}
+internal fun String.statusBarColorKey(): String = OopsPrefsKey.KEY_STATUS_BAR_COLOR + "." + this
 
-internal fun String.oopsSignedCollapsingToolbarDominantColorKey(): String {
-    return this + "_" + OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR
-}
+
+internal fun String.navBarColorKey(): String = OopsPrefsKey.KEY_NAV_BAR_COLOR + "." + this
+
+
+internal fun String.collapsingToolbarDominantColorKey(): String = OopsPrefsKey.KEY_COLLAPSING_TOOLBAR_DOMINANT_COLOR + "." + this

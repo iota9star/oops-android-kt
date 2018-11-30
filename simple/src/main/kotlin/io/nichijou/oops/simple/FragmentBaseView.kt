@@ -54,6 +54,5 @@ class FragmentBaseView : Fragment() {
                 .setNeutralButton("Neutral") { _, _ -> }
                 .show()
         }
-
     }
 }
