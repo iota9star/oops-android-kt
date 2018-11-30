@@ -6,5 +6,6 @@ import android.view.View
 import androidx.annotation.IdRes
 
 interface PostProcessor {
-    fun onFinishInflate(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, @IdRes viewId: Int, createdView: View?)
+    fun onOopsViewInflated(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, @IdRes viewId: Int, createdView: View)
+    fun onViewInflated(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, @IdRes viewId: Int, createdView: View)
 }

@@ -30,10 +30,5 @@ object OopsFont : Pref() {
     @JvmStatic
     fun living(fragment: Fragment) = ViewModelProviders.of(fragment).get(OopsFontViewModel::class.java)
 
-    @JvmStatic
-    fun attach(activity: AppCompatActivity) {
-
-    }
-
     private fun fontPref(value: String, versionKey: String, key: String): ReadWriteProperty<OopsFont, String> = FontPref(value, versionKey, key)
 }

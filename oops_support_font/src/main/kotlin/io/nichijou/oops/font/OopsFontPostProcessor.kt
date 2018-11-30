@@ -11,7 +11,7 @@ import io.nichijou.oops.PostProcessor
 import io.nichijou.oops.ext.activity
 
 class OopsFontPostProcessor : PostProcessor {
-    override fun onFinishInflate(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, viewId: Int, createdView: View?) {
+    override fun onOopsViewInflated(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, viewId: Int, createdView: View) {
         if (tag != "@string/ignore_oops_font"
             && tag != "ignore_oops_font"
             && tagValue != "ignore_oops_font"
@@ -20,6 +20,9 @@ class OopsFontPostProcessor : PostProcessor {
                 is TextView -> createdView.bindTypeface()
             }
         }
+    }
+
+    override fun onViewInflated(context: Context, parent: View?, name: String, tag: String, tagValue: String, attrs: AttributeSet?, viewId: Int, createdView: View) {
     }
 }
 

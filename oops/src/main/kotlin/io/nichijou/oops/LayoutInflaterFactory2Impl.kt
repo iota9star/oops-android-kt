@@ -139,9 +139,9 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
             ""
         }
         val enabledLiveNow = tag != "@string/ignore_oops_view" && tag != "ignore_oops_view" && tagValue != "ignore_oops_view"
-        var view = factory?.onCreateView(parent, name, ctx, attrs, viewId, enabledLiveNow)
-            ?: Oops.getDefaultLayoutInflaterFactory()?.onCreateView(parent, name, context, attrs, viewId, enabledLiveNow)
-            ?: createOopsView(parent, name, ctx, attrs, viewId, enabledLiveNow)
+        var view = factory?.onCreateView(parent, name, ctx, tag, tagValue, attrs, viewId, enabledLiveNow)
+            ?: Oops.getDefaultLayoutInflaterFactory()?.onCreateView(parent, name, context, tag, tagValue, attrs, viewId, enabledLiveNow)
+            ?: createOopsView(parent, name, ctx, tag, tagValue, attrs, viewId, enabledLiveNow)
         if (view == null) {
             try {
                 view = activity.onCreateView(parent, name, ctx, attrs)
@@ -165,12 +165,12 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
         if (view != null) {
             checkOnClickListener(view, attrs)
         }
-        return view.apply {
-            processor?.onFinishInflate(context, parent, name, tag, tagValue, attrs, viewId, this)
+        return view?.apply {
+            processor?.onViewInflated(context, parent, name, tag, tagValue, attrs, viewId, this)
         }
     }
 
-    private fun createOopsView(parent: View?, name: String, context: Context, attrs: AttributeSet?, @IdRes viewId: Int, enabledLiveNow: Boolean): View? {
+    private fun createOopsView(parent: View?, name: String, context: Context, tag: String, tagValue: String, attrs: AttributeSet?, @IdRes viewId: Int, enabledLiveNow: Boolean): View? {
         val view: View?
         var isEnableLive = enabledLiveNow
         when (name) {
@@ -397,6 +397,7 @@ internal class LayoutInflaterFactory2Impl(private val activity: AppCompatActivit
             else -> view = null
         }
         return view?.apply {
+            processor?.onOopsViewInflated(context, parent, name, tag, tagValue, attrs, viewId, view)
             if (!isEnableLive) return@apply
             val backgroundAttrValue = this.context.attrValue(attrs, android.R.attr.background)
             Oops.living(this.activity()).live(backgroundAttrValue)?.observe(this as OopsLifecycleOwner, Observer {

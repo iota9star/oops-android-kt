@@ -6,8 +6,7 @@ import android.view.View
 import io.nichijou.oops.LayoutInflaterFactory
 
 class MyFactory : LayoutInflaterFactory {
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet?, viewId: Int, enableNow: Boolean): View? {
+    override fun onCreateView(parent: View?, name: String, context: Context, tag: String, tagValue: String, attrs: AttributeSet?, viewId: Int, enableNow: Boolean): View? {
         return null
     }
-
 }
