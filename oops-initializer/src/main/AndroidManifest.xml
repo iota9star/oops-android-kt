@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="io.nichijou.oops.initializer">
+
+  <application>
+    <provider
+      android:name="io.nichijou.oops.initializer.OopsInitializer"
+      android:authorities="${applicationId}.oops.OopsInitializer"
+      android:enabled="true"
+      android:exported="false" />
+  </application>
+</manifest>

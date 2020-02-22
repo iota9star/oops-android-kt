@@ -5,54 +5,65 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.PairColor
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.tint
-import io.nichijou.oops.ext.tintIcon
+import io.nichijou.oops.ext.*
 
 @SuppressLint("RestrictedApi", "ViewConstructor")
-internal class ActionMenuItemView(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : ActionMenuItemView(context, attrs), OopsLifecycleOwner {
+open class ActionMenuItemView @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : ActionMenuItemView(context, attrs), OopsLifecycleOwner {
+  private var colorStateList: ColorStateList? = null
+  private val lifecycleRegistry = LifecycleRegistry(this)
+  private fun updateColor(color: Int) {
+    this.setTextColor(color)
+    colorStateList = PairColor(color).toEnabledSl()
+    this.tintIcon(colorStateList!!)
+  }
 
-    private var colorStateList: ColorStateList? = null
+  override fun setIcon(icon: Drawable?) {
+    super.setIcon(icon?.tint(colorStateList))
+  }
 
-    private fun updateColor(color: Int) {
-        this.setTextColor(color)
-        colorStateList = PairColor(color).toEnabledSl()
-        this.tintIcon(colorStateList!!)
+  override fun liveInOops() {
+    this.activity().applyOopsThemeStore {
+      toolbarIconColor.observe(this@ActionMenuItemView, Observer(::updateColor))
     }
+  }
 
-    override fun setIcon(icon: Drawable?) {
-        super.setIcon(icon?.tint(colorStateList))
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
+
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun liveInOops() {
-        Oops.living(this.activity()).toolbarIconColor.observe(this, Observer(this::updateColor))
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
-    }
-
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
-    }
-
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
-    }
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

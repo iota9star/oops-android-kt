@@ -6,61 +6,61 @@ def siteUrl = 'https://github.com/iota9star/oops-android-kt'
 def gitUrl = 'https://github.com/iota9star/oops-android-kt.git'
 group = "io.nichijou"
 def libName = "oops"
-version = "0.9.0"
+version = "1.0.0-rc02"
 
 task sourcesJar(type: Jar) {
-    from android.sourceSets.main.kotlin.srcDirs
-    classifier = 'sources'
+  from android.sourceSets.main.kotlin.srcDirs
+  classifier = 'sources'
 }
 
 artifacts {
-    archives sourcesJar
+  archives sourcesJar
 }
 
 install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'Android Material Theme engine, Powered by LiveData & ViewModel.'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'nichijou.io'
-                        name 'iota9star'
-                        email 'iota9star@foxmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection homeUrl
-                    url siteUrl
-                }
-            }
+  repositories.mavenInstaller {
+    pom {
+      project {
+        packaging 'aar'
+        name 'Android Material Theme engine, Powered by LiveData & ViewModel.'
+        url siteUrl
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
         }
+        developers {
+          developer {
+            id 'nichijou.io'
+            name 'iota9star'
+            email 'iota9star@foxmail.com'
+          }
+        }
+        scm {
+          connection gitUrl
+          developerConnection homeUrl
+          url siteUrl
+        }
+      }
     }
+  }
 }
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "nichijou"
-        name = libName
-        desc = 'Android Material Design Theme engine, Powered by LiveData & ViewModel.'
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-        override = true
-    }
+  user = properties.getProperty("bintray.user")
+  key = properties.getProperty("bintray.apikey")
+  configurations = ['archives']
+  pkg {
+    repo = "nichijou"
+    name = libName
+    desc = 'Android Material Design Theme engine, Powered by LiveData & ViewModel.'
+    websiteUrl = siteUrl
+    vcsUrl = gitUrl
+    licenses = ["Apache-2.0"]
+    publish = true
+    override = true
+  }
 }

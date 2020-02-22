@@ -3,51 +3,61 @@ package io.nichijou.oops.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrValue
-import io.nichijou.oops.ext.isColorLight
-import io.nichijou.oops.ext.tint
-
+import io.nichijou.oops.ext.*
+import io.nichijou.utils.isColorLight
 
 @SuppressLint("ViewConstructor")
-class Button(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : AppCompatButton(context, attrs), OopsLifecycleOwner {
+open class Button @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : AppCompatButton(context, attrs), OopsLifecycleOwner {
 
-    private val backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
+  private val backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
+  private val lifecycleRegistry = LifecycleRegistry(this)
 
-    override fun liveInOops() {
-        val living = Oops.living(this.activity())
-        living.isDarkColor(living.live(backgroundAttrValue, living.colorAccent)!!).observe(this, Observer {
-            this.tint(it.color, !it.color.isColorLight(), it.isDark)
-            isEnabled = !isEnabled
-            isEnabled = !isEnabled
+  override fun liveInOops() {
+    this.activity().applyOopsThemeStore {
+      isDarkColor(live(backgroundAttrValue, colorAccent)!!)
+        .observe(this@Button, Observer {
+          tint(it.color, !it.color.isColorLight(), it.isDark)
+          isEnabled = !isEnabled
+          isEnabled = !isEnabled
         })
     }
+  }
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
 
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
 
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
-    }
-
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

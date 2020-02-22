@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorLayout"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/coordinatorLayout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      app:contentInsetLeft="0dp"
+      app:contentInsetStart="0dp"
+      app:contentInsetStartWithNavigation="0dp"
+      app:title="@string/app_name" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:title="@string/app_name" />
+    <com.google.android.material.tabs.TabLayout
+      android:id="@+id/tab_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?colorPrimary"
+      app:tabIndicatorColor="?colorAccent"
+      app:tabIndicatorHeight="4dp"
+      app:tabSelectedTextColor="?colorAccent"
+      app:tabTextColor="?android:textColorPrimary" />
+  </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary"
-            app:tabIndicatorColor="?colorAccent"
-            app:tabIndicatorHeight="4dp"
-            app:tabSelectedTextColor="?colorAccent"
-            app:tabTextColor="?android:textColorPrimary" />
-    </com.google.android.material.appbar.AppBarLayout>
+  <androidx.viewpager.widget.ViewPager
+    android:id="@+id/view_pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+  <com.google.android.material.bottomappbar.BottomAppBar
+    android:id="@+id/bar"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:layout_gravity="bottom"
+    app:backgroundTint="?colorPrimary"
+    app:fabAlignmentMode="end"
+    app:hideOnScroll="true" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="bottom"
-        app:backgroundTint="?colorPrimary"
-        app:fabAlignmentMode="end"
-        app:hideOnScroll="true" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/bar"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_anchor="@id/bar"
+    app:srcCompat="@android:drawable/ic_dialog_info" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

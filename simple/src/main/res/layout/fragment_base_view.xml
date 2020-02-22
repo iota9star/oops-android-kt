@@ -1,311 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/text_color_primary"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/text_color_secondary"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/custom_attr_color1"
+        android:textColor="?customColor1"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/custom_attr_color2"
+        android:textColor="?customColor2"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.SwitchCompat
+      android:id="@+id/switch_dark"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:checked="true"
+      android:gravity="center_vertical"
+      android:text="@string/switch_dark"
+      android:textOff="@string/light_theme"
+      android:textOn="@string/dark_theme"
+      android:textSize="16sp"
+      android:textStyle="bold" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seek_bar"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <SeekBar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="100"
+        android:progress="20"
+        android:secondaryProgress="60" />
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating_bar"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <androidx.appcompat.widget.AppCompatRatingBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/text_color_primary"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/text_color_secondary"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/custom_attr_color1"
-                android:textColor="?customColor1"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/custom_attr_color2"
-                android:textColor="?customColor2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_dark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:checked="true"
-            android:gravity="center_vertical"
-            android:text="@string/switch_dark"
-            android:textOff="@string/light_theme"
-            android:textOn="@string/dark_theme"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/seek_bar"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <SeekBar
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="100"
-                android:progress="20"
-                android:secondaryProgress="60" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating_bar"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatRatingBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:rating="2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/progress_bar"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <ProgressBar
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp" />
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:progress="45"
-                android:secondaryProgress="67" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-5dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="-5dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
-
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/check_box"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/radio_button"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/edit_text"
-            android:inputType="text"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/button_show_dialog" />
-
-        <Button
-            style="?borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/borderless_appcompat_button" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/disable_appcompat_button" />
-
-        <Button
-            style="?borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/disable_borderless_appcompat_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_icon_button"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary"
-            android:text="MATERIAL BUTTON"
-            app:icon="@drawable/ic_menu_send"
-            app:strokeColor="?colorAccent"
-            app:strokeWidth="4dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/material_unelevated_button"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UNELEVATED MATERIAL BUTTON"
-            app:icon="@drawable/ic_menu_send"
-            app:strokeColor="?colorPrimary"
-            app:strokeWidth="4dp" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BORDERLESS MATERIAL BUTTON"
-            app:icon="@drawable/ic_menu_send"
-            app:strokeColor="?colorPrimary"
-            app:strokeWidth="4dp" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="DISABLE MATERIAL BUTTON"
-            app:icon="@drawable/ic_menu_send"
-            app:strokeColor="?colorPrimary"
-            app:strokeWidth="4dp" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="DISABLE BORDERLESS MATERIAL BUTTON"
-            app:icon="@drawable/ic_menu_send"
-            app:strokeColor="?colorPrimary"
-            app:strokeWidth="4dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:clipToPadding="true"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/card_view"
-                android:textAlignment="center"
-                android:textSize="28sp" />
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="24dp"
-            android:clipToPadding="true"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="12dp"
-            app:strokeColor="?colorAccent"
-            app:strokeWidth="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/material_card_view"
-                android:textAlignment="center"
-                android:textSize="28sp" />
-        </com.google.android.material.card.MaterialCardView>
+        android:numStars="5"
+        android:rating="2" />
     </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/progress_bar"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <ProgressBar
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp" />
+
+      <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:progress="45"
+        android:secondaryProgress="67" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="-5dp"
+      android:layout_marginTop="12dp"
+      android:layout_marginRight="-5dp"
+      android:layout_marginBottom="12dp"
+      android:gravity="center_vertical">
+
+      <CheckBox
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="@string/check_box"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <RadioButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="@string/radio_button"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    </LinearLayout>
+
+    <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:hint="@string/edit_text"
+      android:inputType="text"
+      android:paddingLeft="8dp"
+      android:paddingRight="8dp"
+      android:textSize="16sp" />
+
+    <Button
+      android:id="@+id/button1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:text="@string/button_show_dialog" />
+
+    <Button
+      style="?borderlessButtonStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/borderless_appcompat_button" />
+
+    <Button
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:enabled="false"
+      android:text="@string/disable_appcompat_button" />
+
+    <Button
+      style="?borderlessButtonStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:enabled="false"
+      android:text="@string/disable_borderless_appcompat_button" />
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/material_icon_button"
+      style="@style/Widget.MaterialComponents.Button.Icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="?colorPrimary"
+      android:text="MATERIAL BUTTON"
+      app:icon="@drawable/ic_menu_send"
+      app:strokeColor="?colorAccent"
+      app:strokeWidth="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/material_unelevated_button"
+      style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="UNELEVATED MATERIAL BUTTON"
+      app:icon="@drawable/ic_menu_send"
+      app:strokeColor="?colorPrimary"
+      app:strokeWidth="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="BORDERLESS MATERIAL BUTTON"
+      app:icon="@drawable/ic_menu_send"
+      app:strokeColor="?colorPrimary"
+      app:strokeWidth="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.Icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:enabled="false"
+      android:text="DISABLE MATERIAL BUTTON"
+      app:icon="@drawable/ic_menu_send"
+      app:strokeColor="?colorPrimary"
+      app:strokeWidth="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:enabled="false"
+      android:text="DISABLE BORDERLESS MATERIAL BUTTON"
+      app:icon="@drawable/ic_menu_send"
+      app:strokeColor="?colorPrimary"
+      app:strokeWidth="4dp" />
+
+    <androidx.cardview.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      android:clipToPadding="true"
+      app:cardBackgroundColor="?attr/colorPrimary"
+      app:cardUseCompatPadding="true"
+      app:contentPadding="12dp">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/card_view"
+        android:textAlignment="center"
+        android:textSize="28sp" />
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="24dp"
+      android:clipToPadding="true"
+      app:cardBackgroundColor="?attr/colorPrimary"
+      app:cardUseCompatPadding="true"
+      app:contentPadding="12dp"
+      app:strokeColor="?colorAccent"
+      app:strokeWidth="8dp">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/material_card_view"
+        android:textAlignment="center"
+        android:textSize="28sp" />
+    </com.google.android.material.card.MaterialCardView>
+  </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -9,16 +9,16 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 @CheckResult
 fun Drawable.tint(@ColorInt color: Int): Drawable {
-    val d = DrawableCompat.wrap(this.mutate())
-    DrawableCompat.setTintMode(d, PorterDuff.Mode.SRC_IN)
-    DrawableCompat.setTint(d, color)
-    return d
+  val d = DrawableCompat.wrap(this.mutate())
+  DrawableCompat.setTintMode(d, PorterDuff.Mode.SRC_IN)
+  DrawableCompat.setTint(d, color)
+  return d
 }
 
 @CheckResult
 fun Drawable.tint(sl: ColorStateList?): Drawable {
-    if (sl == null) return this
-    val d = DrawableCompat.wrap(this.mutate())
-    DrawableCompat.setTintList(d, sl)
-    return d
+  if (sl == null) return this
+  val d = DrawableCompat.wrap(this.mutate())
+  DrawableCompat.setTintList(d, sl)
+  return d
 }

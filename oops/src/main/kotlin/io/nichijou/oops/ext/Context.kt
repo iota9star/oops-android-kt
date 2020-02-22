@@ -14,165 +14,166 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 @Px
-fun Context.getStatusBarHeight() = this.resources.getDimensionPixelSize(this.resources.getIdentifier("status_bar_height", "dimen", "android"))
+internal fun Context.getStatusBarHeight() = this.resources.getDimensionPixelSize(this.resources.getIdentifier("status_bar_height", "dimen", "android"))
 
 @Px
-fun Context.getScreenHeight(): Int = this.resources.displayMetrics.heightPixels
+internal fun Context.getScreenHeight(): Int = this.resources.displayMetrics.heightPixels
 
 @Px
-fun Context.getScreenWidth(): Int = this.resources.displayMetrics.widthPixels
+internal fun Context.getScreenWidth(): Int = this.resources.displayMetrics.widthPixels
+
+internal fun Context.dp2px(dp: Float): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, this.resources.displayMetrics) + 0.5f
+
+internal fun Context.px2dp(px: Float): Float = px / this.resources.displayMetrics.density + 0.5f
+
+internal fun Context.px2sp(px: Float): Float = px / this.resources.displayMetrics.scaledDensity + 0.5f
+
+internal fun Context.sp2px(sp: Float): Float = sp * this.resources.displayMetrics.scaledDensity + 0.5f
 
 @Px
-fun Context.dp2px(dp: Float): Int = (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, this.resources.displayMetrics) + 0.5f).toInt()
-
-fun Context.px2dp(px: Float): Int = (px / this.resources.displayMetrics.density + 0.5f).toInt()
-
-fun Context.px2sp(px: Float): Int = (px / this.resources.displayMetrics.scaledDensity + 0.5f).toInt()
-
-@Px
-fun Context.sp2px(sp: Float): Int = (sp * this.resources.displayMetrics.scaledDensity + 0.5f).toInt()
-
-@Px
-fun Context.getDialogWidth(): Int = this.resources.displayMetrics.widthPixels - 100
+internal fun Context.getDialogWidth(): Int = this.resources.displayMetrics.widthPixels - 100
 
 fun Context.activity(): AppCompatActivity {
-    var ctx = this
-    while (ctx is ContextWrapper) {
-        if (ctx is AppCompatActivity) {
-            return ctx
-        }
-        ctx = ctx.baseContext
+  var ctx = this
+  while (ctx is ContextWrapper) {
+    if (ctx is AppCompatActivity) {
+      return ctx
     }
-    throw IllegalStateException("no AppCompatActivity ...")
+    ctx = ctx.baseContext
+  }
+  throw IllegalStateException("no AppCompatActivity ...")
 }
 
 fun Context.resId(@AttrRes attr: Int, fallback: Int = -1): Int {
-    val a = theme.obtainStyledAttributes(intArrayOf(attr))
-    try {
-        return a.getResourceId(0, fallback)
-    } finally {
-        a.recycle()
-    }
+  val a = theme.obtainStyledAttributes(intArrayOf(attr))
+  try {
+    return a.getResourceId(0, fallback)
+  } finally {
+    a.recycle()
+  }
 }
 
 fun Context.resId2(@AttrRes attr: Int, fallback: Int = -1): Int {
-    val value = TypedValue()
-    return if (theme.resolveAttribute(attr, value, true)) {
-        value.resourceId
-    } else {
-        fallback
-    }
+  val value = TypedValue()
+  return if (theme.resolveAttribute(attr, value, true)) {
+    value.resourceId
+  } else {
+    fallback
+  }
 }
 
 fun Context.resId(attrs: AttributeSet?, @AttrRes attrId: Int): Int {
-    if (attrs == null) return -1
-    val ta = obtainStyledAttributes(attrs, intArrayOf(attrId))
-    try {
-        return ta.getResourceId(0, -1)
-    } finally {
-        ta.recycle()
-    }
+  if (attrs == null) return -1
+  val ta = obtainStyledAttributes(attrs, intArrayOf(attrId))
+  try {
+    return ta.getResourceId(0, -1)
+  } finally {
+    ta.recycle()
+  }
 }
 
 fun Context.resIds(attrs: AttributeSet?, attrIds: IntArray): SparseIntArray {
-    val ids = SparseIntArray(attrIds.size)
-    if (attrs == null) return ids
-    val ta = obtainStyledAttributes(attrs, attrIds)
-    try {
-        for ((i, v) in attrIds.withIndex()) {
-            ids.put(v, ta.getResourceId(i, -1))
-        }
-    } finally {
-        ta.recycle()
+  val ids = SparseIntArray(attrIds.size)
+  if (attrs == null) return ids
+  val ta = obtainStyledAttributes(attrs, attrIds)
+  try {
+    for ((i, v) in attrIds.withIndex()) {
+      ids.put(v, ta.getResourceId(i, -1))
     }
-    return ids
+  } finally {
+    ta.recycle()
+  }
+  return ids
 }
 
 fun Context.attrValues(attrs: AttributeSet?, attrIds: IntArray): SparseArray<String> {
-    if (attrs == null || attrs.attributeCount == 0 || attrIds.isEmpty()) return SparseArray(0)
-    val names = SparseArray<String>(attrIds.size)
-    val name2Id = HashMap<String, Int>()
-    val resources = this.resources
-    for (attrId in attrIds) {
-        name2Id[resources.getResourceName(attrId)] = attrId
-    }
-    for (i in 0 until attrs.attributeCount) {
-        val nameResource = attrs.getAttributeNameResource(i)
-        val attrValue = if (nameResource != 0) resources.getResourceName(nameResource) else ""
-        if (name2Id.containsKey(attrValue)) {
-            val attrVal = attrs.getAttributeValue(i).let {
-                when {
-                    it.startsWith('@') || it.startsWith('?') -> {
-                        val rawValue = it.substring(1)
-                        val id = rawValue.toIntOrNull()
-                        var name = when (id) {
-                            null -> rawValue
-                            0 -> ""
-                            else -> resources.getNonNullResourceName(id)
-                        }
-                        if (!name.startsWith("android")) {
-                            name = name.substring(name.indexOf(':') + 1)
-                        }
-                        "${it[0]}$name"
-                    }
-                    else -> it
-                }
+  if (attrs == null || attrs.attributeCount == 0 || attrIds.isEmpty()) return SparseArray(0)
+  val names = SparseArray<String>(attrIds.size)
+  val name2Id = HashMap<String, Int>()
+  val resources = this.resources
+  for (attrId in attrIds) {
+    name2Id[resources.getResourceName(attrId)] = attrId
+  }
+  for (i in 0 until attrs.attributeCount) {
+    val nameResource = attrs.getAttributeNameResource(i)
+    val attrValue = if (nameResource != 0) resources.getResourceName(nameResource) else ""
+    if (name2Id.containsKey(attrValue)) {
+      val attrVal = attrs.getAttributeValue(i).let {
+        when {
+          it.startsWith('@') || it.startsWith('?') -> {
+            val rawValue = it.substring(1)
+            var name = when (val id = rawValue.toIntOrNull()) {
+              null -> rawValue
+              0 -> ""
+              else -> resources.getNonNullResourceName(id)
             }
-            names.put(name2Id[attrValue]!!, attrVal)
+            if (!name.startsWith("android")) {
+              name = name.substring(name.indexOf(':') + 1)
+            }
+            "${it[0]}$name"
+          }
+          else -> it
         }
+      }
+      names.put(name2Id[attrValue]!!, attrVal)
     }
-    return names
+  }
+  return names
 }
 
 fun Context.attrValue(attrs: AttributeSet?, @AttrRes attrId: Int): String {
-    if (attrs == null || attrs.attributeCount == 0 || attrId == 0) return ""
-    val resources = this.resources
-    val resName = resources.getResourceName(attrId)
-    for (i in 0 until attrs.attributeCount) {
-        val attrValueRes = attrs.getAttributeNameResource(i)
-        val attrValue = if (attrValueRes != 0) resources.getResourceName(attrValueRes) else ""
-        if (resName == attrValue) {
-            return attrs.getAttributeValue(i).let {
-                when {
-                    it.startsWith('@') || it.startsWith('?') -> {
-                        val rawValue = it.substring(1)
-                        val id = rawValue.toIntOrNull()
-                        var name = when (id) {
-                            null -> rawValue
-                            0 -> ""
-                            else -> resources.getNonNullResourceName(id)
-                        }
-                        if (!name.startsWith("android")) {
-                            name = name.substring(name.indexOf(':') + 1)
-                        }
-                        "${it[0]}$name"
-                    }
-                    else -> it
-                }
+  if (attrs == null || attrs.attributeCount == 0 || attrId == 0) return ""
+  val resources = this.resources
+  val resName = resources.getResourceName(attrId)
+  for (i in 0 until attrs.attributeCount) {
+    val attrValueRes = attrs.getAttributeNameResource(i)
+    val attrValue = if (attrValueRes != 0) resources.getResourceName(attrValueRes) else ""
+    if (resName == attrValue) {
+      return attrs.getAttributeValue(i).let {
+        when {
+          it.startsWith('@') || it.startsWith('?') -> {
+            val rawValue = it.substring(1)
+            var name = when (val id = rawValue.toIntOrNull()) {
+              null -> rawValue
+              0 -> ""
+              else -> resources.getNonNullResourceName(id)
             }
+            if (!name.startsWith("android")) {
+              name = name.substring(name.indexOf(':') + 1)
+            }
+            "${it[0]}$name"
+          }
+          else -> it
         }
+      }
     }
-    return ""
+  }
+  return ""
 }
 
 fun Context.attrValue(@AttrRes attrId: Int): String {
-    var name = this.resources.getNonNullResourceName(attrId)
-    if (!name.startsWith("android")) {
-        name = name.substring(name.indexOf(':') + 1)
-    }
-    return "?$name"
+  var name = this.resources.getNonNullResourceName(attrId)
+  if (!name.startsWith("android")) {
+    name = name.substring(name.indexOf(':') + 1)
+  }
+  return "?$name"
 }
 
 fun Context.colorAttr(@AttrRes attr: Int, fallback: Int): Int {
-    val a = this.theme.obtainStyledAttributes(intArrayOf(attr))
-    return try {
-        a.getColor(0, fallback)
-    } catch (e: Exception) {
-        loge(e) { "obtain styled attributes error..." }
-        fallback
-    } finally {
-        a.recycle()
-    }
+  val a = this.theme.obtainStyledAttributes(intArrayOf(attr))
+  return try {
+    a.getColor(0, fallback)
+  } catch (e: Exception) {
+    loge("obtain styled attributes error...", e)
+    fallback
+  } finally {
+    a.recycle()
+  }
+}
+
+fun Context.getString(name: String): String {
+  val res = resources
+  return res.getString(res.getIdentifier(name, "string", packageName))
 }
 
 fun Context.colorAttr(@AttrRes attr: Int): Int = this.colorAttr(attr, -1)

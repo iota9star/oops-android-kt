@@ -1,10 +1,15 @@
 package io.nichijou.oops.ext
 
 import android.util.Log
-import io.nichijou.oops.BuildConfig
 
-inline fun <reified T> T.logi(message: () -> String) {
-    if (BuildConfig.DEBUG) Log.i(T::class.simpleName, message())
+internal inline fun <reified T> T.logd(info: String) {
+  Log.d(T::class.java.name + " => DEBUG: ", info)
 }
 
-inline fun <reified T> T.loge(error: Throwable, message: () -> String) = Log.e(T::class.simpleName, message(), error)
+internal inline fun <reified T> T.loge(info: String) {
+  Log.e(T::class.java.name + " => ERROR: ", info)
+}
+
+internal inline fun <reified T> T.loge(info: String, throwable: Throwable?) {
+  Log.e(T::class.java.name + " => ERROR: ", info, throwable)
+}

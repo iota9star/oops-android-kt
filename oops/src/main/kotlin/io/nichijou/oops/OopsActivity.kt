@@ -4,12 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 open class OopsActivity : AppCompatActivity() {
+  open fun getViewInflaterFactory(): ViewInflaterFactory? = null
+  open fun getViewInflatedProcessor(): ViewInflatedProcessor? = null
 
-    open fun getLayoutInflaterFactory(): LayoutInflaterFactory? = null
-    open fun getPostProcessor(): PostProcessor? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Oops.attach(this, getLayoutInflaterFactory(), getPostProcessor())
-        super.onCreate(savedInstanceState)
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    Oops.attach(this, getViewInflaterFactory(), getViewInflatedProcessor())
+    super.onCreate(savedInstanceState)
+  }
 }

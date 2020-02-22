@@ -10,64 +10,70 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.color.SnackbarColor
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.*
 
 @SuppressLint("RestrictedApi", "ViewConstructor")
-internal class SnackbarContentLayout(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : SnackbarContentLayout(context, attrs), OopsLifecycleOwner {
-
-    private fun updateColor(color: SnackbarColor) {
-        messageView.setTextColor(color.textColor)
-        actionView.apply {
-            val bg = background
-            if (bg != null) {
-                background = bg.tint(color.bgColor)
-            } else {
-                setBackgroundColor(color.bgColor)
-            }
-            setTextColor(color.actionColor)
-        }
+open class SnackbarContentLayout @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : SnackbarContentLayout(context, attrs), OopsLifecycleOwner {
+  private val lifecycleRegistry = LifecycleRegistry(this)
+  private fun updateColor(color: SnackbarColor) {
+    messageView.setTextColor(color.textColor)
+    actionView.apply {
+      val bg = background
+      if (bg != null) {
+        background = bg.tint(color.bgColor)
+      } else {
         setBackgroundColor(color.bgColor)
-        val parent = this.parent
-        if (parent is Snackbar.SnackbarLayout) {
-            val background = parent.background
-            if (background != null) {
-                parent.background = background.tint(color.bgColor)
-            } else {
-                parent.setBackgroundColor(color.bgColor)
-            }
-        }
+      }
+      setTextColor(color.actionColor)
     }
-
-    override fun liveInOops() {
-        Oops.living(this.activity()).snackBarColor.observe(this, Observer(this::updateColor))
+    setBackgroundColor(color.bgColor)
+    val parent = this.parent
+    if (parent is Snackbar.SnackbarLayout) {
+      val background = parent.background
+      if (background != null) {
+        parent.background = background.tint(color.bgColor)
+      } else {
+        parent.setBackgroundColor(color.bgColor)
+      }
     }
+  }
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
+  override fun liveInOops() {
+    this.activity().applyOopsThemeStore {
+      snackBarColor.observe(this@SnackbarContentLayout, Observer(::updateColor))
     }
+  }
 
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
-    }
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
 
-    override fun onWindowVisibilityChanged(visibility: Int) {
-        super.onWindowVisibilityChanged(visibility)
-        handleOopsLifeStartOrStop(visibility == View.VISIBLE)
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
+
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

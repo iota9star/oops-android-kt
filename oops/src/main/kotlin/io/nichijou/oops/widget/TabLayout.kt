@@ -4,83 +4,90 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
 import io.nichijou.oops.color.PairColor
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrValues
-import io.nichijou.oops.ext.tint
-
+import io.nichijou.oops.ext.*
 
 @SuppressLint("ViewConstructor")
-class TabLayout(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : TabLayout(context, attrs), OopsLifecycleOwner {
+open class TabLayout @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : TabLayout(context, attrs), OopsLifecycleOwner {
+  private val attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.tabTextColor, R.attr.tabIndicatorColor, R.attr.tabSelectedTextColor))
+  private var iconColor: ColorStateList? = null
+  private val lifecycleRegistry = LifecycleRegistry(this)
+  override fun liveInOops() {
+    this.activity().applyOopsThemeStore {
+      live(attrValues[android.R.attr.background], colorPrimary)!!.observe(this@TabLayout, Observer(::setBackgroundColor))
+      live(attrValues[R.attr.tabIndicatorColor], colorAccent)!!.observe(this@TabLayout, Observer(::setSelectedTabIndicatorColor))
 
-    private val attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.tabTextColor, R.attr.tabIndicatorColor, R.attr.tabSelectedTextColor))
-
-    override fun liveInOops() {
-        val living = Oops.living(this.activity())
-        living.live(attrValues[android.R.attr.background], living.colorPrimary)!!.observe(this, Observer(this::setBackgroundColor))
-        living.live(attrValues[R.attr.tabIndicatorColor], living.colorAccent)!!.observe(this, Observer(this::setSelectedTabIndicatorColor))
-
-        living.tabTextIconColor(
-            living.live(attrValues[R.attr.tabTextColor], living.tabLayoutTextColor)!!,
-            living.live(attrValues[R.attr.tabSelectedTextColor], living.tabLayoutSelectedTextColor)!!).observe(this, Observer {
-            this.setTabTextColors(it.first, it.second)
-            this.updateIconColor(it)
+      tabTextIconColor(
+        live(attrValues[R.attr.tabTextColor], tabLayoutTextColor)!!,
+        live(attrValues[R.attr.tabSelectedTextColor], tabLayoutSelectedTextColor)!!)
+        .observe(this@TabLayout, Observer {
+          setTabTextColors(it.first, it.second)
+          updateIconColor(it)
         })
     }
 
-    private var iconColor: ColorStateList? = null
+  }
 
-    internal fun getIconColor() = iconColor
-
-    private fun updateIconColor(color: PairColor) {
-        iconColor = ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)),
-            intArrayOf(color.first, color.second)
-        )
-        for (i in 0 until tabCount) {
-            val tab = getTabAt(i)
-            if (tab != null && tab.icon != null) {
-                tab.icon = tab.icon!!.tint(iconColor)
-            }
-        }
-        val slidingTabIndicator = this.getChildAt(0) as ViewGroup
-        var tabView: ViewGroup
-        for (i in 0 until slidingTabIndicator.childCount) {
-            tabView = slidingTabIndicator.getChildAt(i) as ViewGroup
-            (tabView.getChildAt(0) as TabImageView).apply {
-                setTabTextColor(iconColor)
-                setImageDrawable(drawable)
-            }
-        }
+  internal fun getIconColor() = iconColor
+  private fun updateIconColor(color: PairColor) {
+    iconColor = ColorStateList(
+      arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)),
+      intArrayOf(color.first, color.second)
+    )
+    for (i in 0 until tabCount) {
+      val tab = getTabAt(i)
+      if (tab != null && tab.icon != null) {
+        tab.icon = tab.icon!!.tint(iconColor)
+      }
     }
-
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
+    val slidingTabIndicator = this.getChildAt(0) as ViewGroup
+    var tabView: ViewGroup
+    for (i in 0 until slidingTabIndicator.childCount) {
+      tabView = slidingTabIndicator.getChildAt(i) as ViewGroup
+      (tabView.getChildAt(0) as? TabImageView?)?.apply {
+        setTabTextColor(iconColor)
+        setImageDrawable(drawable)
+      }
     }
+  }
 
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
+
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
 
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

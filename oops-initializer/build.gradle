@@ -1,0 +1,43 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion 29
+  buildToolsVersion '29.0.2'
+  defaultConfig {
+    minSdkVersion 21
+    targetSdkVersion 29
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+  lintOptions {
+    check 'Interoperability'
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
+  productFlavors {
+  }
+}
+dependencies {
+  implementation project(path: ':oops')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  implementation 'androidx.appcompat:appcompat:1.2.0-alpha02'
+}
+if (project.rootProject.file('local.properties').exists()) {
+  apply from: '../oops-initializer.gradle'
+}

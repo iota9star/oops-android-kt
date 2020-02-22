@@ -5,84 +5,89 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomappbar.BottomAppBar
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
 import io.nichijou.oops.R
 import io.nichijou.oops.color.PairColor
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrValues
-import io.nichijou.oops.ext.tint
-import io.nichijou.oops.ext.tintCollapseIcon
-import io.nichijou.oops.ext.tintMenuItem
-import io.nichijou.oops.ext.tintNavIcon
-import io.nichijou.oops.ext.tintOverflowIcon
+import io.nichijou.oops.ext.*
 
 @SuppressLint("ViewConstructor")
-class BottomAppBar(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : BottomAppBar(context, attrs), OopsLifecycleOwner {
+open class BottomAppBar @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : BottomAppBar(context, attrs), OopsLifecycleOwner {
 
-    private val attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.backgroundTint, R.attr.titleTextColor, R.attr.subtitleTextColor))
+  private val attrValues = context.attrValues(attrs, intArrayOf(android.R.attr.background, R.attr.backgroundTint, R.attr.titleTextColor, R.attr.subtitleTextColor))
 
-    private var colorStateList: ColorStateList? = null
+  private var colorStateList: ColorStateList? = null
+  private val lifecycleRegistry = LifecycleRegistry(this)
 
-    override fun setNavigationIcon(icon: Drawable?) {
-        super.setNavigationIcon(icon?.tint(colorStateList))
+  override fun setNavigationIcon(icon: Drawable?) {
+    super.setNavigationIcon(icon?.tint(colorStateList))
+  }
+
+  private fun updateColor(color: Int) {
+    val active = PairColor(color)
+    colorStateList = active.toEnabledSl().also {
+      this.tintCollapseIcon(it)
+      this.tintNavIcon(it)
     }
+    this.tintOverflowIcon(color)
+    this.tintMenuItem(active)
+  }
 
-    private fun updateColor(color: Int) {
-        val active = PairColor(color)
-        colorStateList = active.toEnabledSl().also {
-            this.tintCollapseIcon(it)
-            this.tintNavIcon(it)
-        }
-        this.tintOverflowIcon(color)
-        this.tintMenuItem(menu, active)
+  override fun liveInOops() {
+    val backgroundTint = attrValues[R.attr.backgroundTint]
+    val bgAttrValue = if (backgroundTint.isNullOrBlank()) {
+      attrValues[android.R.attr.background]
+    } else {
+      backgroundTint
     }
-
-    override fun liveInOops() {
-        val backgroundTint = attrValues[R.attr.backgroundTint]
-        val bgAttrValue = if (backgroundTint.isNullOrBlank()) {
-            attrValues[android.R.attr.background]
+    this.activity().applyOopsThemeStore {
+      live(bgAttrValue, colorPrimary)!!.observe(this@BottomAppBar, Observer {
+        val bg = background
+        if (bg != null) {
+          background = bg.tint(it)
         } else {
-            backgroundTint
+          setBackgroundColor(it)
         }
-        val living = Oops.living(this.activity())
-        living.live(bgAttrValue, living.colorPrimary)!!.observe(this, Observer {
-            val bg = this.background
-            if (bg != null) {
-                this.background = bg.tint(it)
-            } else {
-                setBackgroundColor(it)
-            }
-        })
-        living.live(attrValues[androidx.appcompat.R.attr.titleTextColor], living.toolbarTitleColor)!!.observe(this, Observer(this::setTitleTextColor))
-        living.live(attrValues[androidx.appcompat.R.attr.subtitleTextColor], living.toolbarSubtitleColor)!!.observe(this, Observer(this::setSubtitleTextColor))
-
-        living.toolbarIconColor.observe(this, Observer(this::updateColor))
+      })
+      live(attrValues[androidx.appcompat.R.attr.titleTextColor], toolbarTitleColor)!!.observe(this@BottomAppBar, Observer(::setTitleTextColor))
+      live(attrValues[androidx.appcompat.R.attr.subtitleTextColor], toolbarSubtitleColor)!!.observe(this@BottomAppBar, Observer(::setSubtitleTextColor))
+      toolbarIconColor.observe(this@BottomAppBar, Observer(::updateColor))
     }
+  }
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
 
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
 
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
-    }
-
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

@@ -3,45 +3,53 @@ package io.nichijou.oops.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.Nullable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.nichijou.oops.Oops
 import io.nichijou.oops.OopsLifecycleOwner
-import io.nichijou.oops.ext.activity
-import io.nichijou.oops.ext.attrValue
-import io.nichijou.oops.ext.tint
+import io.nichijou.oops.ext.*
 
 @SuppressLint("ViewConstructor")
-class ProgressBar(context: Context, @Nullable attrs: AttributeSet?, private val enabledLiveNow: Boolean = true) : ProgressBar(context, attrs), OopsLifecycleOwner {
-
-    private val backgroundAttrValue = context.attrValue(attrs, android.R.attr.background)
-
-    override fun liveInOops() {
-        val living = Oops.living(this.activity())
-        living.live(backgroundAttrValue, living.colorAccent)!!.observe(this, Observer(this::tint))
+open class ProgressBar @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) : ProgressBar(context, attrs), OopsLifecycleOwner {
+  private val progressTint = context.attrValue(attrs, android.R.attr.progressTint)
+  private val lifecycleRegistry = LifecycleRegistry(this)
+  override fun liveInOops() {
+    this.activity().applyOopsThemeStore {
+      live(progressTint, colorAccent)!!.observe(this@ProgressBar, Observer(::tint))
     }
+  }
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
+  override fun getLifecycle(): Lifecycle = lifecycleRegistry
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    attachOopsLife()
+  }
 
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (enabledLiveNow) liveInOops()
-        handleOopsLifeStart()
+  override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onVisibilityChanged(changedView, visibility)
+      changedView.resumeOopsLife()
+    } else {
+      changedView.pauseOopsLife()
+      super.onVisibilityChanged(changedView, visibility)
     }
+  }
 
-    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        super.onWindowFocusChanged(hasWindowFocus)
-        handleOopsLifeStartOrStop(hasWindowFocus)
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    if (visibility == View.VISIBLE) {
+      super.onWindowVisibilityChanged(visibility)
+      resumeOopsLife()
+    } else {
+      pauseOopsLife()
+      super.onWindowVisibilityChanged(visibility)
     }
+  }
 
-    override fun onDetachedFromWindow() {
-        handleOopsLifeDestroy()
-        super.onDetachedFromWindow()
-    }
-
+  override fun onDetachedFromWindow() {
+    detachOopsLife()
+    super.onDetachedFromWindow()
+  }
 }

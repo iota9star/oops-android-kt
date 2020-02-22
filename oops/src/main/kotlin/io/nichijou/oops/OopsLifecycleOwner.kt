@@ -1,33 +1,40 @@
 package io.nichijou.oops
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 
 interface OopsLifecycleOwner : LifecycleOwner {
+  fun liveInOops() {}
 
-    fun liveInOops() {}
+  fun detachOopsLife() {
+    (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  }
 
-    fun handleOopsLifeStart() {
-        (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_START)
-    }
+  fun attachOopsLife() {
+    liveInOops()
+    (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_START)
+  }
 
-    fun handleOopsLifeStop() {
-        (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-    }
+  fun pauseOopsLife() {
+    (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+  }
 
-    fun handleOopsLifeDestroy() {
-        (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    }
+  fun resumeOopsLife() {
+    (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+  }
 
-    fun handleOopsLifeStartOrStop(onStart: Boolean) {
-        if (onStart) {
-            handleOopsLifeStart()
-        } else {
-            handleOopsLifeStop()
-        }
-    }
+  fun viewAttachStateBindOopsLifecycle(view: View) {
+    view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+      override fun onViewDetachedFromWindow(v: View) {
+        detachOopsLife()
+        v.removeOnAttachStateChangeListener(this)
+      }
 
-    fun isLiveDestroyed() = lifecycle.currentState == Lifecycle.State.DESTROYED
-    fun isLiveStarted() = lifecycle.currentState == Lifecycle.State.STARTED
+      override fun onViewAttachedToWindow(v: View) {
+        attachOopsLife()
+      }
+    })
+  }
 }
